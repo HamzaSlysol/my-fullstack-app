@@ -2,12 +2,10 @@ import Link from "next/link";
 
 const navItems = [
   { label: "Home", href: "/" },
-  { label: "Pages", href: "/#about", hasChevron: true },
-  { label: "About Us", href: "/#about" },
-  { label: "Why Choose", href: "/#why-choose-us" },
-  { label: "Process", href: "/#process" },
+  { label: "Pages", href: "/about" },
+  { label: "About Us", href: "/about" },
   { label: "Packages", href: "/packages" },
-  { label: "Services", href: "/#services" },
+  { label: "Services", href: "/services" },
 ];
 
 export function LandingHeader() {
@@ -31,13 +29,7 @@ export function LandingHeader() {
               href={item.href}
               className="inline-flex items-center gap-2 transition hover:text-[#075f42]"
             >
-              <span>{item.label}</span>
-              {item.hasChevron && (
-                <span
-                  className="mt-1 size-2 rotate-45 border-b-2 border-r-2 border-current"
-                  aria-hidden="true"
-                />
-              )}
+              {item.label}
             </Link>
           ))}
         </div>

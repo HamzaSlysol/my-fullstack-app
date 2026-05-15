@@ -2,7 +2,6 @@ import Link from "next/link";
 
 const navItems = [
   { label: "Home", href: "/" },
-  { label: "Pages", href: "/about" },
   { label: "About Us", href: "/about" },
   { label: "Packages", href: "/packages" },
   { label: "Services", href: "/services" },
@@ -22,7 +21,7 @@ export function LandingHeader() {
           Qibla
         </Link>
 
-        <div className="hidden items-center gap-9 text-lg font-medium text-black md:flex">
+        <div className="hidden items-center gap-9 text-md font-medium text-black md:flex">
           {navItems.map((item) => (
             <Link
               key={item.label}

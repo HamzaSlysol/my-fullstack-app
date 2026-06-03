@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import type { ImageSourcePropType } from "react-native";
 
+import type { Hotel } from "../api/hotels";
 import type { PackageItem } from "../data/qibla";
 import { colors, fonts, shadow } from "../theme";
 import { BulletList, Card, PrimaryButton } from "./ui";
@@ -175,11 +176,56 @@ export function OfferCard({
 }) {
   return (
     <Card style={styles.offerCard}>
-      <Image source={image} resizeMode="cover" style={styles.offerImage} />
+      <Image
+        alt={title}
+        source={image}
+        resizeMode="cover"
+        style={styles.offerImage}
+      />
       <Text style={styles.offerTitle}>{title}</Text>
       <Text style={styles.offerDiscount}>{discount}</Text>
       <Text style={styles.offerBody}>{description}</Text>
       <PrimaryButton label="Get Offer" onPress={onPress} variant="white" />
+    </Card>
+  );
+}
+
+export function HotelTile({ item }: { item: Hotel }) {
+  return (
+    <Card style={styles.hotelTile}>
+      {item.imageUrl ? (
+        <Image
+          alt={item.name}
+          source={{ uri: item.imageUrl }}
+          resizeMode="cover"
+          style={styles.hotelImage}
+        />
+      ) : (
+        <View style={styles.hotelImageFallback}>
+          <Text style={styles.hotelImageInitial}>{item.name.slice(0, 1)}</Text>
+        </View>
+      )}
+
+      <View style={styles.hotelContent}>
+        <View style={styles.hotelTopRow}>
+          <Text style={styles.hotelCity}>{item.displayCity}</Text>
+          <Text style={styles.hotelRating}>{item.rating}</Text>
+        </View>
+        <Text style={styles.hotelName}>{item.name}</Text>
+        <Text style={styles.hotelDistance}>
+          {item.distanceLabel} from {item.nearestLandmark}
+        </Text>
+        <Text style={styles.hotelReview}>{item.reviewSummary}</Text>
+      </View>
+
+      <View style={styles.hotelFooter}>
+        <Text style={styles.hotelReviewCount}>
+          {item.reviewCount.toLocaleString()} reviews
+        </Text>
+        {item.priceFrom ? (
+          <Text style={styles.hotelPrice}>From {item.priceFrom}</Text>
+        ) : null}
+      </View>
     </Card>
   );
 }
@@ -463,6 +509,96 @@ const styles = StyleSheet.create({
     color: "rgba(255,255,255,0.9)",
     fontSize: 14,
     lineHeight: 21,
+  },
+  hotelTile: {
+    width: 280,
+    minHeight: 340,
+    backgroundColor: colors.white,
+    gap: 14,
+  },
+  hotelImage: {
+    width: "100%",
+    height: 128,
+    borderRadius: 6,
+    backgroundColor: colors.softBg,
+  },
+  hotelImageFallback: {
+    height: 128,
+    borderRadius: 6,
+    backgroundColor: colors.green,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  hotelImageInitial: {
+    color: colors.goldSoft,
+    fontFamily: fonts.heading,
+    fontSize: 48,
+    fontWeight: "700",
+  },
+  hotelContent: {
+    gap: 9,
+  },
+  hotelTopRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    gap: 10,
+  },
+  hotelCity: {
+    flexShrink: 1,
+    color: colors.green,
+    fontSize: 12,
+    fontWeight: "900",
+    textTransform: "uppercase",
+  },
+  hotelRating: {
+    minWidth: 42,
+    borderRadius: 999,
+    overflow: "hidden",
+    backgroundColor: colors.gold,
+    paddingHorizontal: 9,
+    paddingVertical: 5,
+    color: colors.white,
+    fontSize: 12,
+    fontWeight: "900",
+    textAlign: "center",
+  },
+  hotelName: {
+    color: colors.heading,
+    fontFamily: fonts.heading,
+    fontSize: 24,
+    lineHeight: 30,
+    fontWeight: "700",
+  },
+  hotelDistance: {
+    color: colors.green,
+    fontSize: 14,
+    lineHeight: 20,
+    fontWeight: "800",
+  },
+  hotelReview: {
+    color: colors.muted,
+    fontSize: 14,
+    lineHeight: 21,
+  },
+  hotelFooter: {
+    marginTop: "auto",
+    paddingTop: 12,
+    borderTopWidth: 1,
+    borderTopColor: "#d9e3df",
+    gap: 7,
+  },
+  hotelReviewCount: {
+    color: colors.ink,
+    fontSize: 13,
+    fontWeight: "800",
+  },
+  hotelPrice: {
+    color: colors.green,
+    fontFamily: fonts.heading,
+    fontSize: 19,
+    lineHeight: 24,
+    fontWeight: "700",
   },
   teamCard: {
     minHeight: 250,

@@ -115,7 +115,7 @@ export function LoginScreen({ onNavigate }: ScreenProps) {
             style={({ pressed }) => [styles.switchButton, pressed && styles.pressed]}
           >
             <Text style={styles.switchText}>
-              Don't have an account? <Text style={styles.switchStrong}>Register</Text>
+              Don&apos;t have an account? <Text style={styles.switchStrong}>Register</Text>
             </Text>
           </Pressable>
         </Card>

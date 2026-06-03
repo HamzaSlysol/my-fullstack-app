@@ -5,7 +5,11 @@ import type { NextRequest } from "next/server";
 const JWT_SECRET = process.env.JWT_SECRET || "dev-secret-key";
 
 const PUBLIC_PAGE_PATHS = ["/login", "/register"];
-const PUBLIC_API_PATHS = ["/api/auth/login", "/api/auth/register"];
+const PUBLIC_API_PATHS = [
+  "/api/auth/login",
+  "/api/auth/register",
+  "/api/hotels",
+];
 
 function isPublicPage(pathname: string) {
   return PUBLIC_PAGE_PATHS.includes(pathname);

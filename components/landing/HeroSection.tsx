@@ -2,13 +2,6 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { LandingHeader } from "./LandingHeader";
-import { PartnerStrip } from "./PartnerStrip";
-
-const pilgrims = [
-  { initials: "AM", color: "bg-[#f0d7b4]", text: "text-[#3d2a1c]" },
-  { initials: "ZR", color: "bg-[#0a6045]", text: "text-white" },
-  { initials: "HN", color: "bg-[#d7e9f4]", text: "text-[#214152]" },
-];
 
 export function HeroSection() {
   return (
@@ -46,22 +39,6 @@ export function HeroSection() {
             arrangements.
           </p>
 
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-            <div className="flex -space-x-3" aria-hidden="true">
-              {pilgrims.map((pilgrim) => (
-                <span
-                  key={pilgrim.initials}
-                  className={`grid size-14 place-items-center rounded-full border-2 border-white text-sm font-semibold shadow-sm ${pilgrim.color} ${pilgrim.text}`}
-                >
-                  {pilgrim.initials}
-                </span>
-              ))}
-            </div>
-            <p className="text-lg font-semibold text-black sm:text-xl">
-              Trusted by 12k+ Pilgrims
-            </p>
-          </div>
-
           <Link
             href="/packages"
             className="mt-8 inline-flex min-h-14 items-center justify-center rounded-full bg-[#075f42] px-8 text-lg font-semibold text-white shadow-sm transition hover:bg-[#064b36] focus:outline-none focus:ring-4 focus:ring-[#075f42]/25"
@@ -69,8 +46,6 @@ export function HeroSection() {
             View Packages
           </Link>
         </div>
-
-        <PartnerStrip />
       </div>
     </section>
   );

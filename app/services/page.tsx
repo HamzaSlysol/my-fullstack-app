@@ -222,18 +222,16 @@ function WhyChooseServices() {
 
 function BenefitItem({ benefit }: { benefit: Benefit }) {
   return (
-    <article className="grid grid-cols-[56px_1fr] gap-4">
-      <span
-        className="grid size-12 place-items-center bg-[#075f42] text-white ring-[4px] ring-[#e7a43a]"
-        style={{ clipPath: archClipPath }}
-        aria-hidden="true"
-      >
+    <article className="flex items-start gap-4">
+      <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#075f42] text-white">
         <BenefitIcon type={benefit.icon} />
-      </span>
+      </div>
+
       <div>
-        <h3 className="font-serif text-2xl leading-tight text-[#075f42]">
+        <h3 className="font-serif text-xl text-[#075f42] sm:text-2xl">
           {benefit.title}
         </h3>
+
         <p className="mt-2 text-sm leading-6 text-[#40505a] sm:text-base">
           {benefit.description}
         </p>
@@ -275,41 +273,30 @@ function ServicesGrid() {
 
 function ServiceCard({ service }: { service: ServiceCard }) {
   return (
-    <article
-      className="h-full bg-[#e7a43a] p-1 shadow-[0_24px_70px_rgba(0,0,0,0.18)]"
-      style={{ clipPath: archClipPath }}
-    >
-      <div
-        className="flex h-full min-h-[520px] flex-col bg-[#fffdfb] px-7 pb-7 pt-24 text-center text-[#17211f] sm:px-8"
-        style={{ clipPath: archClipPath }}
+    <article className="flex h-full flex-col rounded-3xl border border-gray-200 bg-white p-8 shadow-sm transition-all hover:shadow-lg">
+      <h3 className="mt-6 text-center font-serif text-3xl text-[#075f42]">
+        {service.title}
+      </h3>
+
+      <p className="mt-3 text-center text-base leading-7 text-[#40505a]">
+        {service.description}
+      </p>
+
+      <ul className="mt-8 flex-1 space-y-3">
+        {service.items.map((item) => (
+          <li key={item} className="flex items-start gap-3">
+            <span className="mt-2 h-2 w-2 rounded-full bg-[#e7a43a]" />
+            <span className="text-[#40505a]">{item}</span>
+          </li>
+        ))}
+      </ul>
+
+      <Link
+        href={service.detailsHref ?? "/packages"}
+        className="mt-8 inline-flex h-12 items-center justify-center rounded-full bg-[#075f42] px-6 font-semibold text-white transition hover:bg-[#064b36]"
       >
-        <ServiceIcon type={service.icon} />
-
-        <h3 className="mt-6 font-serif text-3xl leading-tight text-[#075f42]">
-          {service.title}
-        </h3>
-        <p className="mx-auto mt-3 max-w-sm text-base leading-6 text-[#40505a]">
-          {service.description}
-        </p>
-
-        <CardDivider />
-
-        <ul className="mt-6 space-y-3 text-left text-base leading-6">
-          {service.items.map((item) => (
-            <li key={item} className="flex items-start gap-3">
-              <RosetteBullet />
-              <span>{item}</span>
-            </li>
-          ))}
-        </ul>
-
-        <Link
-          href={service.detailsHref ?? "/packages"}
-          className="mt-auto inline-flex min-h-12 items-center justify-center rounded-full bg-[#075f42] px-8 text-base font-bold text-white transition hover:bg-[#064b36] focus:outline-none focus:ring-4 focus:ring-[#075f42]/25"
-        >
-          See Details
-        </Link>
-      </div>
+        See Details
+      </Link>
     </article>
   );
 }
@@ -400,89 +387,5 @@ function BenefitIcon({ type }: { type: BenefitIcon }) {
         </>
       )}
     </svg>
-  );
-}
-
-function ServiceIcon({ type }: { type: ServiceIconName }) {
-  return (
-    <div className="mx-auto grid size-16 place-items-center text-[#075f42]">
-      <svg
-        viewBox="0 0 64 64"
-        className="size-16"
-        fill="none"
-        stroke="currentColor"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth="2"
-        aria-hidden="true"
-      >
-        {type === "minaret" && (
-          <>
-            <path d="M32 9v6" />
-            <path d="M27 13c0-3 2-5 5-5s5 2 5 5" />
-            <path d="M22 28c0-8 4-13 10-16 6 3 10 8 10 16" />
-            <path d="M20 28h24v25H20z" />
-            <path d="M16 53h32v7H16z" />
-            <path d="M27 53V35c0-3 2-5 5-5s5 2 5 5v18" />
-            <path d="M20 40h24" />
-            <path d="M12 60h40" />
-          </>
-        )}
-
-        {type === "kaaba" && (
-          <>
-            <path d="M12 18 32 12l20 6v35l-20 5-20-5V18Z" />
-            <path d="M32 12v46" />
-            <path d="m12 18 20 6 20-6" />
-            <path d="M12 27h40" />
-            <path d="M12 34h40" />
-            <path d="M41 38h7v17" />
-            <path d="M18 24v4" />
-            <path d="M26 25v4" />
-            <path d="M38 25v4" />
-            <path d="M46 24v4" />
-          </>
-        )}
-
-        {type === "passport" && (
-          <>
-            <path d="M20 8h28a4 4 0 0 1 4 4v40a4 4 0 0 1-4 4H16V12a4 4 0 0 1 4-4Z" />
-            <path d="M16 14h28a4 4 0 0 1 4 4v38" />
-            <circle cx="34" cy="31" r="12" />
-            <path d="M22 31h24" />
-            <path d="M34 19c4 3 6 7 6 12s-2 9-6 12" />
-            <path d="M34 19c-4 3-6 7-6 12s2 9 6 12" />
-            <path d="M26 49h16" />
-          </>
-        )}
-
-        {type === "insurance" && (
-          <>
-            <path d="M32 7 50 15v14c0 12-8 20-18 26-10-6-18-14-18-26V15l18-8Z" />
-            <path d="M32 21v20" />
-            <path d="M22 31h20" />
-          </>
-        )}
-
-        {type === "plane" && (
-          <>
-            <path d="M12 31 52 15 37 52l-7-17-18-4Z" />
-            <path d="m30 35 22-20" />
-          </>
-        )}
-
-        {type === "guide" && (
-          <>
-            <path d="M16 15h12a6 6 0 0 1 6 6v31a6 6 0 0 0-6-6H16z" />
-            <path d="M48 15H36a6 6 0 0 0-6 6v31a6 6 0 0 1 6-6h12z" />
-            <path d="M22 25h7" />
-            <path d="M22 33h7" />
-            <path d="M39 25h3" />
-            <path d="M39 33h3" />
-            <path d="M32 8v7" />
-          </>
-        )}
-      </svg>
-    </div>
   );
 }

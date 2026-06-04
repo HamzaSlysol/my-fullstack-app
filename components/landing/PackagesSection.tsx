@@ -168,45 +168,30 @@ export function PackagesSection() {
 
 function DetailCard({ card }: { card: DetailCard }) {
   return (
-    <article
-      className="qibla-arch-frame h-full drop-shadow-2xl"
-      style={{
-        clipPath: archClipPath,
-        background: "linear-gradient(180deg, #f4bf58 0%, #d9952f 100%)",
-        padding: "4px",
-      }}
-    >
-      <div
-        className="qibla-arch-card flex h-full min-h-[620px] flex-col bg-[#fffdfb] px-8 pb-8 pt-28 text-center text-black sm:px-10"
-        style={{ clipPath: archClipPath }}
+    <article className="flex h-full flex-col rounded-3xl border border-gray-200 bg-white p-8 text-center shadow-sm transition hover:shadow-lg sm:p-10">
+      <h3 className="mt-6 font-serif text-3xl leading-tight text-[#075f42] sm:text-4xl">
+        {card.title}
+      </h3>
+
+      <p className="mx-auto mt-4 max-w-sm text-base leading-7 text-[#40505a] sm:text-lg">
+        {card.description}
+      </p>
+
+      <ul className="mt-8 flex-1 space-y-4 text-left text-base leading-7 text-[#40505a] sm:text-lg">
+        {card.items.map((item) => (
+          <li key={item} className="flex items-start gap-3">
+            <span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-[#e7a43a]" />
+            <span>{item}</span>
+          </li>
+        ))}
+      </ul>
+
+      <Link
+        href={card.detailsHref ?? "/packages"}
+        className="mt-8 inline-flex min-h-12 items-center justify-center rounded-full bg-[#075f42] px-8 text-base font-bold text-white transition hover:bg-[#064b36] focus:outline-none focus:ring-4 focus:ring-[#075f42]/25 sm:min-h-14 sm:text-lg"
       >
-        <ServiceIcon type={card.icon} />
-
-        <h3 className="mt-7 font-serif text-4xl leading-tight text-[#075f42]">
-          {card.title}
-        </h3>
-        <p className="mx-auto mt-4 max-w-sm text-xl leading-8 text-black">
-          {card.description}
-        </p>
-
-        <CardDivider />
-
-        <ul className="mt-7 space-y-5 text-left text-xl leading-7">
-          {card.items.map((item) => (
-            <li key={item} className="flex items-start gap-4">
-              <RosetteBullet />
-              <span>{item}</span>
-            </li>
-          ))}
-        </ul>
-
-        <Link
-          href={card.detailsHref ?? "/packages"}
-          className="mt-auto inline-flex min-h-16 items-center justify-center rounded-full bg-[#075f42] px-8 text-xl font-bold text-white transition hover:bg-[#064b36] focus:outline-none focus:ring-4 focus:ring-[#075f42]/25"
-        >
-          See Details
-        </Link>
-      </div>
+        See Details
+      </Link>
     </article>
   );
 }
@@ -217,10 +202,7 @@ function CardDivider() {
       <span className="h-px flex-1 bg-[#e7a43a]" />
       <span className="grid size-8 place-items-center text-[#e7a43a]">
         <svg viewBox="0 0 24 24" className="size-8" role="img">
-          <path
-            d="M4 8.5 12 5l8 3.5v9L12 21l-8-3.5v-9Z"
-            fill="currentColor"
-          />
+          <path d="M4 8.5 12 5l8 3.5v9L12 21l-8-3.5v-9Z" fill="currentColor" />
           <path
             d="m4 11 8 3.5L20 11"
             fill="none"

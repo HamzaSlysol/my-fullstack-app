@@ -70,7 +70,7 @@ export function WhyChooseUsSection() {
           style={{ clipPath: archClipPath }}
         >
           <div
-            className="relative aspect-[0.82] min-h-[560px] overflow-hidden"
+            className="relative aspect-[0.82] min-h-140 overflow-hidden"
             style={{ clipPath: archClipPath }}
           >
             <Image
@@ -89,19 +89,17 @@ export function WhyChooseUsSection() {
 
 function BenefitItem({ benefit }: { benefit: Benefit }) {
   return (
-    <article className="grid grid-cols-[72px_1fr] gap-5">
-      <span
-        className="grid size-18 place-items-center bg-[#075f42] text-white ring-[5px] ring-[#e7a43a]"
-        style={{ clipPath: archClipPath }}
-        aria-hidden="true"
-      >
+    <article className="flex items-start gap-4">
+      <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#075f42] text-white">
         <BenefitIcon type={benefit.icon} />
-      </span>
+      </div>
+
       <div>
-        <h3 className="font-serif text-3xl leading-tight text-[#075f42]">
+        <h3 className="font-serif text-xl text-[#075f42] sm:text-2xl">
           {benefit.title}
         </h3>
-        <p className="mt-3 text-lg leading-7 text-[#40505a]">
+
+        <p className="mt-2 text-sm leading-6 text-[#40505a] sm:text-base">
           {benefit.description}
         </p>
       </div>

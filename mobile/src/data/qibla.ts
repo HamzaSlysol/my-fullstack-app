@@ -18,7 +18,23 @@ export const navItems: { label: string; route: RouteName }[] = [
   { label: "About Us", route: "about" },
   { label: "Packages", route: "packages" },
   { label: "Services", route: "services" },
+  { label: "Documents", route: "documents" },
 ];
+
+export type MarkedContentItem = {
+  title: string;
+  description: string;
+  marker: string;
+  items: string[];
+  detailsRoute?: RouteName;
+};
+
+export type ProcessStepItem = {
+  title: string;
+  description: string;
+  marker: string;
+  detailsRoute?: RouteName;
+};
 
 export const partners = [
   { name: "Noor Routes", color: "#bda7ff" },
@@ -54,7 +70,7 @@ export const benefits = [
   },
 ];
 
-export const landingPackageCards = [
+export const landingPackageCards: MarkedContentItem[] = [
   {
     title: "Umrah Packages",
     description: "Comfortable and guided Umrah journeys for all travelers.",
@@ -81,6 +97,7 @@ export const landingPackageCards = [
     title: "Visa & Documentation",
     description: "Fast and complete support for visa and document processing.",
     marker: "VD",
+    detailsRoute: "documents",
     items: [
       "2-5 days",
       "Fast visa processing",
@@ -90,7 +107,7 @@ export const landingPackageCards = [
   },
 ];
 
-export const services = [
+export const services: MarkedContentItem[] = [
   ...landingPackageCards,
   {
     title: "Travel Insurance",
@@ -143,30 +160,55 @@ export const features = [
   "Local support team",
 ];
 
-export const processSteps = [
-  {
-    title: "Book a Consultation",
-    description:
-      "Discuss your goals, travel plans, and preferred departure dates with our advisors.",
-    marker: "01",
-  },
+export const processSteps: ProcessStepItem[] = [
   {
     title: "Confirm Your Package",
     description:
       "Choose the right Umrah or Hajj package with clear pricing and guidance.",
-    marker: "02",
+    marker: "01",
   },
   {
     title: "Complete Your Documents",
     description:
       "We help you complete all requirements for visas, records, and travel approvals.",
-    marker: "03",
+    marker: "02",
+    detailsRoute: "documents",
   },
   {
     title: "Begin Your Journey",
     description:
       "Travel with your group and enjoy full support, guidance, and comfortable arrangements from start to finish.",
-    marker: "04",
+    marker: "03",
+  },
+];
+
+export const documentGroups = [
+  {
+    title: "Umrah Documents",
+    items: [
+      "Valid passport with at least 6 months validity",
+      "Passport-sized photographs with white background",
+      "Umrah visa or eVisa approval",
+      "CNIC / National ID copy",
+      "Confirmed return flight tickets",
+      "Hotel booking confirmation",
+      "Vaccination certificates if required",
+      "Marriage or birth certificate if traveling with family",
+    ],
+  },
+  {
+    title: "Hajj Documents",
+    items: [
+      "Valid passport with at least 6 months validity",
+      "Hajj visa approval",
+      "Recent passport-sized photographs",
+      "CNIC / National ID copy",
+      "Completed Hajj application form",
+      "Vaccination certificates",
+      "Confirmed travel itinerary",
+      "Accommodation and package confirmation",
+      "Proof of payment",
+    ],
   },
 ];
 

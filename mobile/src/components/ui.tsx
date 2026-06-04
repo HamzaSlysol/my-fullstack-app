@@ -224,52 +224,6 @@ export function FeatureGrid({ items }: { items: string[] }) {
   );
 }
 
-export function HeroAvatarStack() {
-  const pilgrims = [
-    { initials: "AM", color: "#f0d7b4", text: "#3d2a1c" },
-    { initials: "ZR", color: "#0a6045", text: colors.white },
-    { initials: "HN", color: "#d7e9f4", text: "#214152" },
-  ];
-
-  return (
-    <View style={styles.avatarRow}>
-      <View style={styles.avatarStack}>
-        {pilgrims.map((pilgrim, index) => (
-          <View
-            key={pilgrim.initials}
-            style={[
-              styles.avatar,
-              {
-                backgroundColor: pilgrim.color,
-                marginLeft: index === 0 ? 0 : -12,
-              },
-            ]}
-          >
-            <Text style={[styles.avatarText, { color: pilgrim.text }]}>
-              {pilgrim.initials}
-            </Text>
-          </View>
-        ))}
-      </View>
-      <Text style={styles.trustedText}>Trusted by 2k+ pilgrims</Text>
-    </View>
-  );
-}
-
-export function ContactSupportBlock() {
-  return (
-    <View style={styles.supportBlock}>
-      <View style={styles.supportIcon}>
-        <Text style={styles.supportIconText}>24</Text>
-      </View>
-      <View>
-        <Text style={styles.supportLabel}>Customer Support</Text>
-        <Text style={styles.supportPhone}>+92 300 1234567</Text>
-      </View>
-    </View>
-  );
-}
-
 export function ScreenActionRow({
   onNavigate,
   route,

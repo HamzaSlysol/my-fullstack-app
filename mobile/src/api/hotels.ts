@@ -8,6 +8,7 @@ export type Hotel = {
   displayCity: string;
   name: string;
   nearestLandmark: string;
+  link: string | null;
   distanceMeters: number;
   distanceLabel: string;
   rating: string;
@@ -18,6 +19,7 @@ export type Hotel = {
 };
 
 type HotelsResponse = {
+  data?: Hotel[];
   hotels?: Hotel[];
 };
 
@@ -29,6 +31,10 @@ export async function getHotels() {
   }
 
   const data = (await response.json()) as HotelsResponse;
+
+  if (Array.isArray(data.data)) {
+    return data.data;
+  }
 
   return Array.isArray(data.hotels) ? data.hotels : [];
 }

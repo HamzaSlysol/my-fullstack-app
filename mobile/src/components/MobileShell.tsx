@@ -54,7 +54,7 @@ export function MobileShell({
             onPress={() => handleNavigate("home")}
             style={({ pressed }) => [pressed && styles.pressed]}
           >
-            <Text style={styles.logo}>Pure Path</Text>
+            <Text style={styles.logo}>Qibla</Text>
           </Pressable>
 
           <Pressable

@@ -1,6 +1,7 @@
 import {
   Image,
   ImageBackground,
+  Linking,
   Pressable,
   StyleSheet,
   Text,
@@ -8,7 +9,9 @@ import {
 } from "react-native";
 import type { ImageSourcePropType } from "react-native";
 
+import type { Flight } from "../api/flights";
 import type { Hotel } from "../api/hotels";
+import type { Restaurant } from "../api/restaurants";
 import type { PackageItem } from "../data/qibla";
 import { colors, fonts, shadow } from "../theme";
 import { BulletList, Card, PrimaryButton } from "./ui";
@@ -102,8 +105,14 @@ export function ServiceCard({
   );
 }
 
-export function ProcessCard({ item }: { item: SimpleItem }) {
-  return (
+export function ProcessCard({
+  item,
+  onPress,
+}: {
+  item: SimpleItem;
+  onPress?: () => void;
+}) {
+  const content = (
     <Card style={styles.processCard}>
       <View style={styles.processMarker}>
         <Text style={styles.processMarkerText}>{item.marker}</Text>
@@ -111,6 +120,20 @@ export function ProcessCard({ item }: { item: SimpleItem }) {
       <Text style={styles.processTitle}>{item.title}</Text>
       <Text style={styles.processBody}>{item.description}</Text>
     </Card>
+  );
+
+  if (!onPress) {
+    return content;
+  }
+
+  return (
+    <Pressable
+      accessibilityRole="button"
+      onPress={onPress}
+      style={({ pressed }) => [pressed && styles.pressed]}
+    >
+      {content}
+    </Pressable>
   );
 }
 
@@ -191,7 +214,8 @@ export function OfferCard({
 }
 
 export function HotelTile({ item }: { item: Hotel }) {
-  return (
+  const link = item.link;
+  const content = (
     <Card style={styles.hotelTile}>
       {item.imageUrl ? (
         <Image
@@ -227,6 +251,125 @@ export function HotelTile({ item }: { item: Hotel }) {
         ) : null}
       </View>
     </Card>
+  );
+
+  if (!link) {
+    return content;
+  }
+
+  return (
+    <Pressable
+      accessibilityRole="link"
+      onPress={() => {
+        void Linking.openURL(link);
+      }}
+      style={({ pressed }) => [pressed && styles.pressed]}
+    >
+      {content}
+    </Pressable>
+  );
+}
+
+export function RestaurantTile({ item }: { item: Restaurant }) {
+  const link = item.link;
+  const content = (
+    <Card style={styles.hotelTile}>
+      {item.imageUrl ? (
+        <Image
+          alt={item.name}
+          source={{ uri: item.imageUrl }}
+          resizeMode="cover"
+          style={styles.hotelImage}
+        />
+      ) : (
+        <View style={styles.hotelImageFallback}>
+          <Text style={styles.hotelImageInitial}>{item.name.slice(0, 1)}</Text>
+        </View>
+      )}
+
+      <View style={styles.hotelContent}>
+        <View style={styles.hotelTopRow}>
+          <Text style={styles.hotelCity}>{item.displayCity}</Text>
+          <Text style={styles.hotelRating}>{item.rating}</Text>
+        </View>
+        <Text style={styles.restaurantCategory}>{item.category}</Text>
+        <Text style={styles.hotelName}>{item.name}</Text>
+        <Text style={styles.hotelDistance}>
+          {item.distanceLabel} from {item.nearestLandmark}
+        </Text>
+        <Text style={styles.restaurantAddress}>{item.address}</Text>
+        <Text style={styles.hotelReview}>{item.reviewSummary}</Text>
+      </View>
+
+      <View style={styles.hotelFooter}>
+        <Text style={styles.hotelReviewCount}>
+          {item.reviewCount.toLocaleString()} reviews
+        </Text>
+        {link ? <Text style={styles.hotelPrice}>Open details</Text> : null}
+      </View>
+    </Card>
+  );
+
+  if (!link) {
+    return content;
+  }
+
+  return (
+    <Pressable
+      accessibilityRole="link"
+      onPress={() => {
+        void Linking.openURL(link);
+      }}
+      style={({ pressed }) => [pressed && styles.pressed]}
+    >
+      {content}
+    </Pressable>
+  );
+}
+
+export function FlightTile({ item }: { item: Flight }) {
+  return (
+    <Pressable
+      accessibilityRole="link"
+      onPress={() => {
+        void Linking.openURL(item.bookingLink);
+      }}
+      style={({ pressed }) => [pressed && styles.pressed]}
+    >
+      <Card style={styles.flightTile}>
+        <View style={styles.flightHeader}>
+          <View style={styles.flightAirlineWrap}>
+            <Text style={styles.flightEyebrow}>Airline</Text>
+            <Text style={styles.flightAirline}>{item.airline}</Text>
+          </View>
+          <Text style={styles.hotelRating}>{item.rating}</Text>
+        </View>
+
+        <View style={styles.flightRoute}>
+          <View style={styles.flightCityBlock}>
+            <Text style={styles.flightCity}>{item.departureCity}</Text>
+            <Text style={styles.flightTime}>{item.departureLabel}</Text>
+          </View>
+          <Text style={styles.flightArrow}>{"->"}</Text>
+          <View style={styles.flightCityBlock}>
+            <Text style={styles.flightCity}>{item.arrivalCity}</Text>
+            <Text style={styles.flightTime}>{item.arrivalLabel}</Text>
+          </View>
+        </View>
+
+        <View style={styles.flightMetaRow}>
+          <Text style={styles.flightMeta}>{item.durationLabel}</Text>
+          <Text style={styles.flightMeta}>
+            {item.seatsAvailable.toLocaleString()} seats
+          </Text>
+        </View>
+
+        <View style={styles.hotelFooter}>
+          <Text style={styles.hotelReviewCount}>From</Text>
+          <Text style={styles.hotelPrice}>{item.fareLabel}</Text>
+        </View>
+      </Card>
+    </Pressable>
   );
 }
 
@@ -599,6 +742,93 @@ const styles = StyleSheet.create({
     fontSize: 19,
     lineHeight: 24,
     fontWeight: "700",
+  },
+  restaurantCategory: {
+    alignSelf: "flex-start",
+    borderRadius: 999,
+    overflow: "hidden",
+    backgroundColor: colors.gold,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    color: colors.white,
+    fontSize: 11,
+    fontWeight: "900",
+  },
+  restaurantAddress: {
+    color: colors.ink,
+    fontSize: 13,
+    lineHeight: 19,
+    fontWeight: "700",
+  },
+  flightTile: {
+    width: 280,
+    minHeight: 284,
+    backgroundColor: colors.white,
+    gap: 18,
+  },
+  flightHeader: {
+    flexDirection: "row",
+    alignItems: "flex-start",
+    justifyContent: "space-between",
+    gap: 14,
+  },
+  flightAirlineWrap: {
+    flex: 1,
+    gap: 5,
+  },
+  flightEyebrow: {
+    color: colors.green,
+    fontSize: 11,
+    fontWeight: "900",
+    textTransform: "uppercase",
+  },
+  flightAirline: {
+    color: colors.heading,
+    fontFamily: fonts.heading,
+    fontSize: 24,
+    lineHeight: 30,
+    fontWeight: "700",
+  },
+  flightRoute: {
+    flexDirection: "row",
+    alignItems: "flex-start",
+    gap: 10,
+  },
+  flightCityBlock: {
+    flex: 1,
+    gap: 6,
+  },
+  flightCity: {
+    color: colors.green,
+    fontSize: 15,
+    lineHeight: 20,
+    fontWeight: "900",
+  },
+  flightTime: {
+    color: colors.muted,
+    fontSize: 13,
+    lineHeight: 19,
+  },
+  flightArrow: {
+    color: colors.gold,
+    fontSize: 18,
+    lineHeight: 24,
+    fontWeight: "900",
+  },
+  flightMetaRow: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: 8,
+  },
+  flightMeta: {
+    borderRadius: 999,
+    overflow: "hidden",
+    backgroundColor: colors.softBg,
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+    color: colors.green,
+    fontSize: 12,
+    fontWeight: "900",
   },
   teamCard: {
     minHeight: 250,

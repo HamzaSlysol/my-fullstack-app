@@ -2,9 +2,9 @@ import { db } from "@/db";
 import { restaurants } from "@/db/schema";
 import {
   CITY_LANDMARKS,
+  getActiveRestaurants,
   normalizeRestaurantCity,
 } from "@/lib/restaurants";
-import { eq } from "drizzle-orm";
 
 type RestaurantRequestBody = Record<string, unknown>;
 
@@ -91,16 +91,12 @@ export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
     const city = normalizeRestaurantCity(searchParams.get("city"));
 
-    const result = city
-      ? await db
-          .select()
-          .from(restaurants)
-          .where(eq(restaurants.city, city))
-      : await db.select().from(restaurants);
+    const result = await getActiveRestaurants(city ?? undefined);
 
     return Response.json({
       success: true,
       data: result,
+      restaurants: result,
     });
   } catch (error) {
     console.error(error);

@@ -1,5 +1,6 @@
 import { db } from "@/db";
 import { flights } from "@/db/schema";
+import { getActiveFlights } from "@/lib/flights";
 
 type FlightRequestBody = Record<string, unknown>;
 
@@ -87,11 +88,12 @@ function normalizeBoolean(value: unknown) {
 
 export async function GET() {
   try {
-    const result = await db.select().from(flights);
+    const result = await getActiveFlights();
 
     return Response.json({
       success: true,
       data: result,
+      flights: result,
     });
   } catch (error) {
     console.error(error);

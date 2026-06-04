@@ -2,6 +2,7 @@ import { useState } from "react";
 
 import { MobileShell } from "./src/components/MobileShell";
 import { AboutScreen } from "./src/screens/AboutScreen";
+import { DocumentsScreen } from "./src/screens/DocumentsScreen";
 import { HomeScreen } from "./src/screens/HomeScreen";
 import { LoginScreen } from "./src/screens/LoginScreen";
 import { PackagesScreen } from "./src/screens/PackagesScreen";
@@ -30,6 +31,7 @@ export default function App() {
       {activeRoute === "services" && (
         <ServicesScreen onNavigate={setActiveRoute} />
       )}
+      {activeRoute === "documents" && <DocumentsScreen />}
       {activeRoute === "login" && <LoginScreen onNavigate={setActiveRoute} />}
       {activeRoute === "register" && (
         <RegisterScreen onNavigate={setActiveRoute} />

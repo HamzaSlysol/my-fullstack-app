@@ -1,15 +1,23 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 
+import { getFlights, type Flight } from "../api/flights";
 import { getHotels, type Hotel, type HotelCity } from "../api/hotels";
+import {
+  getRestaurants,
+  type Restaurant,
+  type RestaurantCity,
+} from "../api/restaurants";
 import { images, pilgrimagePackages, sacredOffers } from "../data/qibla";
 import { colors } from "../theme";
 import type { ScreenProps } from "../types";
 import {
+  FlightTile,
   HotelTile,
   LinkLikeButton,
   OfferCard,
   PackageCard,
+  RestaurantTile,
 } from "../components/QiblaCards";
 import {
   PageHero,
@@ -24,12 +32,24 @@ const HOTEL_CITY_LABELS: Record<HotelCity, string> = {
   madinah: "Madinah",
 };
 
+const RESTAURANT_CITY_ORDER: RestaurantCity[] = ["makkah", "madinah"];
+const RESTAURANT_CITY_LABELS: Record<RestaurantCity, string> = {
+  makkah: "Makkah",
+  madinah: "Madinah",
+};
+
 export function PackagesScreen({ onNavigate }: ScreenProps) {
   const scrollRef = useRef<ScrollView>(null);
   const [offersY, setOffersY] = useState(0);
   const [hotels, setHotels] = useState<Hotel[]>([]);
   const [isHotelsLoading, setIsHotelsLoading] = useState(true);
   const [hotelError, setHotelError] = useState<string | null>(null);
+  const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
+  const [isRestaurantsLoading, setIsRestaurantsLoading] = useState(true);
+  const [restaurantError, setRestaurantError] = useState<string | null>(null);
+  const [flights, setFlights] = useState<Flight[]>([]);
+  const [isFlightsLoading, setIsFlightsLoading] = useState(true);
+  const [flightError, setFlightError] = useState<string | null>(null);
 
   useEffect(() => {
     let isMounted = true;
@@ -56,6 +76,56 @@ export function PackagesScreen({ onNavigate }: ScreenProps) {
     };
   }, []);
 
+  useEffect(() => {
+    let isMounted = true;
+
+    getRestaurants()
+      .then((nextRestaurants) => {
+        if (isMounted) {
+          setRestaurants(nextRestaurants);
+        }
+      })
+      .catch(() => {
+        if (isMounted) {
+          setRestaurantError("Restaurant listings are unavailable right now.");
+        }
+      })
+      .finally(() => {
+        if (isMounted) {
+          setIsRestaurantsLoading(false);
+        }
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    getFlights()
+      .then((nextFlights) => {
+        if (isMounted) {
+          setFlights(nextFlights);
+        }
+      })
+      .catch(() => {
+        if (isMounted) {
+          setFlightError("Flight listings are unavailable right now.");
+        }
+      })
+      .finally(() => {
+        if (isMounted) {
+          setIsFlightsLoading(false);
+        }
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
   const hotelGroups = useMemo(() => {
     return HOTEL_CITY_ORDER.map((city) => ({
       city,
@@ -65,6 +135,16 @@ export function PackagesScreen({ onNavigate }: ScreenProps) {
       hotels: hotels.filter((hotel) => hotel.city === city),
     })).filter((group) => group.hotels.length > 0);
   }, [hotels]);
+
+  const restaurantGroups = useMemo(() => {
+    return RESTAURANT_CITY_ORDER.map((city) => ({
+      city,
+      title:
+        restaurants.find((restaurant) => restaurant.city === city)
+          ?.displayCity ?? RESTAURANT_CITY_LABELS[city],
+      restaurants: restaurants.filter((restaurant) => restaurant.city === city),
+    })).filter((group) => group.restaurants.length > 0);
+  }, [restaurants]);
 
   function scrollToOffers() {
     if (!offersY) {
@@ -129,6 +209,71 @@ export function PackagesScreen({ onNavigate }: ScreenProps) {
           </View>
         ) : (
           <Text style={styles.hotelStatus}>Hotel options are coming soon.</Text>
+        )}
+      </Section>
+
+      <Section tone="soft">
+        <SectionHeading
+          eyebrow="Nearby Dining"
+          title="Restaurants Near the Holy Mosques"
+          body="Browse nearby restaurant options in Makkah and Madinah with distance, category, rating, and review details."
+        />
+
+        {isRestaurantsLoading ? (
+          <Text style={styles.hotelStatus}>Loading restaurants...</Text>
+        ) : restaurantError ? (
+          <Text style={styles.hotelStatus}>{restaurantError}</Text>
+        ) : restaurantGroups.length > 0 ? (
+          <View style={styles.hotelGroupStack}>
+            {restaurantGroups.map((group) => (
+              <View key={group.city} style={styles.hotelGroup}>
+                <Text style={styles.hotelCityTitle}>{group.title}</Text>
+                <ScrollView
+                  horizontal
+                  showsHorizontalScrollIndicator={false}
+                  snapToInterval={296}
+                  decelerationRate="fast"
+                  contentContainerStyle={styles.hotelCarousel}
+                >
+                  {group.restaurants.map((restaurant) => (
+                    <RestaurantTile key={restaurant.id} item={restaurant} />
+                  ))}
+                </ScrollView>
+              </View>
+            ))}
+          </View>
+        ) : (
+          <Text style={styles.hotelStatus}>
+            Restaurant options are coming soon.
+          </Text>
+        )}
+      </Section>
+
+      <Section tone="paper">
+        <SectionHeading
+          eyebrow="Flight Options"
+          title="Flights Ready for Your Journey"
+          body="Browse active flight options with schedules, seats, fares, and direct booking links."
+        />
+
+        {isFlightsLoading ? (
+          <Text style={styles.hotelStatus}>Loading flights...</Text>
+        ) : flightError ? (
+          <Text style={styles.hotelStatus}>{flightError}</Text>
+        ) : flights.length > 0 ? (
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            snapToInterval={296}
+            decelerationRate="fast"
+            contentContainerStyle={styles.hotelCarousel}
+          >
+            {flights.map((flight) => (
+              <FlightTile key={flight.id} item={flight} />
+            ))}
+          </ScrollView>
+        ) : (
+          <Text style={styles.hotelStatus}>Flight options are coming soon.</Text>
         )}
       </Section>
 

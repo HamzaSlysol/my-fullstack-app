@@ -12,9 +12,7 @@ import { colors, fonts } from "../theme";
 import type { ScreenProps } from "../types";
 import { BenefitRow, ProcessCard, ServiceCard } from "../components/QiblaCards";
 import {
-  ContactSupportBlock,
   FeatureGrid,
-  HeroAvatarStack,
   ImageCard,
   PrimaryButton,
   ScreenScroll,
@@ -42,8 +40,6 @@ export function HomeScreen({ onNavigate }: ScreenProps) {
             arrangements.
           </Text>
 
-          <HeroAvatarStack />
-
           <PrimaryButton
             label="View Packages"
             onPress={() => onNavigate("packages")}
@@ -68,14 +64,6 @@ export function HomeScreen({ onNavigate }: ScreenProps) {
             Whether you are traveling alone or with family, we ensure you feel
             prepared, safe, and fully supported throughout the experience.
           </Text>
-          <View style={styles.actionWrap}>
-            <PrimaryButton
-              label="Learn More"
-              onPress={() => onNavigate("packages")}
-              variant="white"
-            />
-            <ContactSupportBlock />
-          </View>
         </View>
       </Section>
 
@@ -106,7 +94,7 @@ export function HomeScreen({ onNavigate }: ScreenProps) {
             <ServiceCard
               key={card.title}
               item={card}
-              onDetails={() => onNavigate("packages")}
+              onDetails={() => onNavigate(card.detailsRoute ?? "packages")}
             />
           ))}
         </View>
@@ -137,7 +125,15 @@ export function HomeScreen({ onNavigate }: ScreenProps) {
         />
         <View style={styles.cardStack}>
           {processSteps.map((step) => (
-            <ProcessCard key={step.title} item={step} />
+            <ProcessCard
+              key={step.title}
+              item={step}
+              onPress={
+                step.detailsRoute
+                  ? () => onNavigate(step.detailsRoute ?? "home")
+                  : undefined
+              }
+            />
           ))}
         </View>
       </Section>

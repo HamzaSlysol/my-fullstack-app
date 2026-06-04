@@ -1,19 +1,18 @@
 import { db } from "@/db";
 import { hotels } from "@/db/schema";
-import { eq } from "drizzle-orm";
+import { getActiveHotels, normalizeHotelCity } from "@/lib/hotels";
 
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
-    const city = searchParams.get("city");
+    const city = normalizeHotelCity(searchParams.get("city"));
 
-    const result = city
-      ? await db.select().from(hotels).where(eq(hotels.city, city))
-      : await db.select().from(hotels);
+    const result = await getActiveHotels(city ?? undefined);
 
     return Response.json({
       success: true,
       data: result,
+      hotels: result,
     });
   } catch (error) {
     console.error(error);

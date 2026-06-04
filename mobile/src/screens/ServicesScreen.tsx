@@ -48,7 +48,7 @@ export function ServicesScreen({ onNavigate }: ScreenProps) {
             <ServiceCard
               key={service.title}
               item={service}
-              onDetails={() => onNavigate("packages")}
+              onDetails={() => onNavigate(service.detailsRoute ?? "packages")}
             />
           ))}
         </View>

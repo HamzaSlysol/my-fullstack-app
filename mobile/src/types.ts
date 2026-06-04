@@ -3,6 +3,7 @@ export type RouteName =
   | "about"
   | "packages"
   | "services"
+  | "documents"
   | "login"
   | "register";
 

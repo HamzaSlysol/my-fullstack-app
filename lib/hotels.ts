@@ -25,7 +25,11 @@ const CITY_LABELS: Record<HotelCity, string> = {
   madinah: "Madinah",
 };
 
-function normalizeCity(value: string): HotelCity | null {
+export function normalizeHotelCity(value: unknown): HotelCity | null {
+  if (typeof value !== "string") {
+    return null;
+  }
+
   const city = value.trim().toLowerCase();
 
   if (city === "makkah" || city === "mecca") {
@@ -50,7 +54,7 @@ function formatDistance(distanceMeters: number) {
 }
 
 function toHotelPayload(row: typeof hotels.$inferSelect): Hotel {
-  const city = normalizeCity(row.city) ?? "makkah";
+  const city = normalizeHotelCity(row.city) ?? "makkah";
 
   return {
     id: row.id,

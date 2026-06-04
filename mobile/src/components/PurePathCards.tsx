@@ -30,9 +30,13 @@ export function Marker({
   inverse?: boolean;
   large?: boolean;
 }) {
-  const markerSizeClass = large ? "h-[72px] w-[72px] self-center" : "h-[52px] w-[52px]";
+  const markerSizeClass = large
+    ? "h-[72px] w-[72px] self-center"
+    : "h-[52px] w-[52px]";
   const markerBgClass = inverse ? "bg-pure-white" : "bg-pure-green";
-  const markerTextColorClass = inverse ? "text-pure-green" : "text-pure-goldSoft";
+  const markerTextColorClass = inverse
+    ? "text-pure-green"
+    : "text-pure-goldSoft";
 
   return (
     <View
@@ -71,18 +75,13 @@ export function BenefitRow({
       <View className="flex-1 gap-1.5">
         <Text
           className={cn(
-            "font-serif text-[23px] font-bold leading-[29px]",
+            "font-serif text-[20px] font-bold leading-[29px]",
             titleColorClass,
           )}
         >
           {item.title}
         </Text>
-        <Text
-          className={cn(
-            "text-[15px] leading-[22px]",
-            bodyColorClass,
-          )}
-        >
+        <Text className={cn("text-[15px] leading-[22px]", bodyColorClass)}>
           {item.description}
         </Text>
       </View>
@@ -95,7 +94,7 @@ export function ValueRow({ item }: { item: SimpleItem }) {
     <View className="flex-row items-start gap-3.5 border-b border-pure-gold pb-[22px]">
       <Marker value={item.marker} />
       <View className="flex-1 gap-1.5">
-        <Text className="font-serif text-[23px] font-bold leading-[29px] text-pure-green">
+        <Text className="font-serif text-[20px] font-bold leading-[29px] text-pure-green">
           {item.title}
         </Text>
         <Text className="text-[15px] leading-[22px] text-pure-muted">
@@ -115,20 +114,15 @@ export function ServiceCard({
 }) {
   return (
     <Card className="items-stretch gap-4">
-      <Marker value={item.marker} large />
-      <Text className="text-center font-serif text-3xl font-bold leading-9 text-pure-green">
+      <Text className="text-center font-serif text-[24px] font-bold leading-9 text-pure-green">
         {item.title}
       </Text>
-      <Text className="text-center text-[15px] leading-[22px] text-pure-muted">
+      <Text className="text-center text-[14px] leading-5.5 text-pure-muted">
         {item.description}
       </Text>
       <View className="h-px bg-pure-gold opacity-80" />
       <BulletList items={item.items} />
-      <PrimaryButton
-        label="See Details"
-        onPress={onDetails}
-        className="mt-2"
-      />
+      <PrimaryButton label="See Details" onPress={onDetails} className="mt-2" />
     </Card>
   );
 }
@@ -142,12 +136,12 @@ export function ProcessCard({
 }) {
   const content = (
     <Card className="items-center gap-3.5">
-      <View className="h-[116px] w-[116px] items-center justify-center rounded-full border-[5px] border-pure-gold bg-pure-green">
-        <Text className="font-serif text-[34px] font-bold text-pure-white">
+      <View className="size-29 items-center justify-center rounded-full border-[3px] border-pure-gold bg-pure-green">
+        <Text className="font-serif text-[18px] p-2 font-bold text-pure-white">
           {item.marker}
         </Text>
       </View>
-      <Text className="text-center font-serif text-[25px] font-bold leading-[31px] text-pure-green">
+      <Text className="text-center font-serif text-[20px] font-bold leading-7.75 text-pure-green">
         {item.title}
       </Text>
       <Text className="text-center text-[15px] leading-[22px] text-pure-muted">
@@ -187,10 +181,13 @@ export function PackageCard({
         imageClassName="rounded-md"
       >
         <View className="absolute inset-0 bg-pure-greenDeep/60" />
-        <View className="min-h-[500px] flex-1 justify-between p-[18px]">
+        <View className="flex-1 justify-between p-4">
           <View className="flex-row flex-wrap items-end justify-end gap-2">
             {item.badges.map((badge) => (
-              <View key={badge} className="rounded-full bg-pure-gold px-2.5 py-1.5">
+              <View
+                key={badge}
+                className="rounded-full bg-pure-gold px-2.5 py-1.5"
+              >
                 <Text className="text-[11px] font-black text-pure-white">
                   {badge}
                 </Text>
@@ -202,10 +199,10 @@ export function PackageCard({
             <Text className="text-xs font-black text-white/90">
               {item.dates}
             </Text>
-            <Text className="font-serif text-[32px] font-bold leading-[38px] text-pure-white">
+            <Text className="font-serif text-[22px] font-bold leading-7 text-pure-white">
               {item.title}
             </Text>
-            <Text className="text-[15px] leading-[22px] text-white/90">
+            <Text className="text-[15px] leading-5 text-white/90">
               {item.description}
             </Text>
             <BulletList items={item.highlights} inverse />
@@ -214,7 +211,7 @@ export function PackageCard({
               <Text className="text-xs font-extrabold text-white/80">
                 Start from
               </Text>
-              <Text className="font-serif text-[34px] font-bold leading-[38px] text-pure-white">
+              <Text className="font-serif text-[22px] font-bold leading-6 text-pure-white">
                 {item.price}
                 <Text className="text-xs font-extrabold text-white/80">
                   {" "}
@@ -250,19 +247,23 @@ export function OfferCard({
 }) {
   return (
     <Card tone="green" borderTone="gold" className="gap-3">
-      <Image
-        alt={title}
-        source={image}
-        resizeMode="cover"
-        className="h-[150px] w-full rounded-md bg-pure-greenDark"
-      />
+      <View className="h-[160px] w-full overflow-hidden rounded-md bg-pure-greenDark">
+        <Image
+          alt={title}
+          source={image}
+          resizeMode="cover"
+          className="absolute inset-0 h-full w-full"
+        />
+      </View>
+
       <Text className="text-xs font-black text-white/90">{title}</Text>
-      <Text className="font-serif text-[29px] font-bold leading-[34px] text-pure-goldSoft">
+
+      <Text className="font-serif text-[18px] font-bold leading-8 text-pure-goldSoft">
         {discount}
       </Text>
-      <Text className="text-sm leading-[21px] text-white/90">
-        {description}
-      </Text>
+
+      <Text className="text-sm leading-5 text-white/90">{description}</Text>
+
       <PrimaryButton label="Get Offer" onPress={onPress} variant="white" />
     </Card>
   );
@@ -281,7 +282,7 @@ export function HotelTile({ item }: { item: Hotel }) {
         />
       ) : (
         <View className="h-32 items-center justify-center rounded-md bg-pure-green">
-          <Text className="font-serif text-5xl font-bold text-pure-goldSoft">
+          <Text className="font-serif text-2xl font-bold text-pure-goldSoft">
             {item.name.slice(0, 1)}
           </Text>
         </View>
@@ -296,7 +297,7 @@ export function HotelTile({ item }: { item: Hotel }) {
             {item.rating}
           </Text>
         </View>
-        <Text className="font-serif text-2xl font-bold leading-[30px] text-pure-heading">
+        <Text className="font-serif text-xl font-bold leading-[30px] text-pure-heading">
           {item.name}
         </Text>
         <Text className="text-sm font-extrabold leading-5 text-pure-green">
@@ -312,7 +313,7 @@ export function HotelTile({ item }: { item: Hotel }) {
           {item.reviewCount.toLocaleString()} reviews
         </Text>
         {item.priceFrom ? (
-          <Text className="font-serif text-[19px] font-bold leading-6 text-pure-green">
+          <Text className="font-serif text-[16px] font-bold leading-6 text-pure-green">
             From {item.priceFrom}
           </Text>
         ) : null}
@@ -368,7 +369,7 @@ export function RestaurantTile({ item }: { item: Restaurant }) {
         <Text className="self-start overflow-hidden rounded-full bg-pure-gold px-2.5 py-[5px] text-[11px] font-black text-pure-white">
           {item.category}
         </Text>
-        <Text className="font-serif text-2xl font-bold leading-[30px] text-pure-heading">
+        <Text className="font-serif text-lg font-bold leading-[30px] text-pure-heading">
           {item.name}
         </Text>
         <Text className="text-sm font-extrabold leading-5 text-pure-green">
@@ -387,7 +388,7 @@ export function RestaurantTile({ item }: { item: Restaurant }) {
           {item.reviewCount.toLocaleString()} reviews
         </Text>
         {link ? (
-          <Text className="font-serif text-[19px] font-bold leading-6 text-pure-green">
+          <Text className="font-serif text-[14px] font-bold leading-6 text-pure-green">
             Open details
           </Text>
         ) : null}
@@ -421,13 +422,13 @@ export function FlightTile({ item }: { item: Flight }) {
       }}
       className="active:opacity-70"
     >
-      <Card tone="white" className="min-h-[284px] w-[280px] gap-[18px]">
+      <Card tone="white" className="min-h-[300px] w-[280px] gap-[18px]">
         <View className="flex-row items-start justify-between gap-3.5">
           <View className="flex-1 gap-[5px]">
             <Text className="text-[11px] font-black uppercase text-pure-green">
               Airline
             </Text>
-            <Text className="font-serif text-2xl font-bold leading-[30px] text-pure-heading">
+            <Text className="font-serif text-lg font-bold leading-[30px] text-pure-heading">
               {item.airline}
             </Text>
           </View>
@@ -449,10 +450,10 @@ export function FlightTile({ item }: { item: Flight }) {
             {"->"}
           </Text>
           <View className="flex-1 gap-1.5">
-            <Text className="text-[15px] font-black leading-5 text-pure-green">
+            <Text className="text-[12px] font-black leading-5 text-pure-green">
               {item.arrivalCity}
             </Text>
-            <Text className="text-[13px] leading-[19px] text-pure-muted">
+            <Text className="text-[12px] leading-[19px] text-pure-muted">
               {item.arrivalLabel}
             </Text>
           </View>
@@ -469,7 +470,7 @@ export function FlightTile({ item }: { item: Flight }) {
 
         <View className="mt-auto gap-[7px] border-t border-[#d9e3df] pt-3">
           <Text className="text-[13px] font-extrabold text-pure-ink">From</Text>
-          <Text className="font-serif text-[19px] font-bold leading-6 text-pure-green">
+          <Text className="font-serif text-[14px] font-bold leading-6 text-pure-green">
             {item.fareLabel}
           </Text>
         </View>

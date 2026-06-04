@@ -131,7 +131,7 @@ export function HomeScreen({ onNavigate }: ScreenProps) {
           body="We take care of the details so you can focus on your worship, every step is designed to be simple, guided, and worry-free."
           center
         />
-        <View className="gap-[18px]">
+        <View className="gap-3">
           {processSteps.map((step) => (
             <ProcessCard
               key={step.title}

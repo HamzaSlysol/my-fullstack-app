@@ -1,5 +1,12 @@
 import { forwardRef, type ReactNode } from "react";
-import { Image, ImageBackground, Pressable, ScrollView, Text, View } from "react-native";
+import {
+  Image,
+  ImageBackground,
+  Pressable,
+  ScrollView,
+  Text,
+  View,
+} from "react-native";
 import type { ImageSourcePropType } from "react-native";
 
 import type { Navigate, RouteName } from "../types";
@@ -12,7 +19,10 @@ type ScreenScrollProps = {
 };
 
 export const ScreenScroll = forwardRef<ScrollView, ScreenScrollProps>(
-  function ScreenScroll({ children, className, contentContainerClassName }, ref) {
+  function ScreenScroll(
+    { children, className, contentContainerClassName },
+    ref,
+  ) {
     return (
       <ScrollView
         ref={ref}
@@ -49,7 +59,8 @@ export function PrimaryButton({
       : isBlack
         ? "border-black bg-black"
         : "border-pure-green bg-pure-green";
-  const textClass = isWhite || isOutline ? "text-pure-green" : "text-pure-white";
+  const textClass =
+    isWhite || isOutline ? "text-pure-green" : "text-pure-white";
 
   return (
     <Pressable
@@ -61,9 +72,7 @@ export function PrimaryButton({
         className,
       )}
     >
-      <Text className={cn("text-base font-extrabold", textClass)}>
-        {label}
-      </Text>
+      <Text className={cn("text-base font-extrabold", textClass)}>{label}</Text>
     </Pressable>
   );
 }
@@ -128,7 +137,7 @@ export function SectionHeading({
       </Text>
       <Text
         className={cn(
-          "font-serif text-[38px] font-bold leading-[44px]",
+          "font-serif text-[20px] font-bold leading-11",
           titleColorClass,
         )}
       >
@@ -160,11 +169,11 @@ export function PageHero({ title, body, image }: PageHeroProps) {
     <ImageBackground
       source={image}
       resizeMode="cover"
-      className="min-h-[260px] justify-center overflow-hidden"
+      className="min-h-[220px] justify-center overflow-hidden"
     >
       <View className="absolute inset-0 bg-white/75" />
       <View className="items-center px-[22px] py-[42px]">
-        <Text className="text-center font-serif text-5xl font-bold leading-[54px] text-pure-heading">
+        <Text className="text-center font-serif text-3xl font-bold leading-[48px] text-pure-heading">
           {title}
         </Text>
         <Text className="mt-3.5 max-w-[520px] text-center text-base leading-6 text-pure-muted">
@@ -188,11 +197,11 @@ export function ImageCard({ image, caption, tall }: ImageCardProps) {
         alt={caption ?? ""}
         source={image}
         resizeMode="cover"
-        className={cn("h-[360px] w-full", tall && "h-[460px]")}
+        className={cn("h-[300px] w-full", tall && "h-[400px]")}
       />
       {caption ? (
         <View className="items-end border-t border-white/70 px-[18px] py-3.5">
-          <Text className="font-serif text-lg font-extrabold text-pure-white">
+          <Text className="font-serif text-md font-extrabold text-pure-white text-center">
             {caption}
           </Text>
         </View>
@@ -258,7 +267,7 @@ export function BulletList({
           />
           <Text
             className={cn(
-              "flex-1 text-[15px] font-bold leading-[22px]",
+              "flex-1 text-[15px] font-bold leading-4",
               textColorClass,
             )}
           >
@@ -291,15 +300,15 @@ export function FeatureGrid({ items }: { items: string[] }) {
 export function ContactSupportBlock() {
   return (
     <View className="flex-row items-center gap-3.5">
-      <View className="h-[58px] w-[58px] items-center justify-center rounded-full border border-white/70">
-        <Text className="text-lg font-black text-pure-white">24</Text>
+      <View className="size-16 items-center justify-center rounded-full border border-white/70">
+        <Text className="text-lg font-black text-pure-white p-1">24/7</Text>
       </View>
       <View>
         <Text className="text-base font-extrabold text-pure-white">
           Need Help?
         </Text>
-        <Text className="font-serif text-2xl font-bold leading-[30px] text-pure-white">
-          +1 555 123 4567
+        <Text className="font-serif text-lg font-bold leading-5 text-pure-white">
+          +92 307 5629214
         </Text>
       </View>
     </View>

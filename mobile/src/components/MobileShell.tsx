@@ -1,17 +1,10 @@
 import { useState, type ReactNode } from "react";
-import {
-  Platform,
-  Pressable,
-  SafeAreaView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
+import { Pressable, StatusBar, Text, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 import { navItems } from "../data/purePath";
-import { colors, fonts } from "../theme";
 import type { Navigate, RouteName } from "../types";
+import { cn } from "../utils/cn";
 
 type MobileShellProps = {
   activeRoute: RouteName;
@@ -28,7 +21,6 @@ export function MobileShell({
 }: MobileShellProps) {
   const [menuOpen, setMenuOpen] = useState(false);
   const menuItems: { label: string; route: RouteName }[] = [
-    // { label: "Login", route: "login" },
     ...navItems,
     { label: "Register", route: "register" },
   ];
@@ -43,61 +35,68 @@ export function MobileShell({
     setMenuOpen(false);
   }
 
-  return (
-    <SafeAreaView style={styles.safeArea}>
-      <StatusBar barStyle="dark-content" backgroundColor={colors.white} />
+  const menuButtonToneClass = menuOpen
+    ? "border-pure-green bg-pure-green"
+    : "border-pure-line bg-white/90";
+  const menuLineToneClass = menuOpen ? "bg-pure-white" : "bg-pure-green";
 
-      <View style={styles.header}>
-        <View style={styles.topBar}>
+  return (
+    <SafeAreaView className="flex-1 bg-pure-white">
+      <StatusBar barStyle="dark-content" className="bg-pure-white" />
+
+      <View className="relative z-20 border-b border-pure-line bg-pure-white pt-2 elevation-xl android:pt-safe-offset-2 web:pt-[18px]">
+        <View className="min-h-[78px] flex-row items-center justify-between gap-5 px-5 pb-3.5 pt-3">
           <Pressable
             accessibilityRole="button"
             onPress={() => handleNavigate("home")}
-            style={({ pressed }) => [pressed && styles.pressed]}
+            className="active:opacity-80"
           >
-            <Text style={styles.logo}>Pure Path</Text>
+            <Text className="font-serif text-[34px] font-bold text-pure-green">
+              Pure Path
+            </Text>
           </Pressable>
 
           <Pressable
             accessibilityRole="button"
             accessibilityLabel={menuOpen ? "Close menu" : "Open menu"}
             onPress={() => setMenuOpen((current) => !current)}
-            style={({ pressed }) => [
-              styles.menuButton,
-              menuOpen && styles.menuButtonActive,
-              pressed && styles.pressed,
-            ]}
+            className={cn(
+              "h-[46px] w-[46px] items-center justify-center gap-[5px] rounded-full border active:opacity-80",
+              menuButtonToneClass,
+            )}
           >
             <View
-              style={[styles.menuLine, menuOpen && styles.menuLineActive]}
+              className={cn("h-0.5 w-5 rounded-full", menuLineToneClass)}
             />
             <View
-              style={[styles.menuLine, menuOpen && styles.menuLineActive]}
+              className={cn("h-0.5 w-5 rounded-full", menuLineToneClass)}
             />
             <View
-              style={[styles.menuLine, menuOpen && styles.menuLineActive]}
+              className={cn("h-0.5 w-5 rounded-full", menuLineToneClass)}
             />
           </Pressable>
         </View>
 
         {menuOpen ? (
-          <View style={styles.menuPanel}>
+          <View className="absolute left-5 right-5 top-full mt-2 gap-2.5 rounded-xl border border-pure-line/90 bg-white/95 px-3 py-3.5 shadow-xl shadow-pure-greenDeep/20 elevation-2xl">
             {menuItems.map((item) => {
               const isActive = activeRoute === item.route;
+              const itemToneClass = isActive
+                ? "border-pure-green bg-pure-green"
+                : "border-[#d9e3df] bg-pure-white";
+              const textToneClass = isActive ? "text-pure-white" : "text-pure-ink";
 
               return (
                 <Pressable
                   key={item.route}
                   accessibilityRole="button"
                   onPress={() => handleNavigate(item.route)}
-                  style={({ pressed }) => [
-                    styles.menuItem,
-                    isActive && styles.menuItemActive,
-                    pressed && styles.pressed,
-                  ]}
+                  className={cn(
+                    "min-h-[46px] flex-row items-center justify-between rounded-lg border px-3.5 active:opacity-80",
+                    itemToneClass,
+                  )}
                 >
-                  <Text
-                    style={[styles.menuText, isActive && styles.menuTextActive]}
-                  >
+                  <Text className={cn("text-base font-extrabold", textToneClass)}>
                     {item.label}
                   </Text>
                 </Pressable>
@@ -107,135 +106,17 @@ export function MobileShell({
             <Pressable
               accessibilityRole="button"
               onPress={handleLogout}
-              style={({ pressed }) => [
-                styles.menuItem,
-                styles.logoutItem,
-                pressed && styles.pressed,
-              ]}
+              className="min-h-[46px] flex-row items-center justify-between rounded-lg border border-pure-danger bg-pure-danger px-3.5 active:opacity-80"
             >
-              <Text style={[styles.menuText, styles.logoutText]}>Logout</Text>
+              <Text className="text-base font-extrabold text-pure-white">
+                Logout
+              </Text>
             </Pressable>
           </View>
         ) : null}
       </View>
 
-      <View style={styles.content}>{children}</View>
+      <View className="flex-1">{children}</View>
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-    backgroundColor: colors.white,
-  },
-  header: {
-    position: "relative",
-    zIndex: 20,
-    elevation: 20,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.line,
-    backgroundColor: colors.white,
-    paddingTop: Platform.select({
-      android: (StatusBar.currentHeight ?? 0) + 8,
-      web: 18,
-      default: 8,
-    }),
-  },
-  topBar: {
-    minHeight: 78,
-    paddingHorizontal: 20,
-    paddingTop: 12,
-    paddingBottom: 14,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    gap: 20,
-  },
-  logo: {
-    fontFamily: fonts.heading,
-    fontSize: 34,
-    fontWeight: "700",
-    color: colors.green,
-  },
-  menuButton: {
-    width: 46,
-    height: 46,
-    borderRadius: 999,
-    borderWidth: 1,
-    borderColor: colors.line,
-    backgroundColor: "rgba(255,255,255,0.86)",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 5,
-  },
-  menuButtonActive: {
-    backgroundColor: colors.green,
-    borderColor: colors.green,
-  },
-  menuLine: {
-    width: 20,
-    height: 2,
-    borderRadius: 999,
-    backgroundColor: colors.green,
-  },
-  menuLineActive: {
-    backgroundColor: colors.white,
-  },
-  menuPanel: {
-    position: "absolute",
-    top: "100%",
-    left: 20,
-    right: 20,
-    marginTop: 8,
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: "rgba(223,207,181,0.9)",
-    backgroundColor: "rgba(255,255,255,0.98)",
-    paddingHorizontal: 12,
-    paddingTop: 14,
-    paddingBottom: 14,
-    gap: 10,
-    shadowColor: "#063d2d",
-    shadowOpacity: 0.16,
-    shadowRadius: 18,
-    shadowOffset: { width: 0, height: 10 },
-    elevation: 22,
-  },
-  menuItem: {
-    minHeight: 46,
-    borderRadius: 8,
-    paddingHorizontal: 14,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    borderWidth: 1,
-    borderColor: "#d9e3df",
-    backgroundColor: colors.white,
-  },
-  menuItemActive: {
-    backgroundColor: colors.green,
-    borderColor: colors.green,
-  },
-  logoutItem: {
-    backgroundColor: colors.danger,
-    borderColor: colors.danger,
-  },
-  menuText: {
-    color: colors.ink,
-    fontSize: 16,
-    fontWeight: "800",
-  },
-  menuTextActive: {
-    color: colors.white,
-  },
-  logoutText: {
-    color: colors.white,
-  },
-  pressed: {
-    opacity: 0.78,
-  },
-  content: {
-    flex: 1,
-  },
-});

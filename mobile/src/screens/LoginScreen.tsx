@@ -3,14 +3,12 @@ import {
   KeyboardAvoidingView,
   Platform,
   Pressable,
-  StyleSheet,
   Text,
   TextInput,
   View,
 } from "react-native";
 
 import { API_BASE_URL } from "../config";
-import { colors } from "../theme";
 import type { ScreenProps } from "../types";
 import { Card, PrimaryButton, ScreenScroll } from "../components/ui";
 
@@ -65,40 +63,50 @@ export function LoginScreen({ onNavigate }: ScreenProps) {
   }
 
   return (
-    <ScreenScroll backgroundColor="#f3f4f6">
+    <ScreenScroll className="bg-gray-100">
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : undefined}
-        style={styles.wrap}
+        className="min-h-[560px] justify-center px-5 py-11"
       >
-        <Card style={styles.authCard}>
-          <Text style={styles.title}>Login</Text>
+        <Card tone="white" borderTone="white" className="gap-[18px]">
+          <Text className="text-2xl font-extrabold leading-[30px] text-[#111827]">
+            Login
+          </Text>
 
-          {message ? <Text style={styles.message}>{message}</Text> : null}
+          {message ? (
+            <Text className="rounded-lg bg-pure-dangerBg p-3 text-sm font-bold leading-5 text-pure-danger">
+              {message}
+            </Text>
+          ) : null}
 
-          <View style={styles.fieldGroup}>
-            <Text style={styles.label}>Email</Text>
+          <View className="gap-2">
+            <Text className="text-sm font-extrabold text-pure-ink">Email</Text>
             <TextInput
               value={form.username}
-              onChangeText={(username) => setForm((current) => ({ ...current, username }))}
+              onChangeText={(username) =>
+                setForm((current) => ({ ...current, username }))
+              }
               placeholder="Enter email"
-              placeholderTextColor="#7a8782"
               autoCapitalize="none"
               keyboardType="email-address"
               autoComplete="email"
-              style={styles.input}
+              className="min-h-[52px] rounded-lg border border-[#cfd9d5] bg-pure-white px-3.5 text-base text-pure-ink placeholder:text-[#7a8782]"
             />
           </View>
 
-          <View style={styles.fieldGroup}>
-            <Text style={styles.label}>Password</Text>
+          <View className="gap-2">
+            <Text className="text-sm font-extrabold text-pure-ink">
+              Password
+            </Text>
             <TextInput
               value={form.password}
-              onChangeText={(password) => setForm((current) => ({ ...current, password }))}
+              onChangeText={(password) =>
+                setForm((current) => ({ ...current, password }))
+              }
               placeholder="Enter password"
-              placeholderTextColor="#7a8782"
               secureTextEntry
               autoComplete="password"
-              style={styles.input}
+              className="min-h-[52px] rounded-lg border border-[#cfd9d5] bg-pure-white px-3.5 text-base text-pure-ink placeholder:text-[#7a8782]"
               onSubmitEditing={handleSubmit}
             />
           </View>
@@ -106,16 +114,18 @@ export function LoginScreen({ onNavigate }: ScreenProps) {
           <PrimaryButton
             label={loading ? "Logging in..." : "Login"}
             onPress={handleSubmit}
-            style={styles.submitButton}
+            variant="black"
+            className="min-h-[46px] rounded-md"
           />
 
           <Pressable
             accessibilityRole="button"
             onPress={() => onNavigate("register")}
-            style={({ pressed }) => [styles.switchButton, pressed && styles.pressed]}
+            className="min-h-11 items-center justify-center active:opacity-70"
           >
-            <Text style={styles.switchText}>
-              Don&apos;t have an account? <Text style={styles.switchStrong}>Register</Text>
+            <Text className="text-center text-sm text-pure-muted">
+              Don&apos;t have an account?{" "}
+              <Text className="font-black text-pure-green">Register</Text>
             </Text>
           </Pressable>
         </Card>
@@ -123,73 +133,3 @@ export function LoginScreen({ onNavigate }: ScreenProps) {
     </ScreenScroll>
   );
 }
-
-const styles = StyleSheet.create({
-  wrap: {
-    minHeight: 560,
-    paddingHorizontal: 20,
-    paddingVertical: 44,
-    justifyContent: "center",
-  },
-  authCard: {
-    gap: 18,
-    backgroundColor: colors.white,
-    borderColor: colors.white,
-  },
-  title: {
-    color: "#111827",
-    fontSize: 24,
-    lineHeight: 30,
-    fontWeight: "800",
-  },
-  message: {
-    borderRadius: 8,
-    backgroundColor: colors.dangerBg,
-    color: colors.danger,
-    padding: 12,
-    fontSize: 14,
-    lineHeight: 20,
-    fontWeight: "700",
-  },
-  fieldGroup: {
-    gap: 8,
-  },
-  label: {
-    color: colors.ink,
-    fontSize: 14,
-    fontWeight: "800",
-  },
-  input: {
-    minHeight: 52,
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: "#cfd9d5",
-    backgroundColor: colors.white,
-    paddingHorizontal: 14,
-    color: colors.ink,
-    fontSize: 16,
-  },
-  submitButton: {
-    minHeight: 46,
-    borderRadius: 6,
-    backgroundColor: "#000000",
-    borderColor: "#000000",
-  },
-  switchButton: {
-    minHeight: 44,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  switchText: {
-    color: colors.muted,
-    fontSize: 14,
-    textAlign: "center",
-  },
-  switchStrong: {
-    color: colors.green,
-    fontWeight: "900",
-  },
-  pressed: {
-    opacity: 0.72,
-  },
-});

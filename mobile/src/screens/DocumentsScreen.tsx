@@ -1,7 +1,6 @@
-import { StyleSheet, Text, View } from "react-native";
+import { Text, View } from "react-native";
 
 import { documentGroups, images } from "../data/purePath";
-import { colors, fonts } from "../theme";
 import {
   BulletList,
   Card,
@@ -13,7 +12,7 @@ import {
 
 export function DocumentsScreen() {
   return (
-    <ScreenScroll backgroundColor={colors.paper}>
+    <ScreenScroll className="bg-pure-paper">
       <PageHero
         image={images.hero}
         title="Documents"
@@ -28,10 +27,12 @@ export function DocumentsScreen() {
           center
         />
 
-        <View style={styles.documentStack}>
+        <View className="gap-[18px]">
           {documentGroups.map((group) => (
-            <Card key={group.title} style={styles.documentCard}>
-              <Text style={styles.documentTitle}>{group.title}</Text>
+            <Card key={group.title} className="gap-4">
+              <Text className="font-serif text-[26px] font-bold leading-8 text-pure-green">
+                {group.title}
+              </Text>
               <BulletList items={group.items} />
             </Card>
           ))}
@@ -40,19 +41,3 @@ export function DocumentsScreen() {
     </ScreenScroll>
   );
 }
-
-const styles = StyleSheet.create({
-  documentStack: {
-    gap: 18,
-  },
-  documentCard: {
-    gap: 16,
-  },
-  documentTitle: {
-    color: colors.green,
-    fontFamily: fonts.heading,
-    fontSize: 26,
-    lineHeight: 32,
-    fontWeight: "700",
-  },
-});

@@ -1,4 +1,4 @@
-import { ImageBackground, StyleSheet, Text, View } from "react-native";
+import { ImageBackground, Text, View } from "react-native";
 
 import {
   benefits,
@@ -8,7 +8,6 @@ import {
   processSteps,
   servicesChecklist,
 } from "../data/purePath";
-import { colors, fonts } from "../theme";
 import type { ScreenProps } from "../types";
 import {
   BenefitRow,
@@ -24,21 +23,26 @@ import {
   SectionHeading,
 } from "../components/ui";
 
+const talbiyah =
+  "\u0644\u064e\u0628\u064e\u0651\u064a\u0652\u0643\u064e \u0671\u0644\u0644\u064e\u0651\u0670\u0647\u064f\u0645\u064e\u0651 \u0644\u064e\u0628\u064e\u0651\u064a\u0652\u0643\u064e";
+
 export function HomeScreen({ onNavigate }: ScreenProps) {
   return (
-    <ScreenScroll backgroundColor={colors.softBg}>
+    <ScreenScroll className="bg-pure-softBg">
       <ImageBackground
         source={images.hero}
         resizeMode="cover"
-        style={styles.hero}
+        className="min-h-[620px] justify-center"
       >
-        <View style={styles.heroOverlay} />
-        <View style={styles.heroContent}>
-          <Text style={styles.arabicPill}>لَبَّيْكَ ٱللَّٰهُمَّ لَبَّيْكَ</Text>
-          <Text style={styles.heroTitle}>
+        <View className="absolute inset-0 bg-white/70" />
+        <View className="items-center gap-[22px] px-5 py-11">
+          <Text className="rounded-full bg-white/90 px-[18px] py-2.5 text-center text-base font-bold text-pure-heading">
+            {talbiyah}
+          </Text>
+          <Text className="text-center font-serif text-3xl font-bold leading-[30px] text-pure-heading">
             Begin Your Sacred Journey with Peace of Mind
           </Text>
-          <Text style={styles.heroBody}>
+          <Text className="text-center text-base leading-[27px] text-pure-muted">
             Experience a seamless and spiritually enriching pilgrimage with
             expert guidance, premium accommodations, and fully transparent
             arrangements.
@@ -53,18 +57,18 @@ export function HomeScreen({ onNavigate }: ScreenProps) {
 
       <Section tone="green">
         <ImageCard image={images.about} tall />
-        <View style={styles.sectionStack}>
+        <View className="gap-5">
           <SectionHeading
             eyebrow="About Us"
             title="Guiding Pilgrims with Honesty and Experience"
             inverse
           />
-          <Text style={styles.greenParagraph}>
+          <Text className="text-[17px] leading-[27px] text-pure-white">
             For over a decade, we have supported thousands of pilgrims on their
             journey to the Holy Lands. Our team provides transparent guidance,
             reliable arrangements, and heartfelt service rooted in integrity.
           </Text>
-          <Text style={styles.greenParagraph}>
+          <Text className="text-[17px] leading-[27px] text-pure-white">
             Whether you are traveling alone or with family, we ensure you feel
             prepared, safe, and fully supported throughout the experience.
           </Text>
@@ -77,7 +81,7 @@ export function HomeScreen({ onNavigate }: ScreenProps) {
           title="Where Comfort, Guidance, and Spiritual Care Come Together"
           body="From preparation to your return home, our services prioritise safety, clarity, and genuine care. These key benefits help ensure that every pilgrim feels supported at every moment of the journey."
         />
-        <View style={styles.listStack}>
+        <View className="gap-6">
           {benefits.map((benefit) => (
             <BenefitRow key={benefit.title} item={benefit} />
           ))}
@@ -93,7 +97,7 @@ export function HomeScreen({ onNavigate }: ScreenProps) {
           inverse
           center
         />
-        <View style={styles.cardStack}>
+        <View className="gap-[18px]">
           {landingPackageCards.map((card) => (
             <ServiceCard
               key={card.title}
@@ -127,7 +131,7 @@ export function HomeScreen({ onNavigate }: ScreenProps) {
           body="We take care of the details so you can focus on your worship, every step is designed to be simple, guided, and worry-free."
           center
         />
-        <View style={styles.cardStack}>
+        <View className="gap-[18px]">
           {processSteps.map((step) => (
             <ProcessCard
               key={step.title}
@@ -144,61 +148,3 @@ export function HomeScreen({ onNavigate }: ScreenProps) {
     </ScreenScroll>
   );
 }
-
-const styles = StyleSheet.create({
-  hero: {
-    minHeight: 620,
-    justifyContent: "center",
-  },
-  heroOverlay: {
-    ...StyleSheet.absoluteFillObject,
-    backgroundColor: "rgba(255,255,255,0.72)",
-  },
-  heroContent: {
-    paddingHorizontal: 20,
-    paddingVertical: 44,
-    alignItems: "center",
-    gap: 22,
-  },
-  arabicPill: {
-    borderRadius: 999,
-    backgroundColor: "rgba(255,255,255,0.88)",
-    paddingHorizontal: 18,
-    paddingVertical: 10,
-    color: colors.heading,
-    fontSize: 16,
-    fontWeight: "700",
-    textAlign: "center",
-  },
-  heroTitle: {
-    fontFamily: fonts.heading,
-    color: colors.heading,
-    fontSize: 30,
-    lineHeight: 30,
-    fontWeight: "700",
-    textAlign: "center",
-  },
-  heroBody: {
-    color: colors.muted,
-    fontSize: 16,
-    lineHeight: 27,
-    textAlign: "center",
-  },
-  sectionStack: {
-    gap: 20,
-  },
-  greenParagraph: {
-    color: colors.white,
-    fontSize: 17,
-    lineHeight: 27,
-  },
-  actionWrap: {
-    gap: 22,
-  },
-  listStack: {
-    gap: 24,
-  },
-  cardStack: {
-    gap: 18,
-  },
-});

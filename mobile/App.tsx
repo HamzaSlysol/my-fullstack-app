@@ -1,4 +1,7 @@
+import "./global.css";
+
 import { useState } from "react";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import { MobileShell } from "./src/components/MobileShell";
 import { AboutScreen } from "./src/screens/AboutScreen";
@@ -18,24 +21,30 @@ export default function App() {
   }
 
   return (
-    <MobileShell
-      activeRoute={activeRoute}
-      onNavigate={setActiveRoute}
-      onLogout={handleLogout}
-    >
-      {activeRoute === "home" && <HomeScreen onNavigate={setActiveRoute} />}
-      {activeRoute === "about" && <AboutScreen onNavigate={setActiveRoute} />}
-      {activeRoute === "packages" && (
-        <PackagesScreen onNavigate={setActiveRoute} />
-      )}
-      {activeRoute === "services" && (
-        <ServicesScreen onNavigate={setActiveRoute} />
-      )}
-      {activeRoute === "documents" && <DocumentsScreen />}
-      {activeRoute === "login" && <LoginScreen onNavigate={setActiveRoute} />}
-      {activeRoute === "register" && (
-        <RegisterScreen onNavigate={setActiveRoute} />
-      )}
-    </MobileShell>
+    <SafeAreaProvider>
+      <MobileShell
+        activeRoute={activeRoute}
+        onNavigate={setActiveRoute}
+        onLogout={handleLogout}
+      >
+        {activeRoute === "home" && <HomeScreen onNavigate={setActiveRoute} />}
+        {activeRoute === "about" && (
+          <AboutScreen onNavigate={setActiveRoute} />
+        )}
+        {activeRoute === "packages" && (
+          <PackagesScreen onNavigate={setActiveRoute} />
+        )}
+        {activeRoute === "services" && (
+          <ServicesScreen onNavigate={setActiveRoute} />
+        )}
+        {activeRoute === "documents" && <DocumentsScreen />}
+        {activeRoute === "login" && (
+          <LoginScreen onNavigate={setActiveRoute} />
+        )}
+        {activeRoute === "register" && (
+          <RegisterScreen onNavigate={setActiveRoute} />
+        )}
+      </MobileShell>
+    </SafeAreaProvider>
   );
 }

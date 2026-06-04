@@ -3,7 +3,6 @@ import {
   ImageBackground,
   Linking,
   Pressable,
-  StyleSheet,
   Text,
   View,
 } from "react-native";
@@ -13,7 +12,7 @@ import type { Flight } from "../api/flights";
 import type { Hotel } from "../api/hotels";
 import type { Restaurant } from "../api/restaurants";
 import type { PackageItem } from "../data/purePath";
-import { colors, fonts, shadow } from "../theme";
+import { cn } from "../utils/cn";
 import { BulletList, Card, PrimaryButton } from "./ui";
 
 type SimpleItem = {
@@ -31,20 +30,24 @@ export function Marker({
   inverse?: boolean;
   large?: boolean;
 }) {
+  const markerSizeClass = large ? "h-[72px] w-[72px] self-center" : "h-[52px] w-[52px]";
+  const markerBgClass = inverse ? "bg-pure-white" : "bg-pure-green";
+  const markerTextColorClass = inverse ? "text-pure-green" : "text-pure-goldSoft";
+
   return (
     <View
-      style={[
-        styles.marker,
-        inverse && styles.markerInverse,
-        large && styles.markerLarge,
-      ]}
+      className={cn(
+        "items-center justify-center rounded-lg border-[3px] border-pure-gold",
+        markerSizeClass,
+        markerBgClass,
+      )}
     >
       <Text
-        style={[
-          styles.markerText,
-          inverse && styles.markerTextInverse,
-          large && styles.markerTextLarge,
-        ]}
+        className={cn(
+          "text-[13px] font-black",
+          markerTextColorClass,
+          large && "text-lg",
+        )}
       >
         {value}
       </Text>
@@ -59,14 +62,27 @@ export function BenefitRow({
   item: SimpleItem;
   inverse?: boolean;
 }) {
+  const titleColorClass = inverse ? "text-pure-white" : "text-pure-green";
+  const bodyColorClass = inverse ? "text-white/80" : "text-pure-muted";
+
   return (
-    <View style={styles.benefitRow}>
+    <View className="flex-row items-start gap-3.5">
       <Marker value={item.marker} inverse={inverse} />
-      <View style={styles.benefitCopy}>
-        <Text style={[styles.benefitTitle, inverse && styles.inverseText]}>
+      <View className="flex-1 gap-1.5">
+        <Text
+          className={cn(
+            "font-serif text-[23px] font-bold leading-[29px]",
+            titleColorClass,
+          )}
+        >
           {item.title}
         </Text>
-        <Text style={[styles.benefitBody, inverse && styles.inverseBody]}>
+        <Text
+          className={cn(
+            "text-[15px] leading-[22px]",
+            bodyColorClass,
+          )}
+        >
           {item.description}
         </Text>
       </View>
@@ -76,11 +92,15 @@ export function BenefitRow({
 
 export function ValueRow({ item }: { item: SimpleItem }) {
   return (
-    <View style={styles.valueRow}>
+    <View className="flex-row items-start gap-3.5 border-b border-pure-gold pb-[22px]">
       <Marker value={item.marker} />
-      <View style={styles.benefitCopy}>
-        <Text style={styles.benefitTitle}>{item.title}</Text>
-        <Text style={styles.benefitBody}>{item.description}</Text>
+      <View className="flex-1 gap-1.5">
+        <Text className="font-serif text-[23px] font-bold leading-[29px] text-pure-green">
+          {item.title}
+        </Text>
+        <Text className="text-[15px] leading-[22px] text-pure-muted">
+          {item.description}
+        </Text>
       </View>
     </View>
   );
@@ -94,13 +114,21 @@ export function ServiceCard({
   onDetails: () => void;
 }) {
   return (
-    <Card style={styles.serviceCard}>
+    <Card className="items-stretch gap-4">
       <Marker value={item.marker} large />
-      <Text style={styles.serviceTitle}>{item.title}</Text>
-      <Text style={styles.serviceBody}>{item.description}</Text>
-      <View style={styles.divider} />
+      <Text className="text-center font-serif text-3xl font-bold leading-9 text-pure-green">
+        {item.title}
+      </Text>
+      <Text className="text-center text-[15px] leading-[22px] text-pure-muted">
+        {item.description}
+      </Text>
+      <View className="h-px bg-pure-gold opacity-80" />
       <BulletList items={item.items} />
-      <PrimaryButton label="See Details" onPress={onDetails} style={styles.cardButton} />
+      <PrimaryButton
+        label="See Details"
+        onPress={onDetails}
+        className="mt-2"
+      />
     </Card>
   );
 }
@@ -113,12 +141,18 @@ export function ProcessCard({
   onPress?: () => void;
 }) {
   const content = (
-    <Card style={styles.processCard}>
-      <View style={styles.processMarker}>
-        <Text style={styles.processMarkerText}>{item.marker}</Text>
+    <Card className="items-center gap-3.5">
+      <View className="h-[116px] w-[116px] items-center justify-center rounded-full border-[5px] border-pure-gold bg-pure-green">
+        <Text className="font-serif text-[34px] font-bold text-pure-white">
+          {item.marker}
+        </Text>
       </View>
-      <Text style={styles.processTitle}>{item.title}</Text>
-      <Text style={styles.processBody}>{item.description}</Text>
+      <Text className="text-center font-serif text-[25px] font-bold leading-[31px] text-pure-green">
+        {item.title}
+      </Text>
+      <Text className="text-center text-[15px] leading-[22px] text-pure-muted">
+        {item.description}
+      </Text>
     </Card>
   );
 
@@ -130,7 +164,7 @@ export function ProcessCard({
     <Pressable
       accessibilityRole="button"
       onPress={onPress}
-      style={({ pressed }) => [pressed && styles.pressed]}
+      className="active:opacity-70"
     >
       {content}
     </Pressable>
@@ -145,38 +179,55 @@ export function PackageCard({
   onDetails: () => void;
 }) {
   return (
-    <View style={[styles.packageCard, shadow]}>
+    <View className="overflow-hidden rounded-lg border-2 border-[#d99a32] bg-pure-green shadow-lg shadow-pure-greenDeep/20 elevation-md">
       <ImageBackground
         source={item.image}
         resizeMode="cover"
-        style={styles.packageBg}
-        imageStyle={styles.packageImage}
+        className="min-h-[500px]"
+        imageClassName="rounded-md"
       >
-        <View style={styles.packageOverlay} />
-        <View style={styles.packageContent}>
-          <View style={styles.badgeWrap}>
+        <View className="absolute inset-0 bg-pure-greenDeep/60" />
+        <View className="min-h-[500px] flex-1 justify-between p-[18px]">
+          <View className="flex-row flex-wrap items-end justify-end gap-2">
             {item.badges.map((badge) => (
-              <View key={badge} style={styles.badge}>
-                <Text style={styles.badgeText}>{badge}</Text>
+              <View key={badge} className="rounded-full bg-pure-gold px-2.5 py-1.5">
+                <Text className="text-[11px] font-black text-pure-white">
+                  {badge}
+                </Text>
               </View>
             ))}
           </View>
 
-          <View style={styles.packageBottom}>
-            <Text style={styles.packageDates}>{item.dates}</Text>
-            <Text style={styles.packageTitle}>{item.title}</Text>
-            <Text style={styles.packageBody}>{item.description}</Text>
+          <View className="gap-3">
+            <Text className="text-xs font-black text-white/90">
+              {item.dates}
+            </Text>
+            <Text className="font-serif text-[32px] font-bold leading-[38px] text-pure-white">
+              {item.title}
+            </Text>
+            <Text className="text-[15px] leading-[22px] text-white/90">
+              {item.description}
+            </Text>
             <BulletList items={item.highlights} inverse />
 
-            <View style={styles.priceRow}>
-              <Text style={styles.startFrom}>Start from</Text>
-              <Text style={styles.price}>
+            <View className="flex-row items-end justify-between gap-3">
+              <Text className="text-xs font-extrabold text-white/80">
+                Start from
+              </Text>
+              <Text className="font-serif text-[34px] font-bold leading-[38px] text-pure-white">
                 {item.price}
-                <Text style={styles.perPerson}> /person</Text>
+                <Text className="text-xs font-extrabold text-white/80">
+                  {" "}
+                  /person
+                </Text>
               </Text>
             </View>
 
-            <PrimaryButton label="See Details" onPress={onDetails} variant="white" />
+            <PrimaryButton
+              label="See Details"
+              onPress={onDetails}
+              variant="white"
+            />
           </View>
         </View>
       </ImageBackground>
@@ -198,16 +249,20 @@ export function OfferCard({
   onPress: () => void;
 }) {
   return (
-    <Card style={styles.offerCard}>
+    <Card tone="green" borderTone="gold" className="gap-3">
       <Image
         alt={title}
         source={image}
         resizeMode="cover"
-        style={styles.offerImage}
+        className="h-[150px] w-full rounded-md bg-pure-greenDark"
       />
-      <Text style={styles.offerTitle}>{title}</Text>
-      <Text style={styles.offerDiscount}>{discount}</Text>
-      <Text style={styles.offerBody}>{description}</Text>
+      <Text className="text-xs font-black text-white/90">{title}</Text>
+      <Text className="font-serif text-[29px] font-bold leading-[34px] text-pure-goldSoft">
+        {discount}
+      </Text>
+      <Text className="text-sm leading-[21px] text-white/90">
+        {description}
+      </Text>
       <PrimaryButton label="Get Offer" onPress={onPress} variant="white" />
     </Card>
   );
@@ -216,38 +271,50 @@ export function OfferCard({
 export function HotelTile({ item }: { item: Hotel }) {
   const link = item.link;
   const content = (
-    <Card style={styles.hotelTile}>
+    <Card tone="white" className="min-h-[340px] w-[280px] gap-3.5">
       {item.imageUrl ? (
         <Image
           alt={item.name}
           source={{ uri: item.imageUrl }}
           resizeMode="cover"
-          style={styles.hotelImage}
+          className="h-32 w-full rounded-md bg-pure-softBg"
         />
       ) : (
-        <View style={styles.hotelImageFallback}>
-          <Text style={styles.hotelImageInitial}>{item.name.slice(0, 1)}</Text>
+        <View className="h-32 items-center justify-center rounded-md bg-pure-green">
+          <Text className="font-serif text-5xl font-bold text-pure-goldSoft">
+            {item.name.slice(0, 1)}
+          </Text>
         </View>
       )}
 
-      <View style={styles.hotelContent}>
-        <View style={styles.hotelTopRow}>
-          <Text style={styles.hotelCity}>{item.displayCity}</Text>
-          <Text style={styles.hotelRating}>{item.rating}</Text>
+      <View className="gap-[9px]">
+        <View className="flex-row items-center justify-between gap-2.5">
+          <Text className="shrink text-xs font-black uppercase text-pure-green">
+            {item.displayCity}
+          </Text>
+          <Text className="min-w-[42px] overflow-hidden rounded-full bg-pure-gold px-[9px] py-[5px] text-center text-xs font-black text-pure-white">
+            {item.rating}
+          </Text>
         </View>
-        <Text style={styles.hotelName}>{item.name}</Text>
-        <Text style={styles.hotelDistance}>
+        <Text className="font-serif text-2xl font-bold leading-[30px] text-pure-heading">
+          {item.name}
+        </Text>
+        <Text className="text-sm font-extrabold leading-5 text-pure-green">
           {item.distanceLabel} from {item.nearestLandmark}
         </Text>
-        <Text style={styles.hotelReview}>{item.reviewSummary}</Text>
+        <Text className="text-sm leading-[21px] text-pure-muted">
+          {item.reviewSummary}
+        </Text>
       </View>
 
-      <View style={styles.hotelFooter}>
-        <Text style={styles.hotelReviewCount}>
+      <View className="mt-auto gap-[7px] border-t border-[#d9e3df] pt-3">
+        <Text className="text-[13px] font-extrabold text-pure-ink">
           {item.reviewCount.toLocaleString()} reviews
         </Text>
         {item.priceFrom ? (
-          <Text style={styles.hotelPrice}>From {item.priceFrom}</Text>
+          <Text className="font-serif text-[19px] font-bold leading-6 text-pure-green">
+            From {item.priceFrom}
+          </Text>
         ) : null}
       </View>
     </Card>
@@ -263,7 +330,7 @@ export function HotelTile({ item }: { item: Hotel }) {
       onPress={() => {
         void Linking.openURL(link);
       }}
-      style={({ pressed }) => [pressed && styles.pressed]}
+      className="active:opacity-70"
     >
       {content}
     </Pressable>
@@ -273,39 +340,57 @@ export function HotelTile({ item }: { item: Hotel }) {
 export function RestaurantTile({ item }: { item: Restaurant }) {
   const link = item.link;
   const content = (
-    <Card style={styles.hotelTile}>
+    <Card tone="white" className="min-h-[340px] w-[280px] gap-3.5">
       {item.imageUrl ? (
         <Image
           alt={item.name}
           source={{ uri: item.imageUrl }}
           resizeMode="cover"
-          style={styles.hotelImage}
+          className="h-32 w-full rounded-md bg-pure-softBg"
         />
       ) : (
-        <View style={styles.hotelImageFallback}>
-          <Text style={styles.hotelImageInitial}>{item.name.slice(0, 1)}</Text>
+        <View className="h-32 items-center justify-center rounded-md bg-pure-green">
+          <Text className="font-serif text-5xl font-bold text-pure-goldSoft">
+            {item.name.slice(0, 1)}
+          </Text>
         </View>
       )}
 
-      <View style={styles.hotelContent}>
-        <View style={styles.hotelTopRow}>
-          <Text style={styles.hotelCity}>{item.displayCity}</Text>
-          <Text style={styles.hotelRating}>{item.rating}</Text>
+      <View className="gap-[9px]">
+        <View className="flex-row items-center justify-between gap-2.5">
+          <Text className="shrink text-xs font-black uppercase text-pure-green">
+            {item.displayCity}
+          </Text>
+          <Text className="min-w-[42px] overflow-hidden rounded-full bg-pure-gold px-[9px] py-[5px] text-center text-xs font-black text-pure-white">
+            {item.rating}
+          </Text>
         </View>
-        <Text style={styles.restaurantCategory}>{item.category}</Text>
-        <Text style={styles.hotelName}>{item.name}</Text>
-        <Text style={styles.hotelDistance}>
+        <Text className="self-start overflow-hidden rounded-full bg-pure-gold px-2.5 py-[5px] text-[11px] font-black text-pure-white">
+          {item.category}
+        </Text>
+        <Text className="font-serif text-2xl font-bold leading-[30px] text-pure-heading">
+          {item.name}
+        </Text>
+        <Text className="text-sm font-extrabold leading-5 text-pure-green">
           {item.distanceLabel} from {item.nearestLandmark}
         </Text>
-        <Text style={styles.restaurantAddress}>{item.address}</Text>
-        <Text style={styles.hotelReview}>{item.reviewSummary}</Text>
+        <Text className="text-[13px] font-bold leading-[19px] text-pure-ink">
+          {item.address}
+        </Text>
+        <Text className="text-sm leading-[21px] text-pure-muted">
+          {item.reviewSummary}
+        </Text>
       </View>
 
-      <View style={styles.hotelFooter}>
-        <Text style={styles.hotelReviewCount}>
+      <View className="mt-auto gap-[7px] border-t border-[#d9e3df] pt-3">
+        <Text className="text-[13px] font-extrabold text-pure-ink">
           {item.reviewCount.toLocaleString()} reviews
         </Text>
-        {link ? <Text style={styles.hotelPrice}>Open details</Text> : null}
+        {link ? (
+          <Text className="font-serif text-[19px] font-bold leading-6 text-pure-green">
+            Open details
+          </Text>
+        ) : null}
       </View>
     </Card>
   );
@@ -320,7 +405,7 @@ export function RestaurantTile({ item }: { item: Restaurant }) {
       onPress={() => {
         void Linking.openURL(link);
       }}
-      style={({ pressed }) => [pressed && styles.pressed]}
+      className="active:opacity-70"
     >
       {content}
     </Pressable>
@@ -334,39 +419,59 @@ export function FlightTile({ item }: { item: Flight }) {
       onPress={() => {
         void Linking.openURL(item.bookingLink);
       }}
-      style={({ pressed }) => [pressed && styles.pressed]}
+      className="active:opacity-70"
     >
-      <Card style={styles.flightTile}>
-        <View style={styles.flightHeader}>
-          <View style={styles.flightAirlineWrap}>
-            <Text style={styles.flightEyebrow}>Airline</Text>
-            <Text style={styles.flightAirline}>{item.airline}</Text>
+      <Card tone="white" className="min-h-[284px] w-[280px] gap-[18px]">
+        <View className="flex-row items-start justify-between gap-3.5">
+          <View className="flex-1 gap-[5px]">
+            <Text className="text-[11px] font-black uppercase text-pure-green">
+              Airline
+            </Text>
+            <Text className="font-serif text-2xl font-bold leading-[30px] text-pure-heading">
+              {item.airline}
+            </Text>
           </View>
-          <Text style={styles.hotelRating}>{item.rating}</Text>
+          <Text className="min-w-[42px] overflow-hidden rounded-full bg-pure-gold px-[9px] py-[5px] text-center text-xs font-black text-pure-white">
+            {item.rating}
+          </Text>
         </View>
 
-        <View style={styles.flightRoute}>
-          <View style={styles.flightCityBlock}>
-            <Text style={styles.flightCity}>{item.departureCity}</Text>
-            <Text style={styles.flightTime}>{item.departureLabel}</Text>
+        <View className="flex-row items-start gap-2.5">
+          <View className="flex-1 gap-1.5">
+            <Text className="text-[15px] font-black leading-5 text-pure-green">
+              {item.departureCity}
+            </Text>
+            <Text className="text-[13px] leading-[19px] text-pure-muted">
+              {item.departureLabel}
+            </Text>
           </View>
-          <Text style={styles.flightArrow}>{"->"}</Text>
-          <View style={styles.flightCityBlock}>
-            <Text style={styles.flightCity}>{item.arrivalCity}</Text>
-            <Text style={styles.flightTime}>{item.arrivalLabel}</Text>
+          <Text className="text-lg font-black leading-6 text-pure-gold">
+            {"->"}
+          </Text>
+          <View className="flex-1 gap-1.5">
+            <Text className="text-[15px] font-black leading-5 text-pure-green">
+              {item.arrivalCity}
+            </Text>
+            <Text className="text-[13px] leading-[19px] text-pure-muted">
+              {item.arrivalLabel}
+            </Text>
           </View>
         </View>
 
-        <View style={styles.flightMetaRow}>
-          <Text style={styles.flightMeta}>{item.durationLabel}</Text>
-          <Text style={styles.flightMeta}>
+        <View className="flex-row flex-wrap gap-2">
+          <Text className="overflow-hidden rounded-full bg-pure-softBg px-2.5 py-1.5 text-xs font-black text-pure-green">
+            {item.durationLabel}
+          </Text>
+          <Text className="overflow-hidden rounded-full bg-pure-softBg px-2.5 py-1.5 text-xs font-black text-pure-green">
             {item.seatsAvailable.toLocaleString()} seats
           </Text>
         </View>
 
-        <View style={styles.hotelFooter}>
-          <Text style={styles.hotelReviewCount}>From</Text>
-          <Text style={styles.hotelPrice}>{item.fareLabel}</Text>
+        <View className="mt-auto gap-[7px] border-t border-[#d9e3df] pt-3">
+          <Text className="text-[13px] font-extrabold text-pure-ink">From</Text>
+          <Text className="font-serif text-[19px] font-bold leading-6 text-pure-green">
+            {item.fareLabel}
+          </Text>
         </View>
       </Card>
     </Pressable>
@@ -386,13 +491,17 @@ export function TeamCard({
     <ImageBackground
       source={image}
       resizeMode="cover"
-      style={[styles.teamCard, shadow]}
-      imageStyle={styles.teamImage}
+      className="min-h-[250px] justify-end overflow-hidden rounded-lg border-2 border-pure-gold shadow-lg shadow-pure-greenDeep/20 elevation-md"
+      imageClassName="rounded-md"
     >
-      <View style={styles.teamOverlay} />
-      <View style={styles.teamTextWrap}>
-        <Text style={styles.teamName}>{name}</Text>
-        <Text style={styles.teamRole}>{role}</Text>
+      <View className="absolute inset-0 bg-pure-green/40" />
+      <View className="items-center bg-pure-green/80 p-[18px]">
+        <Text className="font-serif text-[22px] font-bold text-pure-white">
+          {name}
+        </Text>
+        <Text className="mt-1 text-[11px] font-black uppercase text-white/80">
+          {role}
+        </Text>
       </View>
     </ImageBackground>
   );
@@ -409,471 +518,9 @@ export function LinkLikeButton({
     <Pressable
       accessibilityRole="button"
       onPress={onPress}
-      style={({ pressed }) => [styles.linkButton, pressed && styles.pressed]}
+      className="min-h-11 self-start justify-center active:opacity-70"
     >
-      <Text style={styles.linkButtonText}>{label}</Text>
+      <Text className="text-sm font-black text-pure-green">{label}</Text>
     </Pressable>
   );
 }
-
-const styles = StyleSheet.create({
-  marker: {
-    width: 52,
-    height: 52,
-    borderRadius: 8,
-    backgroundColor: colors.green,
-    borderWidth: 3,
-    borderColor: colors.gold,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  markerInverse: {
-    backgroundColor: colors.white,
-  },
-  markerLarge: {
-    width: 72,
-    height: 72,
-    alignSelf: "center",
-  },
-  markerText: {
-    color: colors.goldSoft,
-    fontWeight: "900",
-    fontSize: 13,
-  },
-  markerTextInverse: {
-    color: colors.green,
-  },
-  markerTextLarge: {
-    fontSize: 18,
-  },
-  benefitRow: {
-    flexDirection: "row",
-    alignItems: "flex-start",
-    gap: 14,
-  },
-  valueRow: {
-    flexDirection: "row",
-    alignItems: "flex-start",
-    gap: 14,
-    paddingBottom: 22,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.gold,
-  },
-  benefitCopy: {
-    flex: 1,
-    gap: 6,
-  },
-  benefitTitle: {
-    fontFamily: fonts.heading,
-    fontSize: 23,
-    lineHeight: 29,
-    fontWeight: "700",
-    color: colors.green,
-  },
-  benefitBody: {
-    fontSize: 15,
-    lineHeight: 22,
-    color: colors.muted,
-  },
-  inverseText: {
-    color: colors.white,
-  },
-  inverseBody: {
-    color: "rgba(255,255,255,0.86)",
-  },
-  serviceCard: {
-    gap: 16,
-    alignItems: "stretch",
-  },
-  serviceTitle: {
-    fontFamily: fonts.heading,
-    fontSize: 30,
-    lineHeight: 36,
-    fontWeight: "700",
-    color: colors.green,
-    textAlign: "center",
-  },
-  serviceBody: {
-    fontSize: 15,
-    lineHeight: 22,
-    color: colors.muted,
-    textAlign: "center",
-  },
-  divider: {
-    height: 1,
-    backgroundColor: colors.gold,
-    opacity: 0.8,
-  },
-  cardButton: {
-    marginTop: 8,
-  },
-  processCard: {
-    alignItems: "center",
-    gap: 14,
-  },
-  processMarker: {
-    width: 116,
-    height: 116,
-    borderRadius: 999,
-    borderWidth: 5,
-    borderColor: colors.gold,
-    backgroundColor: colors.green,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  processMarkerText: {
-    color: colors.white,
-    fontFamily: fonts.heading,
-    fontSize: 34,
-    fontWeight: "700",
-  },
-  processTitle: {
-    fontFamily: fonts.heading,
-    fontSize: 25,
-    lineHeight: 31,
-    fontWeight: "700",
-    color: colors.green,
-    textAlign: "center",
-  },
-  processBody: {
-    fontSize: 15,
-    lineHeight: 22,
-    color: colors.muted,
-    textAlign: "center",
-  },
-  packageCard: {
-    borderRadius: 8,
-    overflow: "hidden",
-    borderWidth: 2,
-    borderColor: "#d99a32",
-    backgroundColor: colors.green,
-  },
-  packageBg: {
-    minHeight: 500,
-  },
-  packageImage: {
-    borderRadius: 6,
-  },
-  packageOverlay: {
-    ...StyleSheet.absoluteFillObject,
-    backgroundColor: "rgba(6,69,51,0.64)",
-  },
-  packageContent: {
-    flex: 1,
-    minHeight: 500,
-    padding: 18,
-    justifyContent: "space-between",
-  },
-  badgeWrap: {
-    alignItems: "flex-end",
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "flex-end",
-    gap: 8,
-  },
-  badge: {
-    borderRadius: 999,
-    backgroundColor: colors.gold,
-    paddingHorizontal: 10,
-    paddingVertical: 6,
-  },
-  badgeText: {
-    color: colors.white,
-    fontSize: 11,
-    fontWeight: "900",
-  },
-  packageBottom: {
-    gap: 12,
-  },
-  packageDates: {
-    color: "rgba(255,255,255,0.9)",
-    fontSize: 12,
-    fontWeight: "900",
-  },
-  packageTitle: {
-    color: colors.white,
-    fontFamily: fonts.heading,
-    fontSize: 32,
-    lineHeight: 38,
-    fontWeight: "700",
-  },
-  packageBody: {
-    color: "rgba(255,255,255,0.9)",
-    fontSize: 15,
-    lineHeight: 22,
-  },
-  priceRow: {
-    flexDirection: "row",
-    alignItems: "flex-end",
-    justifyContent: "space-between",
-    gap: 12,
-  },
-  startFrom: {
-    color: "rgba(255,255,255,0.84)",
-    fontSize: 12,
-    fontWeight: "800",
-  },
-  price: {
-    color: colors.white,
-    fontFamily: fonts.heading,
-    fontSize: 34,
-    lineHeight: 38,
-    fontWeight: "700",
-  },
-  perPerson: {
-    fontSize: 12,
-    fontWeight: "800",
-    color: "rgba(255,255,255,0.84)",
-  },
-  offerCard: {
-    backgroundColor: colors.green,
-    borderColor: "#d99a32",
-    gap: 12,
-  },
-  offerImage: {
-    width: "100%",
-    height: 150,
-    borderRadius: 6,
-    backgroundColor: colors.greenDark,
-  },
-  offerTitle: {
-    color: "rgba(255,255,255,0.9)",
-    fontSize: 12,
-    fontWeight: "900",
-  },
-  offerDiscount: {
-    color: colors.goldSoft,
-    fontFamily: fonts.heading,
-    fontSize: 29,
-    lineHeight: 34,
-    fontWeight: "700",
-  },
-  offerBody: {
-    color: "rgba(255,255,255,0.9)",
-    fontSize: 14,
-    lineHeight: 21,
-  },
-  hotelTile: {
-    width: 280,
-    minHeight: 340,
-    backgroundColor: colors.white,
-    gap: 14,
-  },
-  hotelImage: {
-    width: "100%",
-    height: 128,
-    borderRadius: 6,
-    backgroundColor: colors.softBg,
-  },
-  hotelImageFallback: {
-    height: 128,
-    borderRadius: 6,
-    backgroundColor: colors.green,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  hotelImageInitial: {
-    color: colors.goldSoft,
-    fontFamily: fonts.heading,
-    fontSize: 48,
-    fontWeight: "700",
-  },
-  hotelContent: {
-    gap: 9,
-  },
-  hotelTopRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    gap: 10,
-  },
-  hotelCity: {
-    flexShrink: 1,
-    color: colors.green,
-    fontSize: 12,
-    fontWeight: "900",
-    textTransform: "uppercase",
-  },
-  hotelRating: {
-    minWidth: 42,
-    borderRadius: 999,
-    overflow: "hidden",
-    backgroundColor: colors.gold,
-    paddingHorizontal: 9,
-    paddingVertical: 5,
-    color: colors.white,
-    fontSize: 12,
-    fontWeight: "900",
-    textAlign: "center",
-  },
-  hotelName: {
-    color: colors.heading,
-    fontFamily: fonts.heading,
-    fontSize: 24,
-    lineHeight: 30,
-    fontWeight: "700",
-  },
-  hotelDistance: {
-    color: colors.green,
-    fontSize: 14,
-    lineHeight: 20,
-    fontWeight: "800",
-  },
-  hotelReview: {
-    color: colors.muted,
-    fontSize: 14,
-    lineHeight: 21,
-  },
-  hotelFooter: {
-    marginTop: "auto",
-    paddingTop: 12,
-    borderTopWidth: 1,
-    borderTopColor: "#d9e3df",
-    gap: 7,
-  },
-  hotelReviewCount: {
-    color: colors.ink,
-    fontSize: 13,
-    fontWeight: "800",
-  },
-  hotelPrice: {
-    color: colors.green,
-    fontFamily: fonts.heading,
-    fontSize: 19,
-    lineHeight: 24,
-    fontWeight: "700",
-  },
-  restaurantCategory: {
-    alignSelf: "flex-start",
-    borderRadius: 999,
-    overflow: "hidden",
-    backgroundColor: colors.gold,
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-    color: colors.white,
-    fontSize: 11,
-    fontWeight: "900",
-  },
-  restaurantAddress: {
-    color: colors.ink,
-    fontSize: 13,
-    lineHeight: 19,
-    fontWeight: "700",
-  },
-  flightTile: {
-    width: 280,
-    minHeight: 284,
-    backgroundColor: colors.white,
-    gap: 18,
-  },
-  flightHeader: {
-    flexDirection: "row",
-    alignItems: "flex-start",
-    justifyContent: "space-between",
-    gap: 14,
-  },
-  flightAirlineWrap: {
-    flex: 1,
-    gap: 5,
-  },
-  flightEyebrow: {
-    color: colors.green,
-    fontSize: 11,
-    fontWeight: "900",
-    textTransform: "uppercase",
-  },
-  flightAirline: {
-    color: colors.heading,
-    fontFamily: fonts.heading,
-    fontSize: 24,
-    lineHeight: 30,
-    fontWeight: "700",
-  },
-  flightRoute: {
-    flexDirection: "row",
-    alignItems: "flex-start",
-    gap: 10,
-  },
-  flightCityBlock: {
-    flex: 1,
-    gap: 6,
-  },
-  flightCity: {
-    color: colors.green,
-    fontSize: 15,
-    lineHeight: 20,
-    fontWeight: "900",
-  },
-  flightTime: {
-    color: colors.muted,
-    fontSize: 13,
-    lineHeight: 19,
-  },
-  flightArrow: {
-    color: colors.gold,
-    fontSize: 18,
-    lineHeight: 24,
-    fontWeight: "900",
-  },
-  flightMetaRow: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    gap: 8,
-  },
-  flightMeta: {
-    borderRadius: 999,
-    overflow: "hidden",
-    backgroundColor: colors.softBg,
-    paddingHorizontal: 10,
-    paddingVertical: 6,
-    color: colors.green,
-    fontSize: 12,
-    fontWeight: "900",
-  },
-  teamCard: {
-    minHeight: 250,
-    borderRadius: 8,
-    overflow: "hidden",
-    borderWidth: 2,
-    borderColor: colors.gold,
-    justifyContent: "flex-end",
-  },
-  teamImage: {
-    borderRadius: 6,
-  },
-  teamOverlay: {
-    ...StyleSheet.absoluteFillObject,
-    backgroundColor: "rgba(7,95,66,0.38)",
-  },
-  teamTextWrap: {
-    padding: 18,
-    backgroundColor: "rgba(7,95,66,0.82)",
-    alignItems: "center",
-  },
-  teamName: {
-    color: colors.white,
-    fontFamily: fonts.heading,
-    fontSize: 22,
-    fontWeight: "700",
-  },
-  teamRole: {
-    color: "rgba(255,255,255,0.84)",
-    marginTop: 4,
-    fontSize: 11,
-    fontWeight: "900",
-    textTransform: "uppercase",
-  },
-  linkButton: {
-    minHeight: 44,
-    alignSelf: "flex-start",
-    justifyContent: "center",
-  },
-  linkButtonText: {
-    color: colors.green,
-    fontSize: 14,
-    fontWeight: "900",
-  },
-  pressed: {
-    opacity: 0.72,
-  },
-});

@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { ScrollView, Text, View } from "react-native";
 
 import { getFlights, type Flight } from "../api/flights";
 import { getHotels, type Hotel, type HotelCity } from "../api/hotels";
@@ -9,7 +9,6 @@ import {
   type RestaurantCity,
 } from "../api/restaurants";
 import { images, pilgrimagePackages, sacredOffers } from "../data/purePath";
-import { colors } from "../theme";
 import type { ScreenProps } from "../types";
 import {
   FlightTile,
@@ -158,7 +157,7 @@ export function PackagesScreen({ onNavigate }: ScreenProps) {
   }
 
   return (
-    <ScreenScroll ref={scrollRef} backgroundColor={colors.softBg}>
+    <ScreenScroll ref={scrollRef} className="bg-pure-softBg">
       <PageHero
         image={images.hero}
         title="Packages"
@@ -166,7 +165,7 @@ export function PackagesScreen({ onNavigate }: ScreenProps) {
       />
 
       <Section tone="soft" compact>
-        <View style={styles.packageStack}>
+        <View className="gap-[18px]">
           {pilgrimagePackages.map((item) => (
             <PackageCard
               key={item.slug}
@@ -185,20 +184,26 @@ export function PackagesScreen({ onNavigate }: ScreenProps) {
         />
 
         {isHotelsLoading ? (
-          <Text style={styles.hotelStatus}>Loading hotels...</Text>
+          <Text className="text-[15px] leading-[22px] text-pure-muted">
+            Loading hotels...
+          </Text>
         ) : hotelError ? (
-          <Text style={styles.hotelStatus}>{hotelError}</Text>
+          <Text className="text-[15px] leading-[22px] text-pure-muted">
+            {hotelError}
+          </Text>
         ) : hotelGroups.length > 0 ? (
-          <View style={styles.hotelGroupStack}>
+          <View className="gap-7">
             {hotelGroups.map((group) => (
-              <View key={group.city} style={styles.hotelGroup}>
-                <Text style={styles.hotelCityTitle}>{group.title}</Text>
+              <View key={group.city} className="gap-3.5">
+                <Text className="text-lg font-black leading-6 text-pure-green">
+                  {group.title}
+                </Text>
                 <ScrollView
                   horizontal
                   showsHorizontalScrollIndicator={false}
                   snapToInterval={296}
                   decelerationRate="fast"
-                  contentContainerStyle={styles.hotelCarousel}
+                  contentContainerClassName="gap-4 pr-5"
                 >
                   {group.hotels.map((hotel) => (
                     <HotelTile key={hotel.id} item={hotel} />
@@ -208,7 +213,9 @@ export function PackagesScreen({ onNavigate }: ScreenProps) {
             ))}
           </View>
         ) : (
-          <Text style={styles.hotelStatus}>Hotel options are coming soon.</Text>
+          <Text className="text-[15px] leading-[22px] text-pure-muted">
+            Hotel options are coming soon.
+          </Text>
         )}
       </Section>
 
@@ -220,20 +227,26 @@ export function PackagesScreen({ onNavigate }: ScreenProps) {
         />
 
         {isRestaurantsLoading ? (
-          <Text style={styles.hotelStatus}>Loading restaurants...</Text>
+          <Text className="text-[15px] leading-[22px] text-pure-muted">
+            Loading restaurants...
+          </Text>
         ) : restaurantError ? (
-          <Text style={styles.hotelStatus}>{restaurantError}</Text>
+          <Text className="text-[15px] leading-[22px] text-pure-muted">
+            {restaurantError}
+          </Text>
         ) : restaurantGroups.length > 0 ? (
-          <View style={styles.hotelGroupStack}>
+          <View className="gap-7">
             {restaurantGroups.map((group) => (
-              <View key={group.city} style={styles.hotelGroup}>
-                <Text style={styles.hotelCityTitle}>{group.title}</Text>
+              <View key={group.city} className="gap-3.5">
+                <Text className="text-lg font-black leading-6 text-pure-green">
+                  {group.title}
+                </Text>
                 <ScrollView
                   horizontal
                   showsHorizontalScrollIndicator={false}
                   snapToInterval={296}
                   decelerationRate="fast"
-                  contentContainerStyle={styles.hotelCarousel}
+                  contentContainerClassName="gap-4 pr-5"
                 >
                   {group.restaurants.map((restaurant) => (
                     <RestaurantTile key={restaurant.id} item={restaurant} />
@@ -243,7 +256,7 @@ export function PackagesScreen({ onNavigate }: ScreenProps) {
             ))}
           </View>
         ) : (
-          <Text style={styles.hotelStatus}>
+          <Text className="text-[15px] leading-[22px] text-pure-muted">
             Restaurant options are coming soon.
           </Text>
         )}
@@ -257,23 +270,29 @@ export function PackagesScreen({ onNavigate }: ScreenProps) {
         />
 
         {isFlightsLoading ? (
-          <Text style={styles.hotelStatus}>Loading flights...</Text>
+          <Text className="text-[15px] leading-[22px] text-pure-muted">
+            Loading flights...
+          </Text>
         ) : flightError ? (
-          <Text style={styles.hotelStatus}>{flightError}</Text>
+          <Text className="text-[15px] leading-[22px] text-pure-muted">
+            {flightError}
+          </Text>
         ) : flights.length > 0 ? (
           <ScrollView
             horizontal
             showsHorizontalScrollIndicator={false}
             snapToInterval={296}
             decelerationRate="fast"
-            contentContainerStyle={styles.hotelCarousel}
+            contentContainerClassName="gap-4 pr-5"
           >
             {flights.map((flight) => (
               <FlightTile key={flight.id} item={flight} />
             ))}
           </ScrollView>
         ) : (
-          <Text style={styles.hotelStatus}>Flight options are coming soon.</Text>
+          <Text className="text-[15px] leading-[22px] text-pure-muted">
+            Flight options are coming soon.
+          </Text>
         )}
       </Section>
 
@@ -288,7 +307,7 @@ export function PackagesScreen({ onNavigate }: ScreenProps) {
             label="View All Offers ->"
             onPress={() => onNavigate("home")}
           />
-          <View style={styles.offerStack}>
+          <View className="gap-4">
             {sacredOffers.map((offer) => (
               <OfferCard
                 key={offer.title}
@@ -305,33 +324,3 @@ export function PackagesScreen({ onNavigate }: ScreenProps) {
     </ScreenScroll>
   );
 }
-
-const styles = StyleSheet.create({
-  packageStack: {
-    gap: 18,
-  },
-  offerStack: {
-    gap: 16,
-  },
-  hotelGroupStack: {
-    gap: 28,
-  },
-  hotelGroup: {
-    gap: 14,
-  },
-  hotelCityTitle: {
-    color: colors.green,
-    fontSize: 18,
-    lineHeight: 24,
-    fontWeight: "900",
-  },
-  hotelCarousel: {
-    gap: 16,
-    paddingRight: 20,
-  },
-  hotelStatus: {
-    color: colors.muted,
-    fontSize: 15,
-    lineHeight: 22,
-  },
-});

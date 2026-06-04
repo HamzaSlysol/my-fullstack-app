@@ -1,7 +1,6 @@
-import { StyleSheet, View } from "react-native";
+import { View } from "react-native";
 
 import { benefits, images, services } from "../data/purePath";
-import { colors } from "../theme";
 import type { ScreenProps } from "../types";
 import { BenefitRow, ServiceCard } from "../components/PurePathCards";
 import {
@@ -14,7 +13,7 @@ import {
 
 export function ServicesScreen({ onNavigate }: ScreenProps) {
   return (
-    <ScreenScroll backgroundColor={colors.paper}>
+    <ScreenScroll className="bg-pure-paper">
       <PageHero
         image={images.hero}
         title="Services"
@@ -28,7 +27,7 @@ export function ServicesScreen({ onNavigate }: ScreenProps) {
           title="Where Comfort, Guidance, and Spiritual Care Come Together"
           body="From preparation to your return home, our services prioritize safety, clarity, and genuine care. These key benefits help ensure that every pilgrim feels supported at every moment of the journey."
         />
-        <View style={styles.listStack}>
+        <View className="gap-6">
           {benefits.map((benefit) => (
             <BenefitRow key={benefit.title} item={benefit} />
           ))}
@@ -43,7 +42,7 @@ export function ServicesScreen({ onNavigate }: ScreenProps) {
           inverse
           center
         />
-        <View style={styles.cardStack}>
+        <View className="gap-[18px]">
           {services.map((service) => (
             <ServiceCard
               key={service.title}
@@ -56,12 +55,3 @@ export function ServicesScreen({ onNavigate }: ScreenProps) {
     </ScreenScroll>
   );
 }
-
-const styles = StyleSheet.create({
-  listStack: {
-    gap: 24,
-  },
-  cardStack: {
-    gap: 18,
-  },
-});

@@ -1,30 +1,23 @@
 import { forwardRef, type ReactNode } from "react";
-import {
-  Image,
-  ImageBackground,
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
-import type { ImageSourcePropType, StyleProp, ViewStyle } from "react-native";
+import { Image, ImageBackground, Pressable, ScrollView, Text, View } from "react-native";
+import type { ImageSourcePropType } from "react-native";
 
-import { colors, fonts, shadow } from "../theme";
 import type { Navigate, RouteName } from "../types";
+import { cn } from "../utils/cn";
 
 type ScreenScrollProps = {
   children: ReactNode;
-  backgroundColor?: string;
+  className?: string;
+  contentContainerClassName?: string;
 };
 
 export const ScreenScroll = forwardRef<ScrollView, ScreenScrollProps>(
-  function ScreenScroll({ children, backgroundColor = colors.softBg }, ref) {
+  function ScreenScroll({ children, className, contentContainerClassName }, ref) {
     return (
       <ScrollView
         ref={ref}
-        style={[styles.screen, { backgroundColor }]}
-        contentContainerStyle={styles.screenContent}
+        className={cn("flex-1", className ?? "bg-pure-softBg")}
+        contentContainerClassName={cn("pb-7", contentContainerClassName)}
         showsVerticalScrollIndicator={false}
       >
         {children}
@@ -36,38 +29,39 @@ export const ScreenScroll = forwardRef<ScrollView, ScreenScrollProps>(
 type ButtonProps = {
   label: string;
   onPress: () => void;
-  variant?: "green" | "white" | "outline";
-  style?: StyleProp<ViewStyle>;
+  variant?: "green" | "white" | "outline" | "black";
+  className?: string;
 };
 
 export function PrimaryButton({
   label,
   onPress,
   variant = "green",
-  style,
+  className,
 }: ButtonProps) {
   const isWhite = variant === "white";
   const isOutline = variant === "outline";
+  const isBlack = variant === "black";
+  const toneClass = isWhite
+    ? "border-pure-white bg-pure-white"
+    : isOutline
+      ? "border-pure-green bg-transparent"
+      : isBlack
+        ? "border-black bg-black"
+        : "border-pure-green bg-pure-green";
+  const textClass = isWhite || isOutline ? "text-pure-green" : "text-pure-white";
 
   return (
     <Pressable
       accessibilityRole="button"
       onPress={onPress}
-      style={({ pressed }) => [
-        styles.button,
-        isWhite && styles.buttonWhite,
-        isOutline && styles.buttonOutline,
-        pressed && styles.buttonPressed,
-        style,
-      ]}
+      className={cn(
+        "min-h-[52px] items-center justify-center rounded-full border px-6 active:opacity-80",
+        toneClass,
+        className,
+      )}
     >
-      <Text
-        style={[
-          styles.buttonText,
-          isWhite && styles.buttonTextGreen,
-          isOutline && styles.buttonTextGreen,
-        ]}
-      >
+      <Text className={cn("text-base font-extrabold", textClass)}>
         {label}
       </Text>
     </Pressable>
@@ -81,15 +75,22 @@ type SectionProps = {
 };
 
 export function Section({ children, tone = "paper", compact }: SectionProps) {
+  const toneClass =
+    tone === "green"
+      ? "bg-pure-green"
+      : tone === "white"
+        ? "bg-pure-white"
+        : tone === "soft"
+          ? "bg-pure-softBg"
+          : "bg-pure-paper";
+
   return (
     <View
-      style={[
-        styles.section,
-        compact && styles.sectionCompact,
-        tone === "green" && styles.sectionGreen,
-        tone === "white" && styles.sectionWhite,
-        tone === "soft" && styles.sectionSoft,
-      ]}
+      className={cn(
+        "w-full shrink-0 gap-7 px-5 py-[46px]",
+        toneClass,
+        compact && "py-[34px]",
+      )}
     >
       {children}
     </View>
@@ -111,21 +112,35 @@ export function SectionHeading({
   inverse,
   center,
 }: SectionHeadingProps) {
+  const eyebrowColorClass = inverse ? "text-pure-goldSoft" : "text-pure-green";
+  const titleColorClass = inverse ? "text-pure-white" : "text-pure-heading";
+  const bodyColorClass = inverse ? "text-white/90" : "text-pure-muted";
+
   return (
-    <View style={[styles.headingWrap, center && styles.center]}>
-      <Text style={[styles.eyebrow, inverse && styles.eyebrowInverse]}>
+    <View className={cn("gap-3", center && "items-center")}>
+      <Text
+        className={cn(
+          "text-[13px] font-black uppercase leading-[18px] tracking-normal",
+          eyebrowColorClass,
+        )}
+      >
         {eyebrow}
       </Text>
-      <Text style={[styles.sectionTitle, inverse && styles.inverseText]}>
+      <Text
+        className={cn(
+          "font-serif text-[38px] font-bold leading-[44px]",
+          titleColorClass,
+        )}
+      >
         {title}
       </Text>
       {body ? (
         <Text
-          style={[
-            styles.sectionBody,
-            inverse && styles.inverseBody,
-            center && styles.centerText,
-          ]}
+          className={cn(
+            "text-base leading-[25px]",
+            bodyColorClass,
+            center && "text-center",
+          )}
         >
           {body}
         </Text>
@@ -142,11 +157,19 @@ type PageHeroProps = {
 
 export function PageHero({ title, body, image }: PageHeroProps) {
   return (
-    <ImageBackground source={image} resizeMode="cover" style={styles.pageHero}>
-      <View style={styles.heroWash} />
-      <View style={styles.pageHeroContent}>
-        <Text style={styles.pageHeroTitle}>{title}</Text>
-        <Text style={styles.pageHeroBody}>{body}</Text>
+    <ImageBackground
+      source={image}
+      resizeMode="cover"
+      className="min-h-[260px] justify-center overflow-hidden"
+    >
+      <View className="absolute inset-0 bg-white/75" />
+      <View className="items-center px-[22px] py-[42px]">
+        <Text className="text-center font-serif text-5xl font-bold leading-[54px] text-pure-heading">
+          {title}
+        </Text>
+        <Text className="mt-3.5 max-w-[520px] text-center text-base leading-6 text-pure-muted">
+          {body}
+        </Text>
       </View>
     </ImageBackground>
   );
@@ -160,16 +183,18 @@ type ImageCardProps = {
 
 export function ImageCard({ image, caption, tall }: ImageCardProps) {
   return (
-    <View style={[styles.imageFrame, shadow]}>
+    <View className="overflow-hidden rounded-lg border-2 border-pure-gold bg-pure-green shadow-lg shadow-pure-greenDeep/20 elevation-md">
       <Image
         alt={caption ?? ""}
         source={image}
         resizeMode="cover"
-        style={[styles.imageCard, tall && styles.imageCardTall]}
+        className={cn("h-[360px] w-full", tall && "h-[460px]")}
       />
       {caption ? (
-        <View style={styles.captionBar}>
-          <Text style={styles.captionText}>{caption}</Text>
+        <View className="items-end border-t border-white/70 px-[18px] py-3.5">
+          <Text className="font-serif text-lg font-extrabold text-pure-white">
+            {caption}
+          </Text>
         </View>
       ) : null}
     </View>
@@ -178,12 +203,40 @@ export function ImageCard({ image, caption, tall }: ImageCardProps) {
 
 export function Card({
   children,
-  style,
+  className,
+  tone = "cream",
+  borderTone = "line",
 }: {
   children: ReactNode;
-  style?: StyleProp<ViewStyle>;
+  className?: string;
+  tone?: "cream" | "white" | "green";
+  borderTone?: "line" | "white" | "gold";
 }) {
-  return <View style={[styles.card, shadow, style]}>{children}</View>;
+  const toneClass =
+    tone === "green"
+      ? "bg-pure-green"
+      : tone === "white"
+        ? "bg-pure-white"
+        : "bg-pure-cream";
+  const borderClass =
+    borderTone === "gold"
+      ? "border-[#d99a32]"
+      : borderTone === "white"
+        ? "border-pure-white"
+        : "border-[#d9e3df]";
+
+  return (
+    <View
+      className={cn(
+        "rounded-lg border p-5 shadow-lg shadow-pure-greenDeep/20 elevation-md",
+        toneClass,
+        borderClass,
+        className,
+      )}
+    >
+      {children}
+    </View>
+  );
 }
 
 export function BulletList({
@@ -193,15 +246,21 @@ export function BulletList({
   items: string[];
   inverse?: boolean;
 }) {
+  const dotColorClass = inverse ? "bg-pure-white" : "bg-pure-gold";
+  const textColorClass = inverse ? "text-pure-white" : "text-pure-ink";
+
   return (
-    <View style={styles.bulletList}>
+    <View className="gap-3">
       {items.map((item) => (
-        <View key={item} style={styles.bulletRow}>
+        <View key={item} className="flex-row items-start gap-2.5">
           <View
-            style={[styles.bulletDot, inverse && styles.bulletDotInverse]}
+            className={cn("mt-1.5 h-2.5 w-2.5 rounded-full", dotColorClass)}
           />
           <Text
-            style={[styles.bulletText, inverse && styles.bulletTextInverse]}
+            className={cn(
+              "flex-1 text-[15px] font-bold leading-[22px]",
+              textColorClass,
+            )}
           >
             {item}
           </Text>
@@ -213,11 +272,16 @@ export function BulletList({
 
 export function FeatureGrid({ items }: { items: string[] }) {
   return (
-    <View style={styles.featureGrid}>
+    <View className="gap-3">
       {items.map((item) => (
-        <View key={item} style={styles.featurePill}>
-          <View style={styles.featureDot} />
-          <Text style={styles.featureText}>{item}</Text>
+        <View
+          key={item}
+          className="min-h-[58px] flex-row items-center gap-3 rounded-lg border border-[#d9e3df] bg-pure-white px-4"
+        >
+          <View className="h-2.5 w-2.5 rounded-full bg-pure-gold" />
+          <Text className="flex-1 text-base font-extrabold text-pure-ink">
+            {item}
+          </Text>
         </View>
       ))}
     </View>
@@ -226,13 +290,17 @@ export function FeatureGrid({ items }: { items: string[] }) {
 
 export function ContactSupportBlock() {
   return (
-    <View style={styles.supportBlock}>
-      <View style={styles.supportIcon}>
-        <Text style={styles.supportIconText}>24</Text>
+    <View className="flex-row items-center gap-3.5">
+      <View className="h-[58px] w-[58px] items-center justify-center rounded-full border border-white/70">
+        <Text className="text-lg font-black text-pure-white">24</Text>
       </View>
       <View>
-        <Text style={styles.supportLabel}>Need Help?</Text>
-        <Text style={styles.supportPhone}>+1 555 123 4567</Text>
+        <Text className="text-base font-extrabold text-pure-white">
+          Need Help?
+        </Text>
+        <Text className="font-serif text-2xl font-bold leading-[30px] text-pure-white">
+          +1 555 123 4567
+        </Text>
       </View>
     </View>
   );
@@ -252,7 +320,7 @@ export function ScreenActionRow({
   secondaryRoute?: RouteName;
 }) {
   return (
-    <View style={styles.actionRow}>
+    <View className="flex-row flex-wrap gap-3">
       <PrimaryButton label={label} onPress={() => onNavigate(route)} />
       {secondaryLabel && secondaryRoute ? (
         <PrimaryButton
@@ -264,321 +332,3 @@ export function ScreenActionRow({
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  screen: {
-    flex: 1,
-  },
-  screenContent: {
-    paddingBottom: 28,
-  },
-  button: {
-    minHeight: 52,
-    borderRadius: 999,
-    backgroundColor: colors.green,
-    paddingHorizontal: 24,
-    alignItems: "center",
-    justifyContent: "center",
-    borderWidth: 1,
-    borderColor: colors.green,
-  },
-  buttonWhite: {
-    backgroundColor: colors.white,
-    borderColor: colors.white,
-  },
-  buttonOutline: {
-    backgroundColor: "transparent",
-    borderColor: colors.green,
-  },
-  buttonPressed: {
-    opacity: 0.82,
-  },
-  buttonText: {
-    color: colors.white,
-    fontSize: 16,
-    fontWeight: "800",
-  },
-  buttonTextGreen: {
-    color: colors.green,
-  },
-  section: {
-    paddingHorizontal: 20,
-    paddingVertical: 46,
-    backgroundColor: colors.paper,
-    gap: 28,
-  },
-  sectionCompact: {
-    paddingVertical: 34,
-  },
-  sectionGreen: {
-    backgroundColor: colors.green,
-  },
-  sectionWhite: {
-    backgroundColor: colors.white,
-  },
-  sectionSoft: {
-    backgroundColor: colors.softBg,
-  },
-  headingWrap: {
-    gap: 12,
-  },
-  center: {
-    alignItems: "center",
-  },
-  centerText: {
-    textAlign: "center",
-  },
-  eyebrow: {
-    fontSize: 13,
-    lineHeight: 18,
-    letterSpacing: 0,
-    fontWeight: "900",
-    textTransform: "uppercase",
-    color: colors.green,
-  },
-  eyebrowInverse: {
-    color: colors.goldSoft,
-  },
-  sectionTitle: {
-    fontFamily: fonts.heading,
-    fontSize: 38,
-    lineHeight: 44,
-    fontWeight: "700",
-    color: colors.heading,
-  },
-  sectionBody: {
-    fontSize: 16,
-    lineHeight: 25,
-    color: colors.muted,
-  },
-  inverseText: {
-    color: colors.white,
-  },
-  inverseBody: {
-    color: "rgba(255,255,255,0.88)",
-  },
-  pageHero: {
-    minHeight: 260,
-    justifyContent: "center",
-    overflow: "hidden",
-  },
-  heroWash: {
-    ...StyleSheet.absoluteFillObject,
-    backgroundColor: "rgba(255,255,255,0.76)",
-  },
-  pageHeroContent: {
-    paddingHorizontal: 22,
-    paddingVertical: 42,
-    alignItems: "center",
-  },
-  pageHeroTitle: {
-    fontFamily: fonts.heading,
-    fontSize: 48,
-    lineHeight: 54,
-    fontWeight: "700",
-    color: colors.heading,
-    textAlign: "center",
-  },
-  pageHeroBody: {
-    marginTop: 14,
-    maxWidth: 520,
-    fontSize: 16,
-    lineHeight: 24,
-    color: colors.muted,
-    textAlign: "center",
-  },
-  imageFrame: {
-    borderRadius: 8,
-    overflow: "hidden",
-    borderWidth: 2,
-    borderColor: colors.gold,
-    backgroundColor: colors.green,
-  },
-  imageCard: {
-    width: "100%",
-    height: 360,
-  },
-  imageCardTall: {
-    height: 460,
-  },
-  captionBar: {
-    paddingHorizontal: 18,
-    paddingVertical: 14,
-    borderTopWidth: 1,
-    borderTopColor: "rgba(255,255,255,0.72)",
-    alignItems: "flex-end",
-  },
-  captionText: {
-    color: colors.white,
-    fontSize: 18,
-    fontWeight: "800",
-    fontFamily: fonts.heading,
-  },
-  card: {
-    borderRadius: 8,
-    backgroundColor: colors.cream,
-    borderWidth: 1,
-    borderColor: "#d9e3df",
-    padding: 20,
-  },
-  bulletList: {
-    gap: 12,
-  },
-  bulletRow: {
-    flexDirection: "row",
-    alignItems: "flex-start",
-    gap: 10,
-  },
-  bulletDot: {
-    width: 10,
-    height: 10,
-    borderRadius: 999,
-    backgroundColor: colors.gold,
-    marginTop: 6,
-  },
-  bulletDotInverse: {
-    backgroundColor: colors.white,
-  },
-  bulletText: {
-    flex: 1,
-    fontSize: 15,
-    lineHeight: 22,
-    fontWeight: "700",
-    color: colors.ink,
-  },
-  bulletTextInverse: {
-    color: colors.white,
-  },
-  partnerWrap: {
-    marginTop: 32,
-    width: "100%",
-    gap: 14,
-  },
-  partnerLabel: {
-    color: "#243a47",
-    fontSize: 15,
-    fontWeight: "600",
-  },
-  partnerGrid: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    gap: 12,
-  },
-  partnerItem: {
-    width: "47%",
-    minHeight: 42,
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 9,
-  },
-  partnerMark: {
-    width: 34,
-    height: 34,
-    borderRadius: 999,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  partnerMarkInner: {
-    width: 12,
-    height: 12,
-    borderRadius: 3,
-    backgroundColor: "rgba(255,255,255,0.9)",
-  },
-  partnerName: {
-    flex: 1,
-    color: "#303044",
-    fontSize: 15,
-    fontWeight: "900",
-  },
-  featureGrid: {
-    gap: 12,
-  },
-  featurePill: {
-    minHeight: 58,
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: "#d9e3df",
-    backgroundColor: colors.white,
-    paddingHorizontal: 16,
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 12,
-  },
-  featureDot: {
-    width: 10,
-    height: 10,
-    borderRadius: 999,
-    backgroundColor: colors.gold,
-  },
-  featureText: {
-    flex: 1,
-    fontSize: 16,
-    fontWeight: "800",
-    color: colors.ink,
-  },
-  avatarRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    flexWrap: "wrap",
-    gap: 14,
-  },
-  avatarStack: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  avatar: {
-    width: 48,
-    height: 48,
-    borderRadius: 999,
-    borderWidth: 2,
-    borderColor: colors.white,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  avatarText: {
-    fontSize: 12,
-    fontWeight: "900",
-  },
-  trustedText: {
-    color: colors.heading,
-    fontSize: 17,
-    fontWeight: "900",
-  },
-  supportBlock: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 14,
-  },
-  supportIcon: {
-    width: 58,
-    height: 58,
-    borderRadius: 999,
-    borderWidth: 1,
-    borderColor: "rgba(255,255,255,0.7)",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  supportIconText: {
-    color: colors.white,
-    fontWeight: "900",
-    fontSize: 18,
-  },
-  supportLabel: {
-    color: colors.white,
-    fontSize: 16,
-    fontWeight: "800",
-  },
-  supportPhone: {
-    color: colors.white,
-    fontSize: 24,
-    lineHeight: 30,
-    fontFamily: fonts.heading,
-    fontWeight: "700",
-  },
-  actionRow: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    gap: 12,
-  },
-});

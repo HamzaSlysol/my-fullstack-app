@@ -1,7 +1,6 @@
-import { StyleSheet, Text, View } from "react-native";
+import { Text, View } from "react-native";
 
 import { images, team, values } from "../data/purePath";
-import { colors } from "../theme";
 import type { ScreenProps } from "../types";
 import { TeamCard, ValueRow } from "../components/PurePathCards";
 import {
@@ -16,7 +15,7 @@ import {
 
 export function AboutScreen({ onNavigate }: ScreenProps) {
   return (
-    <ScreenScroll backgroundColor={colors.paper}>
+    <ScreenScroll className="bg-pure-paper">
       <PageHero
         image={images.hero}
         title="About"
@@ -25,22 +24,22 @@ export function AboutScreen({ onNavigate }: ScreenProps) {
 
       <Section tone="green">
         <ImageCard image={images.about} tall />
-        <View style={styles.sectionStack}>
+        <View className="gap-5">
           <SectionHeading
             eyebrow="About Us"
             title="Guiding Pilgrims with Honesty and Experience"
             inverse
           />
-          <Text style={styles.greenParagraph}>
+          <Text className="text-[17px] leading-6.75 text-pure-white">
             For over a decade, we have supported thousands of pilgrims on their
             journey to the Holy Lands. Our team provides transparent guidance,
             reliable arrangements, and heartfelt service rooted in integrity.
           </Text>
-          <Text style={styles.greenParagraph}>
+          <Text className="text-[17px] leading-[27px] text-pure-white">
             Whether you are traveling alone or with family, we ensure you feel
             prepared, safe, and fully supported throughout the experience.
           </Text>
-          <View style={styles.actionWrap}>
+          <View className="gap-[22px]">
             <PrimaryButton
               label="Learn More"
               onPress={() => onNavigate("packages")}
@@ -62,7 +61,7 @@ export function AboutScreen({ onNavigate }: ScreenProps) {
           onPress={() => onNavigate("packages")}
         />
         <ImageCard image={images.hero} caption="Pure Path, Since 2002" tall />
-        <View style={styles.valuesStack}>
+        <View className="gap-[22px]">
           {values.map((value) => (
             <ValueRow key={value.title} item={value} />
           ))}
@@ -76,7 +75,7 @@ export function AboutScreen({ onNavigate }: ScreenProps) {
           body="Every member is committed to guiding pilgrims with care and sincerity. We work together to ensure a calm and meaningful journey."
           center
         />
-        <View style={styles.teamStack}>
+        <View className="gap-4">
           {team.map((member) => (
             <TeamCard
               key={member.name}
@@ -90,23 +89,3 @@ export function AboutScreen({ onNavigate }: ScreenProps) {
     </ScreenScroll>
   );
 }
-
-const styles = StyleSheet.create({
-  sectionStack: {
-    gap: 20,
-  },
-  greenParagraph: {
-    color: colors.white,
-    fontSize: 17,
-    lineHeight: 27,
-  },
-  actionWrap: {
-    gap: 22,
-  },
-  valuesStack: {
-    gap: 22,
-  },
-  teamStack: {
-    gap: 16,
-  },
-});

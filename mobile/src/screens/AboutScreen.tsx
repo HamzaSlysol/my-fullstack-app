@@ -1,9 +1,9 @@
 import { StyleSheet, Text, View } from "react-native";
 
-import { images, team, values } from "../data/qibla";
+import { images, team, values } from "../data/purePath";
 import { colors } from "../theme";
 import type { ScreenProps } from "../types";
-import { TeamCard, ValueRow } from "../components/QiblaCards";
+import { TeamCard, ValueRow } from "../components/PurePathCards";
 import {
   ContactSupportBlock,
   ImageCard,
@@ -20,7 +20,7 @@ export function AboutScreen({ onNavigate }: ScreenProps) {
       <PageHero
         image={images.hero}
         title="About"
-        body="Qibla assists pilgrims in fulfilling their sacred obligations smoothly. We combine organization, guidance, and spiritual care."
+        body="Pure Path assists pilgrims in fulfilling their sacred obligations smoothly. We combine organization, guidance, and spiritual care."
       />
 
       <Section tone="green">
@@ -55,10 +55,13 @@ export function AboutScreen({ onNavigate }: ScreenProps) {
         <SectionHeading
           eyebrow="Our Value"
           title="Values Guiding Every Sacred Journey"
-          body="Qibla is founded on values that honor faith, trust, and responsibility. We serve pilgrims with devotion and accountability."
+          body="Pure Path is founded on values that honor faith, trust, and responsibility. We serve pilgrims with devotion and accountability."
         />
-        <PrimaryButton label="Learn More" onPress={() => onNavigate("packages")} />
-        <ImageCard image={images.hero} caption="Qibla, Since 2002" tall />
+        <PrimaryButton
+          label="Learn More"
+          onPress={() => onNavigate("packages")}
+        />
+        <ImageCard image={images.hero} caption="Pure Path, Since 2002" tall />
         <View style={styles.valuesStack}>
           {values.map((value) => (
             <ValueRow key={value.title} item={value} />

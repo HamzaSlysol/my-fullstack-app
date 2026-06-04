@@ -45,7 +45,7 @@ const values: Value[] = [
 const team: TeamMember[] = [
   {
     name: "Abdul Razak",
-    role: "Qibla Founder",
+    role: "Pure Path Founder",
     imagePosition: "18% 25%",
   },
   {
@@ -66,9 +66,9 @@ const team: TeamMember[] = [
 ];
 
 export const metadata: Metadata = {
-  title: "About Us | Qibla",
+  title: "About Us | Pure Path",
   description:
-    "Learn about Qibla's values, experienced team, and trusted support for Hajj and Umrah pilgrims.",
+    "Learn about Pure Path's values, experienced team, and trusted support for Hajj and Umrah pilgrims.",
 };
 
 export default function AboutPage() {
@@ -86,7 +86,7 @@ function AboutHero() {
   return (
     <section className="relative isolate overflow-hidden border-b border-[#dfcfb5] bg-white pt-20">
       <Image
-        src="/qibla-hero.png"
+        src="/pure-path-hero.png"
         alt=""
         fill
         preload
@@ -103,7 +103,7 @@ function AboutHero() {
           About
         </h1>
         <p className="mt-4 max-w-2xl text-sm leading-6 text-[#40505a] sm:text-base">
-          Qibla assists pilgrims in fulfilling their sacred obligations
+          Pure Path assists pilgrims in fulfilling their sacred obligations
           smoothly. We combine organization, guidance, and spiritual care.
         </p>
       </div>
@@ -123,7 +123,7 @@ function ValuesSection() {
             Values Guiding Every Sacred Journey
           </h2>
           <p className="mt-6 max-w-md text-base leading-7 text-[#40505a] sm:text-lg">
-            Qibla is founded on values that honor faith, trust, and
+            Pure Path is founded on values that honor faith, trust, and
             responsibility. We serve pilgrims with devotion and accountability.
           </p>
           <Link
@@ -137,7 +137,7 @@ function ValuesSection() {
         <div className="mx-auto w-full max-w-[320px] overflow-hidden rounded-lg border-2 border-[#e7a43a] bg-[#075f42] shadow-[0_24px_70px_rgba(7,95,66,0.18)]">
           <div className="relative aspect-[0.72] min-h-[390px]">
             <Image
-              src="/qibla-hero.png"
+              src="/pure-path-hero.png"
               alt="The Kaaba in Makkah"
               fill
               sizes="(max-width: 1024px) 85vw, 25vw"
@@ -146,7 +146,7 @@ function ValuesSection() {
             <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#075f42]/10 to-[#075f42]/95" />
           </div>
           <div className="border-t border-white/75 px-7 py-5 text-right font-serif text-lg font-semibold text-white">
-            Qibla, Since 2002
+            Pure Path, Since 2002
           </div>
         </div>
 

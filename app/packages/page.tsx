@@ -12,9 +12,9 @@ import { getActiveHotels } from "@/lib/hotels";
 import { getActiveRestaurants } from "@/lib/restaurants";
 
 export const metadata: Metadata = {
-  title: "Packages | Qibla",
+  title: "Packages | Pure Path",
   description:
-    "Explore Qibla Hajj and Umrah packages with guided support, accommodations, transport, and limited time offers.",
+    "Explore Pure Path Hajj and Umrah packages with guided support, accommodations, transport, and limited time offers.",
 };
 
 export const dynamic = "force-dynamic";

@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View } from "react-native";
 
-import { documentGroups, images } from "../data/qibla";
+import { documentGroups, images } from "../data/purePath";
 import { colors, fonts } from "../theme";
 import {
   BulletList,
@@ -17,7 +17,7 @@ export function DocumentsScreen() {
       <PageHero
         image={images.hero}
         title="Documents"
-        body="Review the documents required for Umrah and Hajj travel with Qibla."
+        body="Review the documents required for Umrah and Hajj travel with Pure Path."
       />
 
       <Section tone="paper">

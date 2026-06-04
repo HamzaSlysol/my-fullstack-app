@@ -9,7 +9,7 @@ import {
   View,
 } from "react-native";
 
-import { navItems } from "../data/qibla";
+import { navItems } from "../data/purePath";
 import { colors, fonts } from "../theme";
 import type { Navigate, RouteName } from "../types";
 
@@ -54,7 +54,7 @@ export function MobileShell({
             onPress={() => handleNavigate("home")}
             style={({ pressed }) => [pressed && styles.pressed]}
           >
-            <Text style={styles.logo}>Qibla</Text>
+            <Text style={styles.logo}>Pure Path</Text>
           </Pressable>
 
           <Pressable

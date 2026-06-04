@@ -27,7 +27,7 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-.qibla-pattern {
+.pure-path-pattern {
   background-color: #075f42;
   background-image:
     linear-gradient(45deg, transparent 43%, rgba(255, 255, 255, 0.045) 44%, rgba(255, 255, 255, 0.045) 46%, transparent 47%),
@@ -40,8 +40,8 @@ body {
   background-size: 148px 148px;
 }
 
-.qibla-arch-frame,
-.qibla-arch-card {
+.pure-path-arch-frame,
+.pure-path-arch-card {
   clip-path: polygon(
     50% 0,
     58% 8%,
@@ -63,7 +63,7 @@ body {
   );
 }
 
-.qibla-arch-frame {
+.pure-path-arch-frame {
   background: linear-gradient(180deg, #f4bf58 0%, #d9952f 100%);
   padding: 4px;
 }

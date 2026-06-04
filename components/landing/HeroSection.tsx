@@ -7,7 +7,7 @@ export function HeroSection() {
   return (
     <section className="relative isolate min-h-[92svh] overflow-hidden border-b border-[#dfcfb5]">
       <Image
-        src="/qibla-hero.png"
+        src="/pure-path-hero.png"
         alt=""
         fill
         preload

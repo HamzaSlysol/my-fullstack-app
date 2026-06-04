@@ -1,9 +1,9 @@
 import { StyleSheet, View } from "react-native";
 
-import { benefits, images, services } from "../data/qibla";
+import { benefits, images, services } from "../data/purePath";
 import { colors } from "../theme";
 import type { ScreenProps } from "../types";
-import { BenefitRow, ServiceCard } from "../components/QiblaCards";
+import { BenefitRow, ServiceCard } from "../components/PurePathCards";
 import {
   ImageCard,
   PageHero,
@@ -18,7 +18,7 @@ export function ServicesScreen({ onNavigate }: ScreenProps) {
       <PageHero
         image={images.hero}
         title="Services"
-        body="Qibla provides comprehensive services designed to support pilgrims throughout their sacred journey."
+        body="Pure Path provides comprehensive services designed to support pilgrims throughout their sacred journey."
       />
 
       <Section tone="paper">

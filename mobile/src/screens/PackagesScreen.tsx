@@ -8,7 +8,7 @@ import {
   type Restaurant,
   type RestaurantCity,
 } from "../api/restaurants";
-import { images, pilgrimagePackages, sacredOffers } from "../data/qibla";
+import { images, pilgrimagePackages, sacredOffers } from "../data/purePath";
 import { colors } from "../theme";
 import type { ScreenProps } from "../types";
 import {
@@ -18,7 +18,7 @@ import {
   OfferCard,
   PackageCard,
   RestaurantTile,
-} from "../components/QiblaCards";
+} from "../components/PurePathCards";
 import {
   PageHero,
   ScreenScroll,
@@ -162,7 +162,7 @@ export function PackagesScreen({ onNavigate }: ScreenProps) {
       <PageHero
         image={images.hero}
         title="Packages"
-        body="Discover flexible Hajj and Umrah packages tailored to your needs. Qibla supports every step of your pilgrimage with care and expertise."
+        body="Discover flexible Hajj and Umrah packages tailored to your needs. Pure Path supports every step of your pilgrimage with care and expertise."
       />
 
       <Section tone="soft" compact>

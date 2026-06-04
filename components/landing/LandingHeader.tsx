@@ -19,7 +19,7 @@ export function LandingHeader() {
           href="/"
           className="font-serif text-4xl font-semibold leading-none text-[#075f42]"
         >
-          Qibla
+          Pure Path
         </Link>
 
         <div className="hidden items-center gap-9 text-md font-medium text-black md:flex">

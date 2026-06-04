@@ -1,14 +1,14 @@
 import type { ImageSourcePropType } from "react-native";
 
 import aboutKaaba from "../../assets/about-kaaba.png";
-import qiblaHero from "../../assets/qibla-hero.png";
+import purePathHero from "../../assets/pure-path-hero.png";
 import whyChooseUs from "../../assets/why-choose-us.png";
 import type { RouteName } from "../types";
 
 export type ImageKey = "hero" | "about" | "why";
 
 export const images: Record<ImageKey, ImageSourcePropType> = {
-  hero: qiblaHero,
+  hero: purePathHero,
   about: aboutKaaba,
   why: whyChooseUs,
 };
@@ -238,7 +238,7 @@ export const values = [
 export const team = [
   {
     name: "Abdul Razak",
-    role: "Qibla Founder",
+    role: "Pure Path Founder",
   },
   {
     name: "Ahmad Faris",

@@ -6,7 +6,7 @@ export function PackagesHero() {
   return (
     <section className="relative isolate overflow-hidden border-b border-[#dfcfb5] bg-white pt-20">
       <Image
-        src="/qibla-hero.png"
+        src="/pure-path-hero.png"
         alt=""
         fill
         preload
@@ -24,7 +24,7 @@ export function PackagesHero() {
         </h1>
         <p className="mt-4 max-w-2xl text-base leading-7 text-[#40505a] sm:text-lg">
           Discover flexible Hajj and Umrah packages tailored to your needs.
-          Qibla supports every step of your pilgrimage with care and expertise.
+          Pure Path supports every step of your pilgrimage with care and expertise.
         </p>
       </div>
     </section>

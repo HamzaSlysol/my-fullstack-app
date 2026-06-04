@@ -7,10 +7,14 @@ import {
   landingPackageCards,
   processSteps,
   servicesChecklist,
-} from "../data/qibla";
+} from "../data/purePath";
 import { colors, fonts } from "../theme";
 import type { ScreenProps } from "../types";
-import { BenefitRow, ProcessCard, ServiceCard } from "../components/QiblaCards";
+import {
+  BenefitRow,
+  ProcessCard,
+  ServiceCard,
+} from "../components/PurePathCards";
 import {
   FeatureGrid,
   ImageCard,
@@ -169,14 +173,14 @@ const styles = StyleSheet.create({
   heroTitle: {
     fontFamily: fonts.heading,
     color: colors.heading,
-    fontSize: 44,
-    lineHeight: 50,
+    fontSize: 30,
+    lineHeight: 30,
     fontWeight: "700",
     textAlign: "center",
   },
   heroBody: {
     color: colors.muted,
-    fontSize: 17,
+    fontSize: 16,
     lineHeight: 27,
     textAlign: "center",
   },

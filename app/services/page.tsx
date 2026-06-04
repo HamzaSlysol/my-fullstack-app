@@ -130,9 +130,9 @@ const archClipPath =
   "polygon(50% 0, 58% 8%, 70% 13%, 82% 17%, 91% 25%, 94% 34%, 94% 40%, 100% 44%, 100% 100%, 0 100%, 0 44%, 6% 40%, 6% 34%, 9% 25%, 18% 17%, 30% 13%, 42% 8%)";
 
 export const metadata: Metadata = {
-  title: "Services | Qibla",
+  title: "Services | Pure Path",
   description:
-    "Explore Qibla services for Umrah, Hajj, visas, insurance, airport support, and guided pilgrimage care.",
+    "Explore Pure Path services for Umrah, Hajj, visas, insurance, airport support, and guided pilgrimage care.",
 };
 
 export default function ServicesPage() {
@@ -149,7 +149,7 @@ function ServicesHero() {
   return (
     <section className="relative isolate overflow-hidden border-b border-[#dfcfb5] bg-white pt-20">
       <Image
-        src="/qibla-hero.png"
+        src="/pure-path-hero.png"
         alt=""
         fill
         preload
@@ -166,7 +166,7 @@ function ServicesHero() {
           Services
         </h1>
         <p className="mt-4 max-w-2xl text-sm leading-6 text-[#40505a] sm:text-base">
-          Qibla provides comprehensive services designed to support pilgrims
+          Pure Path provides comprehensive services designed to support pilgrims
           throughout their sacred journey.
         </p>
       </div>
@@ -244,7 +244,7 @@ function ServicesGrid() {
   return (
     <section
       id="services"
-      className="qibla-pattern bg-[#075f42] px-5 py-16 text-white sm:px-8 sm:py-20 lg:px-12"
+      className="pure-path-pattern bg-[#075f42] px-5 py-16 text-white sm:px-8 sm:py-20 lg:px-12"
     >
       <div className="mx-auto max-w-7xl">
         <div className="mx-auto max-w-4xl text-center">

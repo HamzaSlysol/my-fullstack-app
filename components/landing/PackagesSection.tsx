@@ -77,7 +77,7 @@ export function PackagesSection() {
     <>
       <section
         id="packages"
-        className="qibla-pattern bg-[#075f42] px-5 py-16 text-white sm:px-8 sm:py-20 lg:px-12"
+        className="pure-path-pattern bg-[#075f42] px-5 py-16 text-white sm:px-8 sm:py-20 lg:px-12"
         style={patternStyle}
       >
         <div className="mx-auto max-w-7xl">

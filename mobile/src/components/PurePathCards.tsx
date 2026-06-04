@@ -12,7 +12,7 @@ import type { ImageSourcePropType } from "react-native";
 import type { Flight } from "../api/flights";
 import type { Hotel } from "../api/hotels";
 import type { Restaurant } from "../api/restaurants";
-import type { PackageItem } from "../data/qibla";
+import type { PackageItem } from "../data/purePath";
 import { colors, fonts, shadow } from "../theme";
 import { BulletList, Card, PrimaryButton } from "./ui";
 

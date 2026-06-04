@@ -1,6 +1,6 @@
-# Qibla Mobile
+# Pure Path Mobile
 
-React Native version of the existing Qibla web pages, built as an Expo app.
+React Native version of the existing Pure Path web pages, built as an Expo app.
 
 ## Run
 

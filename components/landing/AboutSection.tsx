@@ -16,7 +16,7 @@ export function AboutSection() {
   return (
     <section
       id="about"
-      className="qibla-pattern bg-[#075f42] px-5 py-20 text-white sm:px-8 lg:px-12"
+      className="pure-path-pattern bg-[#075f42] px-5 py-20 text-white sm:px-8 lg:px-12"
       style={patternStyle}
     >
       <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">

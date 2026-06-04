@@ -224,6 +224,20 @@ export function FeatureGrid({ items }: { items: string[] }) {
   );
 }
 
+export function ContactSupportBlock() {
+  return (
+    <View style={styles.supportBlock}>
+      <View style={styles.supportIcon}>
+        <Text style={styles.supportIconText}>24</Text>
+      </View>
+      <View>
+        <Text style={styles.supportLabel}>Need Help?</Text>
+        <Text style={styles.supportPhone}>+1 555 123 4567</Text>
+      </View>
+    </View>
+  );
+}
+
 export function ScreenActionRow({
   onNavigate,
   route,

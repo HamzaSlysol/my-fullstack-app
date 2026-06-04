@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Qibla",
+  title: "Pure Path",
   description: "Premium Hajj and Umrah pilgrimage planning.",
 };
 

@@ -5,9 +5,9 @@ import Documents from "@/components/landing/Documents";
 import { LandingHeader } from "@/components/landing/LandingHeader";
 
 export const metadata: Metadata = {
-  title: "Documents | Qibla",
+  title: "Documents | Pure Path",
   description:
-    "Review the documents required for Umrah and Hajj travel with Qibla.",
+    "Review the documents required for Umrah and Hajj travel with Pure Path.",
 };
 
 export default function DocumentsPage() {
@@ -15,7 +15,7 @@ export default function DocumentsPage() {
     <main className="min-h-screen bg-[#fbfbfa] text-[#17211f]">
       <section className="relative isolate overflow-hidden border-b border-[#dfcfb5] bg-white pt-20">
         <Image
-          src="/qibla-hero.png"
+          src="/pure-path-hero.png"
           alt=""
           fill
           preload

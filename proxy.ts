@@ -8,6 +8,7 @@ const PUBLIC_PAGE_PATHS = ["/login", "/register"];
 const PUBLIC_API_PATHS = [
   "/api/auth/login",
   "/api/auth/register",
+  "/api/flights",
   "/api/hotels",
 ];
 

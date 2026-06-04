@@ -1,5 +1,6 @@
 import {
   boolean,
+  decimal,
   int,
   mysqlTable,
   timestamp,
@@ -72,6 +73,48 @@ export const hotels = mysqlTable("hotels", {
   imageUrl: varchar("image_url", {
     length: 512,
   }),
+
+  isActive: boolean("is_active").default(true).notNull(),
+
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+});
+
+export const flights = mysqlTable("flights", {
+  id: int("id").primaryKey().autoincrement(),
+
+  airline: varchar("airline", {
+    length: 100,
+  }).notNull(),
+
+  departureCity: varchar("departure_city", {
+    length: 100,
+  }).notNull(),
+
+  arrivalCity: varchar("arrival_city", {
+    length: 100,
+  }).notNull(),
+
+  departureTime: timestamp("departure_time").notNull(),
+
+  arrivalTime: timestamp("arrival_time").notNull(),
+
+  fare: decimal("fare", {
+    precision: 10,
+    scale: 2,
+  }).notNull(),
+
+  seatsAvailable: int("seats_available").default(0).notNull(),
+
+  rating: decimal("rating", {
+    precision: 2,
+    scale: 1,
+  }).notNull(),
+
+  bookingLink: varchar("booking_link", {
+    length: 2048,
+  }).notNull(),
 
   isActive: boolean("is_active").default(true).notNull(),
 

@@ -59,7 +59,6 @@ export function HotelCard({ hotel }: { hotel: Hotel }) {
   if (!hotel.link) {
     return cardContent;
   }
-  console.log("Hotel link:", hotel.link);
   return (
     <Link href={hotel.link} target="_blank" className="block">
       {cardContent}

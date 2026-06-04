@@ -24,6 +24,7 @@ type ServiceCard = {
   description: string;
   icon: ServiceIconName;
   items: string[];
+  detailsHref?: string;
 };
 
 const benefits: Benefit[] = [
@@ -80,6 +81,7 @@ const services: ServiceCard[] = [
     title: "Visa & Documentation",
     description: "Fast and complete support for visa and document processing.",
     icon: "passport",
+    detailsHref: "/documents",
     items: [
       "2-5 days",
       "Fast visa processing",
@@ -101,8 +103,7 @@ const services: ServiceCard[] = [
   },
   {
     title: "Airport Assistance",
-    description:
-      "Dedicated support services for smooth arrival and departure.",
+    description: "Dedicated support services for smooth arrival and departure.",
     icon: "plane",
     items: [
       "Arrival guidance",
@@ -303,7 +304,7 @@ function ServiceCard({ service }: { service: ServiceCard }) {
         </ul>
 
         <Link
-          href="/packages"
+          href={service.detailsHref ?? "/packages"}
           className="mt-auto inline-flex min-h-12 items-center justify-center rounded-full bg-[#075f42] px-8 text-base font-bold text-white transition hover:bg-[#064b36] focus:outline-none focus:ring-4 focus:ring-[#075f42]/25"
         >
           See Details

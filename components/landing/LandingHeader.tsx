@@ -5,6 +5,7 @@ const navItems = [
   { label: "About Us", href: "/about" },
   { label: "Packages", href: "/packages" },
   { label: "Services", href: "/services" },
+  { label: "Documents", href: "/documents" },
 ];
 
 export function LandingHeader() {

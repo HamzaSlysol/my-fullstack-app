@@ -7,6 +7,7 @@ type DetailCard = {
   description: string;
   icon: DetailIcon;
   items: string[];
+  detailsHref?: string;
 };
 
 const detailCards: DetailCard[] = [
@@ -36,6 +37,7 @@ const detailCards: DetailCard[] = [
     title: "Visa & Documentation",
     description: "Fast and complete support for visa and document processing.",
     icon: "passport",
+    detailsHref: "/documents",
     items: [
       "2-5 days",
       "Fast visa processing",
@@ -199,7 +201,7 @@ function DetailCard({ card }: { card: DetailCard }) {
         </ul>
 
         <Link
-          href="/packages"
+          href={card.detailsHref ?? "/packages"}
           className="mt-auto inline-flex min-h-16 items-center justify-center rounded-full bg-[#075f42] px-8 text-xl font-bold text-white transition hover:bg-[#064b36] focus:outline-none focus:ring-4 focus:ring-[#075f42]/25"
         >
           See Details

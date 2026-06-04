@@ -15,6 +15,13 @@
       "when": 1780495331041,
       "tag": "0001_lovely_senator_kelly",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1780558638372,
+      "tag": "0002_sudden_naoko",
+      "breakpoints": true
     }
   ]
 }

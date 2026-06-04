@@ -230,6 +230,30 @@ export function HeroAvatarStack() {
     { initials: "ZR", color: "#0a6045", text: colors.white },
     { initials: "HN", color: "#d7e9f4", text: "#214152" },
   ];
+
+  return (
+    <View style={styles.avatarRow}>
+      <View style={styles.avatarStack}>
+        {pilgrims.map((pilgrim, index) => (
+          <View
+            key={pilgrim.initials}
+            style={[
+              styles.avatar,
+              {
+                backgroundColor: pilgrim.color,
+                marginLeft: index === 0 ? 0 : -12,
+              },
+            ]}
+          >
+            <Text style={[styles.avatarText, { color: pilgrim.text }]}>
+              {pilgrim.initials}
+            </Text>
+          </View>
+        ))}
+      </View>
+      <Text style={styles.trustedText}>Trusted by 2k+ pilgrims</Text>
+    </View>
+  );
 }
 
 export function ContactSupportBlock() {

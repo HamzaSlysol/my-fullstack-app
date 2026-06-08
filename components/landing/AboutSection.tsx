@@ -62,7 +62,7 @@ export function AboutSection() {
           <div className="mt-12 flex flex-col gap-5 sm:flex-row sm:items-center">
             <Link
               href="/packages"
-              className="inline-flex min-h-16 items-center justify-center rounded-full bg-white px-8 text-xl font-semibold text-[#075f42] transition hover:bg-[#fff8eb] focus:outline-none focus:ring-4 focus:ring-white/25"
+              className="inline-flex min-h-16 items-center justify-center rounded-full bg-white px-8 text-xl font-semibold text-[#075f42] transition hover:bg-[#d89c34] hover:text-[#17211f] focus:outline-none focus:ring-4 focus:ring-white/25"
             >
               Learn More
             </Link>

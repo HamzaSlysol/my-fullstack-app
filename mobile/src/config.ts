@@ -18,7 +18,7 @@ function getMetroHost() {
     return null;
   }
 
-  return scriptURL.match(/^https?:\/\/([^/:]+)/)?.[1] ?? null;
+  return scriptURL.match(/^[a-z][a-z\d+.-]*:\/\/([^/:]+)/i)?.[1] ?? null;
 }
 
 function normalizeHost(host: string) {
@@ -29,9 +29,23 @@ function normalizeHost(host: string) {
   return host;
 }
 
+function isLocalApiHost(host: string) {
+  return (
+    host === "localhost" ||
+    host === "127.0.0.1" ||
+    host === "10.0.2.2" ||
+    host.startsWith("10.") ||
+    host.startsWith("192.168.") ||
+    /^172\.(1[6-9]|2\d|3[0-1])\./.test(host)
+  );
+}
+
 const explicitBaseUrl = process.env?.EXPO_PUBLIC_API_BASE_URL;
+const explicitHost = process.env?.EXPO_PUBLIC_API_HOST;
+const metroHost = getMetroHost();
 const apiHost = normalizeHost(
-  process.env?.EXPO_PUBLIC_API_HOST ?? getMetroHost() ?? FALLBACK_API_HOST,
+  explicitHost ??
+    (metroHost && isLocalApiHost(metroHost) ? metroHost : FALLBACK_API_HOST),
 );
 
 export const API_BASE_URL = explicitBaseUrl ?? `http://${apiHost}:${API_PORT}`;

@@ -4,20 +4,40 @@ import type { NextRequest } from "next/server";
 
 const JWT_SECRET = process.env.JWT_SECRET || "dev-secret-key";
 
-const PUBLIC_PAGE_PATHS = ["/login", "/register"];
-const PUBLIC_API_PATHS = [
+const PUBLIC_PAGE_PATHS = [
+  "/",
+  "/about",
+  "/packages",
+  "/services",
+  "/documents",
+  "/chat",
+  "/login",
+  "/register",
+];
+const PUBLIC_MUTATION_API_PATHS = [
   "/api/auth/login",
   "/api/auth/register",
+  "/api/chat",
+];
+const PUBLIC_READ_API_PATHS = [
   "/api/flights",
   "/api/hotels",
+  "/api/restaurants",
 ];
 
 function isPublicPage(pathname: string) {
   return PUBLIC_PAGE_PATHS.includes(pathname);
 }
 
-function isPublicApi(pathname: string) {
-  return PUBLIC_API_PATHS.includes(pathname);
+function isPublicApi(request: NextRequest) {
+  const { method, nextUrl } = request;
+  const { pathname } = nextUrl;
+
+  if (PUBLIC_MUTATION_API_PATHS.includes(pathname)) {
+    return method === "POST";
+  }
+
+  return method === "GET" && PUBLIC_READ_API_PATHS.includes(pathname);
 }
 
 function isApiRoute(pathname: string) {
@@ -59,7 +79,7 @@ export function proxy(request: NextRequest) {
   if (
     isAuthenticated ||
     isPublicPage(pathname) ||
-    isPublicApi(pathname)
+    isPublicApi(request)
   ) {
     return NextResponse.next();
   }

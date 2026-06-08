@@ -78,45 +78,11 @@ const services: ServiceCard[] = [
     ],
   },
   {
-    title: "Visa & Documentation",
-    description: "Fast and complete support for visa and document processing.",
-    icon: "passport",
-    detailsHref: "/documents",
-    items: [
-      "2-5 days",
-      "Fast visa processing",
-      "Document verification",
-      "Family & senior assistance",
-    ],
-  },
-  {
-    title: "Travel Insurance",
-    description:
-      "Comprehensive protection ensuring safety throughout the pilgrimage journey.",
-    icon: "insurance",
-    items: [
-      "Medical coverage",
-      "Emergency support",
-      "Travel protection",
-      "Peace assistance",
-    ],
-  },
-  {
-    title: "Airport Assistance",
-    description: "Dedicated support services for smooth arrival and departure.",
-    icon: "plane",
-    items: [
-      "Arrival guidance",
-      "Luggage handling service",
-      "Immigration support",
-      "Safety compliance",
-    ],
-  },
-  {
-    title: "Pilgrim Guidance",
+    title: "Ritual Guidance",
     description:
       "Spiritual and practical guidance provided throughout the entire journey.",
     icon: "guide",
+    detailsHref: "/services/ritual-guidance",
     items: [
       "Ritual education",
       "Daily briefings",
@@ -272,8 +238,13 @@ function ServicesGrid() {
 }
 
 function ServiceCard({ service }: { service: ServiceCard }) {
+  const href = service.detailsHref ?? "/packages";
+
   return (
-    <article className="flex h-full flex-col rounded-3xl border border-gray-200 bg-white p-8 shadow-sm transition-all hover:shadow-lg">
+    <Link
+      href={href}
+      className="group flex h-full flex-col rounded-3xl border border-gray-200 bg-white p-8 shadow-sm transition-all hover:shadow-lg focus:outline-none focus:ring-4 focus:ring-[#d89c34]/35"
+    >
       <h3 className="mt-6 text-center font-serif text-3xl text-[#075f42]">
         {service.title}
       </h3>
@@ -291,13 +262,13 @@ function ServiceCard({ service }: { service: ServiceCard }) {
         ))}
       </ul>
 
-      <Link
-        href={service.detailsHref ?? "/packages"}
-        className="mt-8 inline-flex h-12 items-center justify-center rounded-full bg-[#075f42] px-6 font-semibold text-white transition hover:bg-[#064b36]"
+      <span
+        className="mt-8 inline-flex h-12 items-center justify-center rounded-full bg-[#075f42] px-6 font-semibold text-white transition group-hover:bg-[#d89c34] group-hover:text-[#17211f]"
+        aria-hidden="true"
       >
         See Details
-      </Link>
-    </article>
+      </span>
+    </Link>
   );
 }
 

@@ -83,7 +83,7 @@ function ProcessStepCard({ step }: { step: ProcessStep }) {
   );
 
   const className =
-    "block w-full rounded-2xl border border-gray-200 bg-white p-8 text-center shadow-sm transition-all hover:-translate-y-1 hover:border-[#075f42] hover:shadow-md focus:outline-none focus:ring-4 focus:ring-[#075f42]/20";
+    "block w-full rounded-2xl border border-gray-200 bg-white p-8 text-center shadow-sm transition-all hover:-translate-y-1 hover:border-[#d89c34] hover:shadow-md focus:outline-none focus:ring-4 focus:ring-[#075f42]/20";
 
   if (step.id === "documents") {
     return (

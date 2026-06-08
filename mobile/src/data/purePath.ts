@@ -19,6 +19,7 @@ export const navItems: { label: string; route: RouteName }[] = [
   { label: "Packages", route: "packages" },
   { label: "Services", route: "services" },
   { label: "Documents", route: "documents" },
+  { label: "Chat", route: "chat" },
 ];
 
 export type MarkedContentItem = {

@@ -4,6 +4,7 @@ export type RouteName =
   | "packages"
   | "services"
   | "documents"
+  | "chat"
   | "login"
   | "register";
 

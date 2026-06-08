@@ -21,7 +21,7 @@ export function OffersSection({ offers }: { offers: OfferItem[] }) {
 
           <Link
             href="/#contact"
-            className="mt-10 inline-flex items-center gap-2 text-sm font-bold text-[#075f42] transition hover:text-[#064b36]"
+            className="mt-10 inline-flex items-center gap-2 text-sm font-bold text-[#075f42] transition hover:text-[#b7791f]"
           >
             View All Offers
             <span aria-hidden="true">-&gt;</span>
@@ -63,7 +63,7 @@ function OfferCard({ offer }: { offer: OfferItem }) {
 
         <Link
           href="/#contact"
-          className="mt-6 inline-flex min-h-11 w-full items-center justify-center rounded-full bg-white px-5 text-sm font-bold text-[#075f42] transition hover:bg-[#fff7e8] focus:outline-none focus:ring-4 focus:ring-white/30"
+          className="mt-6 inline-flex min-h-11 w-full items-center justify-center rounded-full bg-white px-5 text-sm font-bold text-[#075f42] transition hover:bg-[#d89c34] hover:text-[#17211f] focus:outline-none focus:ring-4 focus:ring-white/30"
         >
           Get Offer
         </Link>

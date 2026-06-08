@@ -188,7 +188,7 @@ function DetailCard({ card }: { card: DetailCard }) {
 
       <Link
         href={card.detailsHref ?? "/packages"}
-        className="mt-8 inline-flex min-h-12 items-center justify-center rounded-full bg-[#075f42] px-8 text-base font-bold text-white transition hover:bg-[#064b36] focus:outline-none focus:ring-4 focus:ring-[#075f42]/25 sm:min-h-14 sm:text-lg"
+        className="mt-8 inline-flex min-h-12 items-center justify-center rounded-full bg-[#075f42] px-8 text-base font-bold text-white transition hover:bg-[#d89c34] hover:text-[#17211f] focus:outline-none focus:ring-4 focus:ring-[#075f42]/25 sm:min-h-14 sm:text-lg"
       >
         See Details
       </Link>

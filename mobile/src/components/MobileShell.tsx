@@ -9,29 +9,22 @@ import { cn } from "../utils/cn";
 type MobileShellProps = {
   activeRoute: RouteName;
   onNavigate: Navigate;
-  onLogout: () => void;
   children: ReactNode;
 };
 
 export function MobileShell({
   activeRoute,
   onNavigate,
-  onLogout,
   children,
 }: MobileShellProps) {
   const [menuOpen, setMenuOpen] = useState(false);
   const menuItems: { label: string; route: RouteName }[] = [
     ...navItems,
-    { label: "Register", route: "register" },
+    { label: "Login", route: "login" },
   ];
 
   function handleNavigate(route: RouteName) {
     onNavigate(route);
-    setMenuOpen(false);
-  }
-
-  function handleLogout() {
-    onLogout();
     setMenuOpen(false);
   }
 
@@ -102,16 +95,6 @@ export function MobileShell({
                 </Pressable>
               );
             })}
-
-            <Pressable
-              accessibilityRole="button"
-              onPress={handleLogout}
-              className="min-h-[46px] flex-row items-center justify-between rounded-lg border border-pure-danger bg-pure-danger px-3.5 active:opacity-80"
-            >
-              <Text className="text-base font-extrabold text-pure-white">
-                Logout
-              </Text>
-            </Pressable>
           </View>
         ) : null}
       </View>

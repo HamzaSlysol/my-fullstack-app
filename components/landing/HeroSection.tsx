@@ -41,7 +41,7 @@ export function HeroSection() {
 
           <Link
             href="/packages"
-            className="mt-8 inline-flex min-h-14 items-center justify-center rounded-full bg-[#075f42] px-8 text-lg font-semibold text-white shadow-sm transition hover:bg-[#064b36] focus:outline-none focus:ring-4 focus:ring-[#075f42]/25"
+            className="mt-8 inline-flex min-h-14 items-center justify-center rounded-full bg-[#075f42] px-8 text-lg font-semibold text-white shadow-sm transition hover:bg-[#d89c34] hover:text-[#17211f] focus:outline-none focus:ring-4 focus:ring-[#075f42]/25"
           >
             View Packages
           </Link>

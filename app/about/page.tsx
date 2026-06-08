@@ -128,7 +128,7 @@ function ValuesSection() {
           </p>
           <Link
             href="/packages"
-            className="mt-10 inline-flex min-h-12 items-center justify-center rounded-full bg-[#075f42] px-7 text-base font-semibold text-white transition hover:bg-[#064b36] focus:outline-none focus:ring-4 focus:ring-[#075f42]/25"
+            className="mt-10 inline-flex min-h-12 items-center justify-center rounded-full bg-[#075f42] px-7 text-base font-semibold text-white transition hover:bg-[#d89c34] hover:text-[#17211f] focus:outline-none focus:ring-4 focus:ring-[#075f42]/25"
           >
             Learn More
           </Link>

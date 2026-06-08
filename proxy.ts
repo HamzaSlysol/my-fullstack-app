@@ -14,6 +14,7 @@ const PUBLIC_PAGE_PATHS = [
   "/login",
   "/register",
 ];
+const AUTH_PAGE_PATHS = ["/login", "/register"];
 const PUBLIC_MUTATION_API_PATHS = [
   "/api/auth/login",
   "/api/auth/register",
@@ -27,6 +28,10 @@ const PUBLIC_READ_API_PATHS = [
 
 function isPublicPage(pathname: string) {
   return PUBLIC_PAGE_PATHS.includes(pathname);
+}
+
+function isAuthPage(pathname: string) {
+  return AUTH_PAGE_PATHS.includes(pathname);
 }
 
 function isPublicApi(request: NextRequest) {
@@ -72,7 +77,7 @@ export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const isAuthenticated = hasValidToken(request);
 
-  if (isAuthenticated && isPublicPage(pathname)) {
+  if (isAuthenticated && isAuthPage(pathname)) {
     return NextResponse.redirect(new URL("/", request.url));
   }
 

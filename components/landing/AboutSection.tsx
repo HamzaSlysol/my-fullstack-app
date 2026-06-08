@@ -9,9 +9,6 @@ const patternStyle = {
   backgroundSize: "148px 148px",
 };
 
-const archClipPath =
-  "polygon(50% 0, 58% 8%, 70% 13%, 82% 17%, 91% 25%, 94% 34%, 94% 40%, 100% 44%, 100% 100%, 0 100%, 0 44%, 6% 40%, 6% 34%, 9% 25%, 18% 17%, 30% 13%, 42% 8%)";
-
 export function AboutSection() {
   return (
     <section
@@ -20,14 +17,8 @@ export function AboutSection() {
       style={patternStyle}
     >
       <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
-        <div
-          className="mx-auto w-full max-w-xl bg-[#e7a43a] p-1.5 drop-shadow-2xl"
-          style={{ clipPath: archClipPath }}
-        >
-          <div
-            className="relative aspect-[0.82] min-h-[520px] overflow-hidden"
-            style={{ clipPath: archClipPath }}
-          >
+        <div className="pure-path-arch-frame mx-auto w-full max-w-xl drop-shadow-2xl">
+          <div className="pure-path-arch-card relative aspect-[0.82] min-h-[520px]">
             <Image
               src="/about-kaaba.png"
               alt="Kaaba surrounded by pilgrims"

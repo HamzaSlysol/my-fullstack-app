@@ -42,28 +42,20 @@ body {
 
 .pure-path-arch-frame,
 .pure-path-arch-card {
-  clip-path: polygon(
-    50% 0,
-    58% 8%,
-    70% 13%,
-    82% 17%,
-    91% 25%,
-    94% 34%,
-    94% 40%,
-    100% 44%,
-    100% 100%,
-    0 100%,
-    0 44%,
-    6% 40%,
-    6% 34%,
-    9% 25%,
-    18% 17%,
-    30% 13%,
-    42% 8%
-  );
+  --pure-path-arch-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'%3E%3Cpath fill='black' d='M50 0 C52 4 56 8 63 11 C75 16 86 19 92 28 C96 34 96 39 100 44 L100 100 L0 100 L0 44 C4 39 4 34 8 28 C14 19 25 16 37 11 C44 8 48 4 50 0 Z'/%3E%3C/svg%3E");
+  -webkit-mask-image: var(--pure-path-arch-mask);
+  mask-image: var(--pure-path-arch-mask);
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  overflow: hidden;
 }
 
 .pure-path-arch-frame {
   background: linear-gradient(180deg, #f4bf58 0%, #d9952f 100%);
   padding: 4px;
+  transform: translateZ(0);
 }

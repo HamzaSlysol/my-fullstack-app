@@ -8,6 +8,7 @@ type DetailCard = {
   icon: DetailIcon;
   items: string[];
   detailsHref?: string;
+  actionLabel?: string;
 };
 
 const detailCards: DetailCard[] = [
@@ -35,14 +36,16 @@ const detailCards: DetailCard[] = [
   },
   {
     title: "Visa & Documentation",
-    description: "Fast and complete support for visa and document processing.",
+    description:
+      "Review the required documents and get help with visa processing.",
     icon: "passport",
     detailsHref: "/documents",
+    actionLabel: "View Documents",
     items: [
-      "2-5 days",
-      "Fast visa processing",
-      "Document verification",
-      "Family & senior assistance",
+      "Passport valid 6+ months",
+      "Passport-sized photos",
+      "Visa or eVisa application",
+      "CNIC / National ID copy",
     ],
   },
 ];
@@ -68,9 +71,6 @@ const patternStyle = {
   backgroundPosition: "0 0, 0 0, 74px 0",
   backgroundSize: "148px 148px",
 };
-
-const archClipPath =
-  "polygon(50% 0, 58% 8%, 70% 13%, 82% 17%, 91% 25%, 94% 34%, 94% 40%, 100% 44%, 100% 100%, 0 100%, 0 44%, 6% 40%, 6% 34%, 9% 25%, 18% 17%, 30% 13%, 42% 8%)";
 
 export function PackagesSection() {
   return (
@@ -190,7 +190,7 @@ function DetailCard({ card }: { card: DetailCard }) {
         href={card.detailsHref ?? "/packages"}
         className="mt-8 inline-flex min-h-12 items-center justify-center rounded-full bg-[#075f42] px-8 text-base font-bold text-white transition hover:bg-[#d89c34] hover:text-[#17211f] focus:outline-none focus:ring-4 focus:ring-[#075f42]/25 sm:min-h-14 sm:text-lg"
       >
-        See Details
+        {card.actionLabel ?? "See Details"}
       </Link>
     </article>
   );

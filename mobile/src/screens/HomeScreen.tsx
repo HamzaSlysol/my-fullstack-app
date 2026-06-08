@@ -4,7 +4,6 @@ import {
   benefits,
   features,
   images,
-  landingPackageCards,
   processSteps,
   servicesChecklist,
 } from "../data/purePath";
@@ -87,25 +86,6 @@ export function HomeScreen({ onNavigate }: ScreenProps) {
           ))}
         </View>
         <ImageCard image={images.why} tall />
-      </Section>
-
-      <Section tone="green">
-        <SectionHeading
-          eyebrow="Packages"
-          title="Complete care for your sacred travel plans"
-          body="Every arrangement is planned to make your pilgrimage comfortable, meaningful, and stress-free."
-          inverse
-          center
-        />
-        <View className="gap-[18px]">
-          {landingPackageCards.map((card) => (
-            <ServiceCard
-              key={card.title}
-              item={card}
-              onDetails={() => onNavigate(card.detailsRoute ?? "packages")}
-            />
-          ))}
-        </View>
       </Section>
 
       <Section tone="white">

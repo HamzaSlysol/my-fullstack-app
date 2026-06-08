@@ -2,6 +2,7 @@ import { useState, type ReactNode } from "react";
 import { Pressable, StatusBar, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
+import { MobileNavigationContext } from "./MobileNavigationContext";
 import { navItems } from "../data/purePath";
 import type { Navigate, RouteName } from "../types";
 import { cn } from "../utils/cn";
@@ -97,7 +98,9 @@ export function MobileShell({
         ) : null}
       </View>
 
-      <View className="flex-1">{children}</View>
+      <MobileNavigationContext.Provider value={onNavigate}>
+        <View className="flex-1">{children}</View>
+      </MobileNavigationContext.Provider>
     </SafeAreaView>
   );
 }

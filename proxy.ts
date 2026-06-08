@@ -10,6 +10,7 @@ const PUBLIC_PAGE_PATHS = [
   "/packages",
   "/services",
   "/documents",
+  "/contact",
   "/chat",
   "/login",
   "/register",

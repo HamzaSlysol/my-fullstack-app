@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import { ChatWidget } from "@/components/chat/ChatWidget";
+import { SiteFooter } from "@/components/landing/SiteFooter";
 
 import "./globals.css";
 
@@ -18,6 +19,7 @@ export default function RootLayout({
     <html lang="en" className="h-full antialiased">
       <body className="site-text-float min-h-full flex flex-col">
         {children}
+        <SiteFooter />
         <ChatWidget />
       </body>
     </html>

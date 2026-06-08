@@ -46,7 +46,7 @@ export function LandingHeader() {
         </div>
 
         <Link
-          href="/#contact"
+          href="/contact"
           onClick={closeMenu}
           className="hidden min-h-12 items-center justify-center rounded-full bg-[#075f42] px-5 text-base font-semibold text-white transition hover:bg-[#d89c34] hover:text-[#17211f] focus:outline-none focus:ring-4 focus:ring-[#075f42]/25 md:inline-flex lg:min-h-14 lg:px-8 lg:text-lg"
         >
@@ -80,7 +80,7 @@ export function LandingHeader() {
               </Link>
             ))}
             <Link
-              href="/#contact"
+              href="/contact"
               onClick={closeMenu}
               className="flex min-h-12 items-center justify-center rounded-lg bg-[#075f42] px-4 text-base font-bold text-white transition hover:bg-[#d89c34] hover:text-[#17211f] focus:outline-none focus:ring-4 focus:ring-[#075f42]/25"
             >

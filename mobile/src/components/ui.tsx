@@ -11,6 +11,8 @@ import type { ImageSourcePropType } from "react-native";
 
 import type { Navigate, RouteName } from "../types";
 import { cn } from "../utils/cn";
+import { MobileFooter } from "./MobileFooter";
+import { useMobileNavigation } from "./MobileNavigationContext";
 
 type ScreenScrollProps = {
   children: ReactNode;
@@ -23,6 +25,8 @@ export const ScreenScroll = forwardRef<ScrollView, ScreenScrollProps>(
     { children, className, contentContainerClassName },
     ref,
   ) {
+    const mobileNavigate = useMobileNavigation();
+
     return (
       <ScrollView
         ref={ref}
@@ -31,6 +35,7 @@ export const ScreenScroll = forwardRef<ScrollView, ScreenScrollProps>(
         showsVerticalScrollIndicator={false}
       >
         {children}
+        {mobileNavigate ? <MobileFooter onNavigate={mobileNavigate} /> : null}
       </ScrollView>
     );
   },

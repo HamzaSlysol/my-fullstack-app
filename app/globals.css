@@ -59,3 +59,97 @@ body {
   padding: 4px;
   transform: translateZ(0);
 }
+
+.site-text-float
+  :is(header a, main h1, main h2, main h3, main h4, main p, main li, main a, main button) {
+  animation: pure-path-text-float-in 4000ms cubic-bezier(0.16, 1, 0.3, 1)
+    both;
+  animation-delay: var(--pure-path-text-delay, 0ms);
+  transform-origin: center;
+}
+
+.site-text-float header a {
+  --pure-path-text-delay: 90ms;
+}
+
+.site-text-float main h1 {
+  --pure-path-text-delay: 180ms;
+}
+
+.site-text-float main h2 {
+  --pure-path-text-delay: 210ms;
+}
+
+.site-text-float main h3,
+.site-text-float main h4 {
+  --pure-path-text-delay: 270ms;
+}
+
+.site-text-float main p,
+.site-text-float main li {
+  --pure-path-text-delay: 340ms;
+}
+
+.site-text-float main a,
+.site-text-float main button {
+  --pure-path-text-delay: 430ms;
+}
+
+.site-text-float .pure-path-arch-frame {
+  animation:
+    pure-path-frame-float-in 1200ms cubic-bezier(0.16, 1, 0.3, 1) both,
+    pure-path-frame-drift 5.5s ease-in-out 1400ms infinite;
+}
+
+@keyframes pure-path-text-float-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 34px, 0) scale(0.96);
+  }
+
+  65% {
+    opacity: 1;
+    transform: translate3d(0, -7px, 0) scale(1.015);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes pure-path-frame-float-in {
+  from {
+    opacity: 0;
+    transform: translate3d(-28px, 34px, 0) scale(0.94);
+  }
+
+  65% {
+    opacity: 1;
+    transform: translate3d(0, -8px, 0) scale(1.012);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes pure-path-frame-drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  50% {
+    transform: translate3d(0, -12px, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-text-float
+    :is(header a, main h1, main h2, main h3, main h4, main p, main li, main a, main button),
+  .site-text-float .pure-path-arch-frame {
+    animation: none;
+  }
+}

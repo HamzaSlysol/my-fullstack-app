@@ -66,7 +66,8 @@ export const benefits = [
   },
   {
     title: "Hassle-Free Travel",
-    description: "Complete support for visas, transport, documentation, and logistics.",
+    description:
+      "Complete support for visas, transport, documentation, and logistics.",
     marker: "HT",
   },
 ];
@@ -95,7 +96,7 @@ export const landingPackageCards: MarkedContentItem[] = [
     ],
   },
   {
-    title: "Visa & Documentation",
+    title: "Documentation",
     description: "Fast and complete support for visa and document processing.",
     marker: "VD",
     detailsRoute: "documents",
@@ -216,17 +217,20 @@ export const documentGroups = [
 export const values = [
   {
     title: "Spiritual Integrity",
-    description: "Upholding sincere worship guidance through authentic Islamic teachings.",
+    description:
+      "Upholding sincere worship guidance through authentic Islamic teachings.",
     marker: "SI",
   },
   {
     title: "Trusted Services",
-    description: "Providing reliable pilgrimage support with honesty and transparency.",
+    description:
+      "Providing reliable pilgrimage support with honesty and transparency.",
     marker: "TS",
   },
   {
     title: "Compassionate Care",
-    description: "Supporting pilgrims with empathy, patience, and understanding.",
+    description:
+      "Supporting pilgrims with empathy, patience, and understanding.",
     marker: "CC",
   },
   {

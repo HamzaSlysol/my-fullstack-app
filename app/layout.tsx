@@ -16,7 +16,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="h-full antialiased">
-      <body className="min-h-full flex flex-col">
+      <body className="site-text-float min-h-full flex flex-col">
         {children}
         <ChatWidget />
       </body>

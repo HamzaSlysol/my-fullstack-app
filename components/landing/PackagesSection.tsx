@@ -35,7 +35,7 @@ const detailCards: DetailCard[] = [
     ],
   },
   {
-    title: "Visa & Documentation",
+    title: "Documentation",
     description:
       "Review the required documents and get help with visa processing.",
     icon: "passport",

@@ -44,7 +44,7 @@ export function MobileShell({
             onPress={() => handleNavigate("home")}
             className="active:opacity-80"
           >
-            <Text className="font-serif text-[34px] font-bold text-pure-green">
+            <Text className="font-serif text-[22px] font-bold text-pure-green">
               Pure Path
             </Text>
           </Pressable>
@@ -58,15 +58,9 @@ export function MobileShell({
               menuButtonToneClass,
             )}
           >
-            <View
-              className={cn("h-0.5 w-5 rounded-full", menuLineToneClass)}
-            />
-            <View
-              className={cn("h-0.5 w-5 rounded-full", menuLineToneClass)}
-            />
-            <View
-              className={cn("h-0.5 w-5 rounded-full", menuLineToneClass)}
-            />
+            <View className={cn("h-0.5 w-5 rounded-full", menuLineToneClass)} />
+            <View className={cn("h-0.5 w-5 rounded-full", menuLineToneClass)} />
+            <View className={cn("h-0.5 w-5 rounded-full", menuLineToneClass)} />
           </Pressable>
         </View>
 
@@ -77,7 +71,9 @@ export function MobileShell({
               const itemToneClass = isActive
                 ? "border-pure-green bg-pure-green"
                 : "border-[#d9e3df] bg-pure-white";
-              const textToneClass = isActive ? "text-pure-white" : "text-pure-ink";
+              const textToneClass = isActive
+                ? "text-pure-white"
+                : "text-pure-ink";
 
               return (
                 <Pressable
@@ -89,7 +85,9 @@ export function MobileShell({
                     itemToneClass,
                   )}
                 >
-                  <Text className={cn("text-base font-extrabold", textToneClass)}>
+                  <Text
+                    className={cn("text-base font-extrabold", textToneClass)}
+                  >
                     {item.label}
                   </Text>
                 </Pressable>

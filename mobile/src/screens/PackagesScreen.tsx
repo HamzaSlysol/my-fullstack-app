@@ -1,5 +1,5 @@
-import { useEffect, useMemo, useRef, useState } from "react";
-import { ScrollView, Text, View } from "react-native";
+import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
+import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 
 import { getFlights, type Flight } from "../api/flights";
 import { getHotels, type Hotel, type HotelCity } from "../api/hotels";
@@ -36,6 +36,104 @@ const RESTAURANT_CITY_LABELS: Record<RestaurantCity, string> = {
   makkah: "Makkah",
   madinah: "Madinah",
 };
+
+const LISTING_SWIPER_STEP = 296;
+
+function ListingSwiperButton({
+  direction,
+  label,
+  onPress,
+}: {
+  direction: "left" | "right";
+  label: string;
+  onPress: () => void;
+}) {
+  return (
+    <Pressable
+      accessibilityRole="button"
+      accessibilityLabel={label}
+      onPress={onPress}
+      className="h-10 w-10 items-center justify-center rounded-full border border-[#d9e3df] bg-pure-white active:opacity-70"
+      style={[
+        styles.swiperButton,
+        direction === "left"
+          ? styles.swiperButtonLeft
+          : styles.swiperButtonRight,
+      ]}
+    >
+      <View
+        style={[
+          styles.chevron,
+          direction === "left" ? styles.chevronLeft : styles.chevronRight,
+        ]}
+      />
+    </Pressable>
+  );
+}
+
+function ListingSwiper({
+  title,
+  accessibilityLabel,
+  children,
+}: {
+  title?: string;
+  accessibilityLabel: string;
+  children: ReactNode;
+}) {
+  const rowRef = useRef<ScrollView>(null);
+  const scrollXRef = useRef(0);
+
+  function scrollBy(direction: "left" | "right") {
+    const directionOffset =
+      direction === "left" ? -LISTING_SWIPER_STEP : LISTING_SWIPER_STEP;
+    const nextOffset = Math.max(scrollXRef.current + directionOffset, 0);
+
+    scrollXRef.current = nextOffset;
+    rowRef.current?.scrollTo({
+      x: nextOffset,
+      animated: true,
+    });
+  }
+
+  return (
+    <View className="gap-3">
+      {title ? (
+        <Text
+          numberOfLines={1}
+          className="text-lg font-black leading-6 text-pure-green"
+        >
+          {title}
+        </Text>
+      ) : null}
+      <View className="relative">
+        <ScrollView
+          ref={rowRef}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          snapToInterval={LISTING_SWIPER_STEP}
+          decelerationRate="fast"
+          contentContainerClassName="gap-4 pr-5"
+          onScroll={(event) => {
+            scrollXRef.current = event.nativeEvent.contentOffset.x;
+          }}
+          scrollEventThrottle={16}
+        >
+          {children}
+        </ScrollView>
+        <ListingSwiperButton
+          direction="left"
+          label={`${accessibilityLabel} previous`}
+          onPress={() => scrollBy("left")}
+        />
+        <ListingSwiperButton
+          direction="right"
+          label={`${accessibilityLabel} next`}
+          onPress={() => scrollBy("right")}
+        />
+      </View>
+    </View>
+  );
+}
 
 export function PackagesScreen({ onNavigate }: ScreenProps) {
   const scrollRef = useRef<ScrollView>(null);
@@ -194,21 +292,15 @@ export function PackagesScreen({ onNavigate }: ScreenProps) {
         ) : hotelGroups.length > 0 ? (
           <View className="gap-7">
             {hotelGroups.map((group) => (
-              <View key={group.city} className="gap-3.5">
-                <Text className="text-lg font-black leading-6 text-pure-green">
-                  {group.title}
-                </Text>
-                <ScrollView
-                  horizontal
-                  showsHorizontalScrollIndicator={false}
-                  snapToInterval={296}
-                  decelerationRate="fast"
-                  contentContainerClassName="gap-4 pr-5"
+              <View key={group.city}>
+                <ListingSwiper
+                  title={group.title}
+                  accessibilityLabel={`${group.title} hotels`}
                 >
                   {group.hotels.map((hotel) => (
                     <HotelTile key={hotel.id} item={hotel} />
                   ))}
-                </ScrollView>
+                </ListingSwiper>
               </View>
             ))}
           </View>
@@ -237,21 +329,15 @@ export function PackagesScreen({ onNavigate }: ScreenProps) {
         ) : restaurantGroups.length > 0 ? (
           <View className="gap-7">
             {restaurantGroups.map((group) => (
-              <View key={group.city} className="gap-3.5">
-                <Text className="text-lg font-black leading-6 text-pure-green">
-                  {group.title}
-                </Text>
-                <ScrollView
-                  horizontal
-                  showsHorizontalScrollIndicator={false}
-                  snapToInterval={296}
-                  decelerationRate="fast"
-                  contentContainerClassName="gap-4 pr-5"
+              <View key={group.city}>
+                <ListingSwiper
+                  title={group.title}
+                  accessibilityLabel={`${group.title} restaurants`}
                 >
                   {group.restaurants.map((restaurant) => (
                     <RestaurantTile key={restaurant.id} item={restaurant} />
                   ))}
-                </ScrollView>
+                </ListingSwiper>
               </View>
             ))}
           </View>
@@ -278,17 +364,11 @@ export function PackagesScreen({ onNavigate }: ScreenProps) {
             {flightError}
           </Text>
         ) : flights.length > 0 ? (
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            snapToInterval={296}
-            decelerationRate="fast"
-            contentContainerClassName="gap-4 pr-5"
-          >
+          <ListingSwiper accessibilityLabel="Flights">
             {flights.map((flight) => (
               <FlightTile key={flight.id} item={flight} />
             ))}
-          </ScrollView>
+          </ListingSwiper>
         ) : (
           <Text className="text-[15px] leading-[22px] text-pure-muted">
             Flight options are coming soon.
@@ -324,3 +404,33 @@ export function PackagesScreen({ onNavigate }: ScreenProps) {
     </ScreenScroll>
   );
 }
+
+const styles = StyleSheet.create({
+  swiperButton: {
+    position: "absolute",
+    top: "50%",
+    marginTop: -20,
+    zIndex: 2,
+  },
+  swiperButtonLeft: {
+    left: 6,
+  },
+  swiperButtonRight: {
+    right: 6,
+  },
+  chevron: {
+    width: 10,
+    height: 10,
+    borderColor: "#075f42",
+    borderTopWidth: 2,
+    borderRightWidth: 2,
+  },
+  chevronLeft: {
+    marginLeft: 4,
+    transform: [{ rotate: "225deg" }],
+  },
+  chevronRight: {
+    marginRight: 4,
+    transform: [{ rotate: "45deg" }],
+  },
+});

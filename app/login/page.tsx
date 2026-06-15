@@ -58,12 +58,12 @@ export default function LoginPage() {
   }
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-gray-100 px-4">
+    <main className="pure-path-pattern flex min-h-screen items-center justify-center border-t border-[#d89c34] px-4 py-16">
       <form
         onSubmit={handleSubmit}
-        className="w-full max-w-md rounded-xl bg-white p-6 shadow"
+        className="w-full max-w-md rounded-lg border border-white/18 bg-white/95 p-6 shadow-2xl shadow-black/20 backdrop-blur"
       >
-        <h1 className="mb-6 text-2xl font-bold text-gray-900">Login</h1>
+        <h1 className="mb-6 text-2xl font-bold text-[#075f42]">Login</h1>
 
         {message && (
           <p className="mb-4 rounded bg-red-100 p-3 text-sm text-red-700">
@@ -84,7 +84,7 @@ export default function LoginPage() {
               username: event.target.value,
             })
           }
-          className="mb-4 w-full rounded border px-3 py-2 text-gray-900"
+          className="mb-4 w-full rounded border border-[#075f42]/20 px-3 py-2 text-gray-900 outline-none transition focus:border-[#d89c34] focus:ring-2 focus:ring-[#d89c34]/25"
           placeholder="Enter email"
         />
 
@@ -101,14 +101,14 @@ export default function LoginPage() {
               password: event.target.value,
             })
           }
-          className="mb-6 w-full rounded border px-3 py-2 text-gray-900"
+          className="mb-6 w-full rounded border border-[#075f42]/20 px-3 py-2 text-gray-900 outline-none transition focus:border-[#d89c34] focus:ring-2 focus:ring-[#d89c34]/25"
           placeholder="Enter password"
         />
 
         <button
           type="submit"
           disabled={loading}
-          className="w-full rounded bg-black px-4 py-2 font-medium text-white transition enabled:hover:bg-[#d89c34] enabled:hover:text-[#17211f] disabled:opacity-60"
+          className="w-full rounded bg-[#075f42] px-4 py-2 font-medium text-white transition enabled:hover:bg-[#d89c34] enabled:hover:text-[#17211f] disabled:opacity-60"
         >
           {loading ? "Logging in..." : "Login"}
         </button>
@@ -116,7 +116,7 @@ export default function LoginPage() {
           Don&apos;t have an account?{" "}
           <Link
             href="/register"
-            className="font-medium text-black hover:underline"
+            className="font-medium text-[#075f42] hover:underline"
           >
             Register
           </Link>

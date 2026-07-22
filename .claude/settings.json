@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(PORT=3005 npm run dev)",
+      "Bash(curl -s -o /dev/null http://localhost:3005/login)",
+      "Bash(break)",
+      "Bash(npx next *)",
+      "Bash(curl -s -o /dev/null -w \"status=%{http_code} -> %{redirect_url}\\\\n\" http://localhost:3000/)",
+      "Bash(curl -s -o /dev/null -w \"status=%{http_code} -> %{redirect_url}\\\\n\" http://localhost:3000/about)",
+      "Bash(curl -s -o /dev/null -w \"status=%{http_code}\\\\n\" http://localhost:3000/login)",
+      "Bash(curl -s -w \"\\\\nstatus=%{http_code}\\\\n\" http://localhost:3000/api/flights)",
+      "Bash(curl -s -X POST http://localhost:3000/api/auth/register -H 'Content-Type: application/json' -d '{\"name\":\"Auth Test\",\"email\":\"authtest@example.com\",\"password\":\"TestPass123!\",\"confirmPassword\":\"TestPass123!\"}' -w \"\\\\nstatus=%{http_code}\\\\n\")",
+      "Bash(node -e ' *)",
+      "Bash(npm run *)",
+      "Bash(kill 40749)",
+      "Bash(git ls-tree *)"
+    ]
+  }
+}

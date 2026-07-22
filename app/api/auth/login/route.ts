@@ -1,12 +1,16 @@
 import { db } from "@/db";
-import { users } from "@/db/schema";
+import { refreshTokens, users } from "@/db/schema";
 import { eq, or } from "drizzle-orm";
 import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
 import { NextResponse } from "next/server";
-
-const JWT_SECRET = process.env.JWT_SECRET || "dev-secret-key";
-const ONE_DAY_IN_SECONDS = 60 * 60 * 24;
+import {
+  ACCESS_TOKEN_MAX_AGE,
+  accessCookie,
+  generateRefreshToken,
+  refreshCookie,
+  refreshTokenExpiry,
+  signAccessToken,
+} from "@/lib/auth";
 
 export async function POST(request: Request) {
   try {
@@ -43,40 +47,44 @@ export async function POST(request: Request) {
       );
     }
 
-    const token = jwt.sign(
-      {
-        id: user.id,
-        name: user.name,
-        email: user.email,
-        username: user.username,
-      },
-      JWT_SECRET,
-      { expiresIn: "1d" },
-    );
+    if (!user.isActive) {
+      return Response.json(
+        { message: "This account is disabled." },
+        { status: 403 },
+      );
+    }
+
+    const authUser = {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      username: user.username,
+    };
+
+    const accessToken = signAccessToken(authUser);
+    const { token: refreshToken, tokenHash } = generateRefreshToken();
+
+    await db.insert(refreshTokens).values({
+      userId: user.id,
+      tokenHash,
+      expiresAt: refreshTokenExpiry(),
+    });
 
     const response = NextResponse.json({
       message: "Login successful.",
-      accessToken: token,
-      user: {
-        id: user.id,
-        name: user.name,
-        email: user.email,
-        username: user.username,
-      },
+      accessToken,
+      refreshToken,
+      expiresIn: ACCESS_TOKEN_MAX_AGE,
+      user: authUser,
     });
 
-    response.cookies.set({
-      name: "accessToken",
-      value: token,
-      httpOnly: true,
-      sameSite: "lax",
-      secure: process.env.NODE_ENV === "production",
-      path: "/",
-      maxAge: ONE_DAY_IN_SECONDS,
-    });
+    response.cookies.set(accessCookie(accessToken));
+    response.cookies.set(refreshCookie(refreshToken));
 
     return response;
-  } catch {
+  } catch (error) {
+    console.error("LOGIN_ERROR:", error);
+
     return Response.json({ message: "Something went wrong." }, { status: 500 });
   }
 }

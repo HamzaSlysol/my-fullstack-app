@@ -8,19 +8,13 @@ import {
   View,
 } from "react-native";
 
+import { useAuth } from "../auth/AuthContext";
 import { API_BASE_URL } from "../config";
 import type { ScreenProps } from "../types";
 import { Card, PrimaryButton, ScreenScroll } from "../components/ui";
 
-type LoginResponse = {
-  message?: string;
-  user?: {
-    name?: string;
-    username?: string;
-  };
-};
-
 export function LoginScreen({ onNavigate }: ScreenProps) {
+  const { login } = useAuth();
   const [form, setForm] = useState({
     username: "",
     password: "",
@@ -37,25 +31,13 @@ export function LoginScreen({ onNavigate }: ScreenProps) {
     setMessage("");
 
     try {
-      const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(form),
-      });
-      const data = (await response.json().catch(() => ({}))) as LoginResponse;
-
-      if (!response.ok) {
-        setMessage(data.message || "Login failed.");
-        return;
-      }
-
-      setMessage(`Welcome ${data.user?.name || data.user?.username || "back"}.`);
-      onNavigate("home");
-    } catch {
+      // On success the auth gate swaps to the signed-in shell automatically.
+      await login(form.username, form.password);
+    } catch (error) {
       setMessage(
-        `Could not reach ${API_BASE_URL}. Start the Next.js app before testing auth.`,
+        error instanceof Error && error.message
+          ? error.message
+          : `Could not reach ${API_BASE_URL}. Start the Next.js app before testing auth.`,
       );
     } finally {
       setLoading(false);

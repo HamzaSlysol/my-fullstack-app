@@ -1,109 +1,92 @@
-import jwt from "jsonwebtoken";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import {
+  ACCESS_TOKEN_COOKIE,
+  REFRESH_TOKEN_COOKIE,
+  accessCookie,
+  readAccessToken,
+  refreshCookie,
+  verifyAccessToken,
+} from "@/lib/auth";
 
-const JWT_SECRET = process.env.JWT_SECRET || "dev-secret-key";
-
-const PUBLIC_PAGE_PATHS = [
-  "/",
-  "/about",
-  "/packages",
-  "/services",
-  "/documents",
-  "/contact",
-  "/chat",
-  "/login",
-  "/register",
-];
+/**
+ * The entire site is private. Only the pages needed to obtain a session, and
+ * the auth endpoints backing them, are reachable while logged out.
+ */
 const AUTH_PAGE_PATHS = ["/login", "/register"];
-const PUBLIC_MUTATION_API_PATHS = [
+const PUBLIC_API_PATHS = [
   "/api/auth/login",
   "/api/auth/register",
-  "/api/chat",
+  "/api/auth/refresh",
+  "/api/auth/logout",
 ];
-const PUBLIC_READ_API_PATHS = [
-  "/api/flights",
-  "/api/hotels",
-  "/api/restaurants",
-];
-
-function isPublicPage(pathname: string) {
-  return PUBLIC_PAGE_PATHS.includes(pathname);
-}
 
 function isAuthPage(pathname: string) {
   return AUTH_PAGE_PATHS.includes(pathname);
 }
 
 function isPublicApi(request: NextRequest) {
-  const { method, nextUrl } = request;
-  const { pathname } = nextUrl;
-
-  if (PUBLIC_MUTATION_API_PATHS.includes(pathname)) {
-    return method === "POST";
-  }
-
-  return method === "GET" && PUBLIC_READ_API_PATHS.includes(pathname);
+  return (
+    request.method === "POST" &&
+    PUBLIC_API_PATHS.includes(request.nextUrl.pathname)
+  );
 }
 
 function isApiRoute(pathname: string) {
   return pathname.startsWith("/api/");
 }
 
-function hasValidToken(request: NextRequest) {
-  const token = request.cookies.get("accessToken")?.value;
-
-  if (!token) {
-    return false;
-  }
-
-  try {
-    jwt.verify(token, JWT_SECRET);
-    return true;
-  } catch {
-    return false;
-  }
-}
-
-function clearAuthCookie(response: NextResponse) {
-  response.cookies.set({
-    name: "accessToken",
-    value: "",
-    path: "/",
-    maxAge: 0,
-  });
+function clearAuthCookies(response: NextResponse) {
+  response.cookies.set(accessCookie("", 0));
+  response.cookies.set(refreshCookie("", 0));
+  return response;
 }
 
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
-  const isAuthenticated = hasValidToken(request);
 
-  if (isAuthenticated && isAuthPage(pathname)) {
-    return NextResponse.redirect(new URL("/", request.url));
+  const token = readAccessToken(request);
+  const isAuthenticated = token !== null && verifyAccessToken(token) !== null;
+
+  if (isAuthenticated) {
+    // Logged-in users have no reason to see the login/register pages.
+    if (isAuthPage(pathname)) {
+      return NextResponse.redirect(new URL("/", request.url));
+    }
+
+    return NextResponse.next();
   }
 
-  if (
-    isAuthenticated ||
-    isPublicPage(pathname) ||
-    isPublicApi(request)
-  ) {
+  if (isAuthPage(pathname) || isPublicApi(request)) {
     return NextResponse.next();
   }
 
   if (isApiRoute(pathname)) {
+    // 401 tells the client to try /api/auth/refresh; only clear cookies when
+    // there is no refresh token to recover with.
+    const canRefresh = request.cookies.has(REFRESH_TOKEN_COOKIE);
     const response = NextResponse.json(
-      { message: "Authentication required." },
+      { message: "Authentication required.", code: "UNAUTHENTICATED" },
       { status: 401 },
     );
-    clearAuthCookie(response);
-    return response;
+
+    return canRefresh ? response : clearAuthCookies(response);
   }
 
   const loginUrl = new URL("/login", request.url);
-  loginUrl.searchParams.set("next", pathname);
+
+  if (pathname !== "/") {
+    loginUrl.searchParams.set("next", pathname + request.nextUrl.search);
+  }
 
   const response = NextResponse.redirect(loginUrl);
-  clearAuthCookie(response);
+
+  // A stale access token with a live refresh token should not force re-login,
+  // so leave the refresh cookie in place for the client to use.
+  if (request.cookies.has(ACCESS_TOKEN_COOKIE)) {
+    response.cookies.set(accessCookie("", 0));
+  }
+
   return response;
 }
 

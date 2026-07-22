@@ -37,6 +37,27 @@ export const users = mysqlTable("users", {
   updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
 });
 
+export const refreshTokens = mysqlTable("refresh_tokens", {
+  id: int("id").primaryKey().autoincrement(),
+
+  userId: int("user_id")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+
+  // SHA-256 of the raw token, so a database leak cannot be replayed.
+  tokenHash: varchar("token_hash", {
+    length: 64,
+  })
+    .notNull()
+    .unique(),
+
+  expiresAt: timestamp("expires_at").notNull(),
+
+  revokedAt: timestamp("revoked_at"),
+
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
 export const hotels = mysqlTable("hotels", {
   id: int("id").primaryKey().autoincrement(),
   link: varchar("link", {
